@@ -1,0 +1,28 @@
+<p style="color: green"><%= notice %></p>
+
+<% @chronicles.each do |chronicle| %>
+  <h2><%= link_to chronicle.title, chronicle_path(chronicle) %></h2>
+
+  <% if chronicle.photo.attached? %>
+    <%= image_tag chronicle.photo.variant(resize_to_limit: [400, 300]) %>
+  <% end %>
+
+  <p><%= truncate(chronicle.content, length: 150) %></p>
+  <p><em>By <%= chronicle.user.username %></em></p>
+  <hr>
+<% end %>
+
+<% content_for :title, "Chronicles" %>
+
+<h1>Chronicles</h1>
+
+<div id="chronicles">
+  <% @chronicles.each do |chronicle| %>
+    <%= render chronicle %>
+    <p>
+      <%= link_to "Show this chronicle", chronicle %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New chronicle", new_chronicle_path %>

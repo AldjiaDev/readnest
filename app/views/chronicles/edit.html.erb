@@ -1,0 +1,12 @@
+<% content_for :title, "Editing chronicle" %>
+
+<h1>Editing chronicle</h1>
+
+<%= render "form", chronicle: @chronicle %>
+
+<br>
+
+<div>
+  <%= link_to "Show this chronicle", @chronicle %> |
+  <%= link_to "Back to chronicles", chronicles_path %>
+</div>

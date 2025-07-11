@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :chronicles
   get "home/index"
   get "users/show"
   devise_for :users, controllers: {
