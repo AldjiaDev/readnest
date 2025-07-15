@@ -1,11 +1,11 @@
-<% content_for :title, "New chronicle" %>
+<% content_for :title, "New Chronicle" %>
 
-<h1>New chronicle</h1>
+<div class="max-w-xl mx-auto py-10 px-4">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">New Chronicle</h1>
 
-<%= render "form", chronicle: @chronicle %>
+  <%= render "form", chronicle: @chronicle %>
 
-<br>
-
-<div>
-  <%= link_to "Back to chronicles", chronicles_path %>
+  <div class="mt-6">
+    <%= link_to "← Back to all chronicles", chronicles_path, class: "text-blue-600 hover:underline text-sm" %>
+  </div>
 </div>

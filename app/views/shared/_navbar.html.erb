@@ -1,0 +1,16 @@
+<header class="bg-white shadow">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <%= link_to "📚 Readnest", root_path, class: "text-xl font-bold text-blue-600 hover:underline" %>
+
+    <nav class="space-x-4 text-sm text-gray-700">
+      <% if user_signed_in? %>
+        <%= link_to "My Profile", user_path(current_user), class: "hover:text-blue-600" %>
+        <%= link_to "New Chronicle", new_chronicle_path, class: "hover:text-blue-600" %>
+        <%= link_to "Log out", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "text-red-500 hover:underline" %>
+      <% else %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "hover:text-blue-600" %>
+        <%= link_to "Log In", new_user_session_path, class: "hover:text-blue-600" %>
+      <% end %>
+    </nav>
+  </div>
+</header>
