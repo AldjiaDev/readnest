@@ -1,67 +1,86 @@
 <!-- Hero Section -->
-<div class="position-relative text-white mb-5">
+<div class="position-relative mb-5">
   <%= image_tag "hero_books.jpeg", class: "img-fluid w-100", style: "height: 450px; object-fit: cover;" %>
-  <div class="position-absolute top-50 start-50 translate-middle text-center px-3">
-    <h1 class="display-4 fw-bold text-shadow">Chaque livre est une porte vers un autre monde</h1>
-    <%= link_to "Commencer à écrire", new_chronicle_path, class: "btn btn-primary btn-lg mt-3 shadow" %>
+
+  <!-- Overlay foncé translucide -->
+  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.45);"></div>
+
+  <!-- Texte centré -->
+  <div class="position-absolute top-50 start-50 translate-middle text-center text-white px-3">
+    <h1 class="display-4 fw-bold mb-3" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.6);">
+      Chaque livre est une porte vers un autre monde
+    </h1>
+    <%= link_to "Commencer à écrire", new_chronicle_path, class: "btn btn-lg btn-light shadow-sm px-4 py-2" %>
   </div>
 </div>
 
 <!-- Dernières chroniques -->
 <div class="container my-5">
-  <h2 class="mb-4 text-center">Dernières chroniques</h2>
-  <div class="row">
+  <h2 class="mb-4 text-center text-primary fw-bold">Dernières chroniques</h2>
+
+  <div class="row g-4">
     <% @chronicles.each do |chronicle| %>
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm border-0">
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm">
           <% if chronicle.photo.attached? %>
-            <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+            <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 220px; object-fit: cover;" %>
+          <% else %>
+            <div class="bg-secondary bg-opacity-25 d-flex align-items-center justify-content-center" style="height: 220px;">
+              <span class="text-muted fst-italic">Aucune image</span>
+            </div>
           <% end %>
+
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title"><%= truncate(chronicle.title, length: 50) %></h5>
-            <p class="card-text"><%= truncate(chronicle.content, length: 100) %></p>
-            <p class="text-muted mb-2"><small>Par <%= chronicle.user.username %></small></p>
-            <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary mt-auto" %>
+            <h5 class="card-title mb-2 text-dark"><%= truncate(chronicle.title, length: 50) %></h5>
+            <p class="card-text text-muted mb-3" style="font-size: 0.95rem;"><%= truncate(chronicle.content, length: 100) %></p>
+            <small class="text-muted mb-2">✍️ <%= chronicle.user.username %></small>
+            <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-auto" %>
           </div>
         </div>
       </div>
     <% end %>
   </div>
 </div>
+
 
 <!-- Top 10 des livres à lire -->
 <div class="container my-5">
-  <h2 class="mb-4 text-center">Top 10 des livres à lire</h2>
-  <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4 justify-content-center">
+  <div class="bg-white border rounded shadow-sm p-4">
+    <h2 class="mb-4 text-center text-primary fw-bold">📚 Top 10 des livres à lire</h2>
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4">
+      <% top_books = [
+        { title: "1984", author: "George Orwell", image: "1984.jpg" },
+        { title: "Le Petit Prince", author: "Antoine de Saint-Exupéry", image: "le_petit_prince.jpg" },
+        { title: "To Kill a Mockingbird", author: "Harper Lee", image: "mockingbird.jpg" },
+        { title: "L'Étranger", author: "Albert Camus", image: "etranger.jpg" },
+        { title: "Les Misérables", author: "Victor Hugo", image: "les_miserables.jpg" },
+        { title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "gatsby.jpg" },
+      ] %>
 
-    <% top_books = [
-      { title: "1984", author: "George Orwell", image: "1984.jpg" },
-      { title: "Le Petit Prince", author: "Antoine de Saint-Exupéry", image: "le_petit_prince.jpg" },
-      { title: "To Kill a Mockingbird", author: "Harper Lee", image: "mockingbird.jpg" },
-      { title: "L'Étranger", author: "Albert Camus", image: "etranger.jpg" },
-      { title: "Les Misérables", author: "Victor Hugo", image: "les_miserables.jpg" },
-      { title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "gatsby.jpg" },
-    ] %>
-
-    <% top_books.each do |book| %>
-      <div class="col">
-        <div class="card h-100 shadow-sm border-0" style="width: 180px; height: 270px; overflow: hidden;">
-          <%= image_tag book[:image], class: "card-img-top", alt: book[:title], style: "height: 200px; object-fit: cover;" %>
-          <div class="card-body p-2 text-center" style="background-color: #fff;">
-            <h6 class="card-title fw-bold mb-1" style="font-size: 0.9rem;"><%= truncate(book[:title], length: 30) %></h6>
-            <p class="card-text text-muted mb-0" style="font-size: 0.75rem;">par <%= book[:author] %></p>
+      <% top_books.each do |book| %>
+        <div class="col">
+          <div class="card h-100 shadow-sm" style="border-radius: 8px;">
+            <%= image_tag book[:image], class: "card-img-top", alt: book[:title], style: "height: 320px; object-fit: cover;" %>
+            <div class="card-body p-2 text-center">
+              <h6 class="card-title mb-1 fw-bold"><%= book[:title] %></h6>
+              <p class="card-text text-muted mb-0" style="font-size: 0.85rem;">par <%= book[:author] %></p>
+            </div>
           </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 
 
-<!-- 📍 Carte : librairie proche -->
+
+
+<!-- 📍 Librairies autour de vous -->
 <div class="container my-5">
-  <h2 class="mb-4 text-center">Trouver une librairie autour de vous</h2>
-  <div id="map" style="height: 400px;" class="border rounded shadow-sm"></div>
+  <div class="bg-white border rounded shadow-sm p-4">
+    <h2 class="text-center mb-3 text-primary fw-bold">Trouver une librairie autour de vous</h2>
+    <div id="map" style="height: 400px;" class="rounded shadow-sm border"></div>
+  </div>
 </div>
 
 <!-- Leaflet CDN -->
@@ -86,13 +105,6 @@
           .bindPopup("📍 Vous êtes ici")
           .openPopup();
 
-        const bookstoreIcon = L.icon({
-          iconUrl: '/assets/bookstore-marker.png',
-          iconSize: [32, 37],
-          iconAnchor: [16, 37],
-          popupAnchor: [0, -30]
-        });
-
         const query = `
           [out:json];
           (
@@ -115,13 +127,20 @@
             const markerLng = element.lon || element.center?.lon;
 
             if (markerLat && markerLng) {
-              L.marker([markerLat, markerLng], { icon: bookstoreIcon })
+              L.marker([markerLat, markerLng])
                 .addTo(map)
                 .bindPopup(`📚 ${name}`);
             }
           });
+        })
+        .catch(error => {
+          console.error("Erreur lors de la récupération des librairies :", error);
         });
+      }, function () {
+        alert("Autorisez la géolocalisation pour afficher la carte.");
       });
+    } else {
+      alert("La géolocalisation n’est pas supportée.");
     }
   });
 </script>
