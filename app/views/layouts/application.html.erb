@@ -6,17 +6,30 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <!-- Bootstrap CSS -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-sA+e2XkG0tZDAvZSCaMtwU0I0C8n1NkPU9XdJr0rqtI="
+      crossorigin=""
+    />
   </head>
 
-  <body class="d-flex flex-column min-vh-100">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-4">
-      <div class="container">
-        <%= link_to "📚 Readnest", root_path, class: "navbar-brand fw-bold" %>
+  <body class="d-flex flex-column min-vh-100 bg-light">
 
-        <div class="collapse navbar-collapse">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+      <div class="container">
+        <%= link_to "Readnest", root_path, class: "navbar-brand fw-bold" %>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <% if user_signed_in? %>
               <li class="nav-item"><%= link_to "My Profile", user_path(current_user), class: "nav-link" %></li>
@@ -31,14 +44,24 @@
       </div>
     </nav>
 
-    <!-- Page Content -->
+    <!-- Main content -->
     <main class="flex-grow-1">
       <%= yield %>
     </main>
 
     <!-- Footer -->
-    <footer class="text-center py-4 border-top mt-5 bg-light">
-      <p class="mb-0">© <%= Time.now.year %> Readnest. Built with ❤️ for readers.</p>
+    <footer class="text-center py-4 border-top mt-5 bg-white">
+      <p class="mb-0">© <%= Time.current.year %> Readnest. Built with ❤️ for readers.</p>
     </footer>
+
+    <!-- Bootstrap + Application JS -->
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+    <!-- Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-+9LU4tDyJMy4uqEVGZj+rfJHcb7Poyl3GzvA/j1C3yY="
+      crossorigin=""
+    ></script>
   </body>
 </html>
