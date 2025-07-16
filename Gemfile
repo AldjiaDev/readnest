@@ -57,6 +57,5 @@ group :test do
 end
 
 gem "devise"
-
-
-gem "tailwindcss-rails", "~> 4.3"
+gem "bootstrap", "~> 5.3"
+gem "sassc-rails"

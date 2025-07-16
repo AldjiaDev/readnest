@@ -1,33 +1,44 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Readnest" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title><%= content_for?(:title) ? yield(:title) : "Readnest" %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
-
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-4">
+      <div class="container">
+        <%= link_to "📚 Readnest", root_path, class: "navbar-brand fw-bold" %>
 
-    <!-- Navigation (partial) -->
-    <%= render "shared/navbar" %>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+            <% if user_signed_in? %>
+              <li class="nav-item"><%= link_to "My Profile", user_path(current_user), class: "nav-link" %></li>
+              <li class="nav-item"><%= link_to "New Chronicle", new_chronicle_path, class: "nav-link" %></li>
+              <li class="nav-item"><%= link_to "Log out", destroy_user_session_path, method: :delete, class: "nav-link text-danger", data: { turbo: false } %></li>
+            <% else %>
+              <li class="nav-item"><%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %></li>
+              <li class="nav-item"><%= link_to "Log In", new_user_session_path, class: "nav-link" %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-    <!-- Page content -->
-    <main class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Page Content -->
+    <main class="flex-grow-1">
       <%= yield %>
     </main>
 
+    <!-- Footer -->
+    <footer class="text-center py-4 border-top mt-5 bg-light">
+      <p class="mb-0">© <%= Time.now.year %> Readnest. Built with ❤️ for readers.</p>
+    </footer>
   </body>
 </html>
