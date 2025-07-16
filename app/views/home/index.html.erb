@@ -58,9 +58,9 @@
 </div>
 
 
-<!-- Carte : librairie proche -->
+<!-- 📍 Carte : librairie proche -->
 <div class="container my-5">
-  <h2 class="mb-4 text-center">📍 Trouver une librairie autour de vous</h2>
+  <h2 class="mb-4 text-center">Trouver une librairie autour de vous</h2>
   <div id="map" style="height: 400px;" class="border rounded shadow-sm"></div>
 </div>
 
@@ -75,20 +75,24 @@
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
 
-        // Initialiser la carte
         const map = L.map('map').setView([lat, lng], 14);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Marqueur utilisateur
         L.marker([lat, lng])
           .addTo(map)
           .bindPopup("📍 Vous êtes ici")
           .openPopup();
 
-        // Requête Overpass API pour les librairies
+        const bookstoreIcon = L.icon({
+          iconUrl: '/assets/bookstore-marker.png',
+          iconSize: [32, 37],
+          iconAnchor: [16, 37],
+          popupAnchor: [0, -30]
+        });
+
         const query = `
           [out:json];
           (
@@ -111,20 +115,13 @@
             const markerLng = element.lon || element.center?.lon;
 
             if (markerLat && markerLng) {
-              L.marker([markerLat, markerLng])
+              L.marker([markerLat, markerLng], { icon: bookstoreIcon })
                 .addTo(map)
                 .bindPopup(`📚 ${name}`);
             }
           });
-        })
-        .catch(error => {
-          console.error("Erreur lors de la récupération des librairies :", error);
         });
-      }, function () {
-        alert("Autorisez la géolocalisation pour afficher la carte.");
       });
-    } else {
-      alert("La géolocalisation n’est pas supportée.");
     }
   });
 </script>
