@@ -2,11 +2,11 @@
 <html>
   <head>
     <title><%= content_for?(:title) ? yield(:title) : "Readnest" %></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS (généré via asset pipeline) -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
     <!-- Leaflet CSS -->
@@ -23,7 +23,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
       <div class="container">
-        <%= link_to "Readnest", root_path, class: "navbar-brand fw-bold" %>
+        <%= link_to "📚 Readnest", root_path, class: "navbar-brand fw-bold" %>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
@@ -34,7 +34,9 @@
             <% if user_signed_in? %>
               <li class="nav-item"><%= link_to "My Profile", user_path(current_user), class: "nav-link" %></li>
               <li class="nav-item"><%= link_to "New Chronicle", new_chronicle_path, class: "nav-link" %></li>
-              <li class="nav-item"><%= link_to "Log out", destroy_user_session_path, method: :delete, class: "nav-link text-danger", data: { turbo: false } %></li>
+              <li class="nav-item">
+                <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "nav-link text-danger", data: { turbo: false } %>
+              </li>
             <% else %>
               <li class="nav-item"><%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %></li>
               <li class="nav-item"><%= link_to "Log In", new_user_session_path, class: "nav-link" %></li>
@@ -44,7 +46,7 @@
       </div>
     </nav>
 
-    <!-- Main content -->
+    <!-- Page Content -->
     <main class="flex-grow-1">
       <%= yield %>
     </main>
@@ -54,7 +56,7 @@
       <p class="mb-0">© <%= Time.current.year %> Readnest. Built with ❤️ for readers.</p>
     </footer>
 
-    <!-- Bootstrap + Application JS -->
+    <!-- JavaScript (Bootstrap + Rails) -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
 
     <!-- Leaflet JS -->
