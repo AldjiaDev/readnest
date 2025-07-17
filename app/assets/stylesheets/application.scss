@@ -90,3 +90,12 @@ footer a:hover {
   text-decoration: underline;
 }
 
+.custom-brown-btn {
+  color: #fff;
+  background-color: #5e4636;
+  border: none;
+
+  &:hover {
+    background-color: darken(#5e4636, 5%);
+  }
+}
