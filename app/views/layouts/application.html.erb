@@ -20,31 +20,31 @@
 
   <body class="d-flex flex-column min-vh-100 bg-light">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
-      <div class="container">
-        <%= link_to "📚 Readnest", root_path, class: "navbar-brand fw-bold" %>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom">
+  <div class="container">
+    <%= link_to "Readnest", root_path, class: "navbar-brand fw-bold text-brown" %>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <% if user_signed_in? %>
-              <li class="nav-item"><%= link_to "My Profile", user_path(current_user), class: "nav-link" %></li>
-              <li class="nav-item"><%= link_to "New Chronicle", new_chronicle_path, class: "nav-link" %></li>
-              <li class="nav-item">
-                <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "nav-link text-danger", data: { turbo: false } %>
-              </li>
-            <% else %>
-              <li class="nav-item"><%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %></li>
-              <li class="nav-item"><%= link_to "Log In", new_user_session_path, class: "nav-link" %></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <% if user_signed_in? %>
+          <li class="nav-item"><%= link_to "Mon profil", user_path(current_user), class: "nav-link text-brown" %></li>
+          <li class="nav-item"><%= link_to "Nouvelle chronique", new_chronicle_path, class: "nav-link text-brown" %></li>
+          <li class="nav-item">
+            <%= link_to "Se déconnecter", destroy_user_session_path, method: :delete, class: "nav-link text-danger", data: { turbo: false } %>
+          </li>
+        <% else %>
+          <li class="nav-item"><%= link_to "Créer un compte", new_user_registration_path, class: "nav-link text-brown" %></li>
+          <li class="nav-item"><%= link_to "Se connecter", new_user_session_path, class: "nav-link text-brown" %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 
     <!-- Page Content -->
     <main class="flex-grow-1">
@@ -52,9 +52,38 @@
     </main>
 
     <!-- Footer -->
-    <footer class="text-center py-4 border-top mt-5 bg-white">
-      <p class="mb-0">© <%= Time.current.year %> Readnest. Built with ❤️ for readers.</p>
-    </footer>
+    <footer class="mt-5 bg-brown text-light py-4 shadow-sm">
+  <div class="container">
+    <div class="row text-center text-md-start">
+      <div class="col-md-4 mb-3">
+        <h5 class="text-uppercase fw-bold">Readnest</h5>
+        <p class="small mb-0">Une bibliothèque numérique où chaque chronique est une aventure littéraire. Écrivez, découvrez, partagez.</p>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <h6 class="fw-bold">Navigation</h6>
+        <ul class="list-unstyled small">
+          <li><%= link_to "Accueil", root_path, class: "text-light text-decoration-none" %></li>
+          <li><%= link_to "Nouvelle chronique", new_chronicle_path, class: "text-light text-decoration-none" %></li>
+          <li><%= link_to "Mon profil", user_signed_in? ? user_path(current_user) : "#", class: "text-light text-decoration-none" %></li>
+        </ul>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <h6 class="fw-bold">Suivez-nous</h6>
+        <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+          <a href="#" class="text-light fs-5"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="text-light fs-5"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-light fs-5"><i class="bi bi-bookmark-star"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="border-light" />
+    <p class="text-center small mb-0">© <%= Time.current.year %> Readnest — Tous droits réservés.</p>
+  </div>
+</footer>
+
 
     <!-- JavaScript (Bootstrap + Rails) -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
