@@ -1,10 +1,44 @@
-<h1><%= @user.username %>'s profile</h1>
+<% content_for :title, "Profil de #{@user.username}" %>
 
-<% if @user.avatar.attached? %>
-  <%= image_tag @user.avatar.variant(resize_to_limit: [100, 100]) %>
-<% else %>
-  <%= image_tag "photo.jpg", size: "100x100" %>
-<% end %>
+<div class="container mt-5 py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <% if @user.avatar.attached? %>
+        <%= image_tag @user.avatar.variant(resize_to_fill: [150, 150]), class: "rounded-circle mb-3 shadow-sm", alt: "#{@user.username}", style: "object-fit: cover;" %>
+      <% else %>
+        <div class="rounded-circle bg-secondary mb-3 d-inline-block" style="width: 150px; height: 150px;"></div>
+      <% end %>
 
-<p><strong>Bio:</strong> <%= @user.bio %></p>
-<p><strong>Email:</strong> <%= @user.email %></p>
+      <h2 class="fw-bold mb-1" style="color: #5e4636;"><%= @user.username %></h2>
+      <% if @user.bio.present? %>
+        <p class="text-muted mb-2"><%= @user.bio %></p>
+      <% end %>
+
+      <p class="text-muted small">📧 <%= mail_to @user.email %></p>
+
+      <hr class="my-4">
+
+      <h4 class="mb-4" style="color: #5e4636;">Mes chroniques</h4>
+      <% if @user.chronicles.any? %>
+        <div class="row">
+          <% @user.chronicles.each do |chronicle| %>
+            <div class="col-md-6 mb-4">
+              <div class="card h-100 shadow-sm">
+                <% if chronicle.photo.attached? %>
+                  <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+                <% end %>
+                <div class="card-body">
+                  <h5 class="card-title"><%= truncate(chronicle.title, length: 60) %></h5>
+                  <p class="card-text text-muted small"><%= truncate(chronicle.content, length: 100) %></p>
+                  <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-2" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted">Cet utilisateur n’a pas encore publié de chronique.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
