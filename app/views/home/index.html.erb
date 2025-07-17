@@ -1,40 +1,46 @@
 <!-- Hero Section -->
-<div class="position-relative mb-5">
+<div class="position-relative text-white mb-5">
   <%= image_tag "hero_books.jpeg", class: "img-fluid w-100", style: "height: 450px; object-fit: cover;" %>
-
-  <!-- Overlay foncé translucide -->
-  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.45);"></div>
-
-  <!-- Texte centré -->
-  <div class="position-absolute top-50 start-50 translate-middle text-center text-white px-3">
-    <h1 class="display-4 fw-bold mb-3" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.6);">
-      Chaque livre est une porte vers un autre monde
-    </h1>
-    <%= link_to "Commencer à écrire", new_chronicle_path, class: "btn btn-lg btn-light shadow-sm px-4 py-2" %>
+  <div class="position-absolute top-50 start-50 translate-middle text-center px-3">
+    <h1 class="display-4 fw-bold text-shadow">Chaque livre est une porte vers un autre monde</h1>
+    <%= link_to "Commencer à écrire", new_chronicle_path, class: "btn btn-primary btn-lg mt-3" %>
   </div>
+</div>
+
+<!-- Barre de recherche -->
+<div class="container my-4">
+  <%= form_with url: root_path, method: :get, local: true, class: "row g-2 justify-content-center" do |form| %>
+    <div class="col-md-6">
+      <%= form.text_field :query, value: params[:query], placeholder: "Rechercher une chronique par titre, contenu ou auteur", class: "form-control" %>
+    </div>
+    <div class="col-auto">
+      <%= form.submit "Rechercher", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 </div>
 
 <!-- Dernières chroniques -->
 <div class="container my-5">
-  <h2 class="mb-4 text-center text-primary fw-bold">Dernières chroniques</h2>
+  <h2 class="mb-4 text-center text-primary">Dernières chroniques</h2>
 
-  <div class="row g-4">
+  <% if @chronicles.empty? %>
+    <div class="text-center text-muted my-5">
+      <p>Aucune chronique trouvée pour cette recherche.</p>
+    </div>
+  <% end %>
+
+  <div class="row">
     <% @chronicles.each do |chronicle| %>
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card h-100 border-0 shadow-sm">
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
           <% if chronicle.photo.attached? %>
-            <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 220px; object-fit: cover;" %>
-          <% else %>
-            <div class="bg-secondary bg-opacity-25 d-flex align-items-center justify-content-center" style="height: 220px;">
-              <span class="text-muted fst-italic">Aucune image</span>
-            </div>
+            <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
           <% end %>
-
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title mb-2 text-dark"><%= truncate(chronicle.title, length: 50) %></h5>
-            <p class="card-text text-muted mb-3" style="font-size: 0.95rem;"><%= truncate(chronicle.content, length: 100) %></p>
-            <small class="text-muted mb-2">✍️ <%= chronicle.user.username %></small>
-            <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-auto" %>
+          <div class="card-body">
+            <h5 class="card-title"><%= truncate(chronicle.title, length: 50) %></h5>
+            <p class="card-text"><%= truncate(chronicle.content, length: 100) %></p>
+            <p class="text-muted mb-1"><small>Par <%= chronicle.user.username %></small></p>
+            <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-2" %>
           </div>
         </div>
       </div>
@@ -42,45 +48,61 @@
   </div>
 </div>
 
-
-<!-- Top 10 des livres à lire -->
+<!-- TOP 10 LIVRES AVEC SLIDER -->
 <div class="container my-5">
-  <div class="bg-white border rounded shadow-sm p-4">
-    <h2 class="mb-4 text-center text-primary fw-bold">📚 Top 10 des livres à lire</h2>
-    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4">
+  <h2 class="mb-4 text-center text-primary">Top 10 des livres à lire</h2>
+
+  <div id="booksCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
       <% top_books = [
         { title: "1984", author: "George Orwell", image: "1984.jpg" },
         { title: "Le Petit Prince", author: "Antoine de Saint-Exupéry", image: "le_petit_prince.jpg" },
         { title: "To Kill a Mockingbird", author: "Harper Lee", image: "mockingbird.jpg" },
         { title: "L'Étranger", author: "Albert Camus", image: "etranger.jpg" },
         { title: "Les Misérables", author: "Victor Hugo", image: "les_miserables.jpg" },
-        { title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "gatsby.jpg" },
+        { title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "gatsby.jpg" }
       ] %>
 
-      <% top_books.each do |book| %>
-        <div class="col">
-          <div class="card h-100 shadow-sm" style="border-radius: 8px;">
-            <%= image_tag book[:image], class: "card-img-top", alt: book[:title], style: "height: 320px; object-fit: cover;" %>
-            <div class="card-body p-2 text-center">
-              <h6 class="card-title mb-1 fw-bold"><%= book[:title] %></h6>
-              <p class="card-text text-muted mb-0" style="font-size: 0.85rem;">par <%= book[:author] %></p>
-            </div>
+      <% top_books.each_slice(4).with_index do |group, i| %>
+        <div class="carousel-item <%= 'active' if i == 0 %>">
+          <div class="row justify-content-center">
+            <% group.each do |book| %>
+              <div class="col-6 col-sm-4 col-md-3 mb-4">
+                <div class="card h-100 shadow-sm" style="border-radius: 8px; aspect-ratio: 2 / 3;">
+                  <%= image_tag book[:image], class: "card-img-top", style: "height: 100%; object-fit: cover;" %>
+                  <div class="card-body text-center p-2">
+                    <h6 class="card-title mb-1 fw-bold"><%= book[:title] %></h6>
+                    <p class="card-text text-muted mb-0" style="font-size: 0.85rem;">par <%= book[:author] %></p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
           </div>
         </div>
       <% end %>
     </div>
+
+    <!-- Contrôles -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#booksCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Précédent</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#booksCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Suivant</span>
+    </button>
   </div>
 </div>
 
 
 
 
-<!-- 📍 Librairies autour de vous -->
+
+<!-- Carte : librairie proche -->
 <div class="container my-5">
-  <div class="bg-white border rounded shadow-sm p-4">
-    <h2 class="text-center mb-3 text-primary fw-bold">Trouver une librairie autour de vous</h2>
-    <div id="map" style="height: 400px;" class="rounded shadow-sm border"></div>
-  </div>
+  <h2 class="mb-4 text-center text-primary">Trouver une librairie autour de vous</h2>
+  <div id="map" style="height: 400px;" class="border rounded shadow-sm"></div>
 </div>
 
 <!-- Leaflet CDN -->
@@ -100,11 +122,13 @@
           attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
+        // Marqueur utilisateur
         L.marker([lat, lng])
           .addTo(map)
           .bindPopup("📍 Vous êtes ici")
           .openPopup();
 
+        // Requête Overpass pour les librairies
         const query = `
           [out:json];
           (
@@ -119,12 +143,12 @@
           method: "POST",
           body: query
         })
-        .then(response => response.json())
-        .then(data => {
-          data.elements.forEach(element => {
-            const name = element.tags?.name || "Librairie";
-            const markerLat = element.lat || element.center?.lat;
-            const markerLng = element.lon || element.center?.lon;
+        .then((res) => res.json())
+        .then((data) => {
+          data.elements.forEach((el) => {
+            const name = el.tags?.name || "Librairie";
+            const markerLat = el.lat || el.center?.lat;
+            const markerLng = el.lon || el.center?.lon;
 
             if (markerLat && markerLng) {
               L.marker([markerLat, markerLng])
@@ -133,11 +157,7 @@
             }
           });
         })
-        .catch(error => {
-          console.error("Erreur lors de la récupération des librairies :", error);
-        });
-      }, function () {
-        alert("Autorisez la géolocalisation pour afficher la carte.");
+        .catch((error) => console.error("Erreur de récupération des librairies :", error));
       });
     } else {
       alert("La géolocalisation n’est pas supportée.");
