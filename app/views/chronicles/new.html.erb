@@ -1,11 +1,65 @@
-<% content_for :title, "New Chronicle" %>
+<% content_for :title, "Nouvelle chronique" %>
 
-<div class="max-w-xl mx-auto py-10 px-4">
-  <h1 class="text-2xl font-bold text-gray-800 mb-6">New Chronicle</h1>
+<div class="container py-5 mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
 
-  <%= render "form", chronicle: @chronicle %>
+      <!-- Titre principal -->
+      <div class="text-center mb-4">
+        <h1 class="fw-bold display-5" style="color: #5a3e36;">Racontez votre histoire</h1>
+        <p class="text-muted">Partagez vos impressions de lecture avec la communauté Readnest.</p>
+      </div>
 
-  <div class="mt-6">
-    <%= link_to "← Back to all chronicles", chronicles_path, class: "text-blue-600 hover:underline text-sm" %>
+      <!-- Formulaire -->
+      <div class="card shadow border-0">
+        <div class="card-body p-4">
+          <%= form_with model: @chronicle, local: true do |form| %>
+
+            <div class="mb-3">
+              <%= form.label :book_title, "Titre du livre", class: "form-label" %>
+              <%= form.text_field :book_title, class: "form-control", placeholder: "Ex. : L'Étranger" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :author, "Auteur.e du livre", class: "form-label" %>
+              <%= form.text_field :author, class: "form-control", placeholder: "Ex. : Albert Camus" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :publisher, "Maison d’édition", class: "form-label" %>
+              <%= form.text_field :publisher, class: "form-control", placeholder: "Ex. : Gallimard" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :title, "Titre de votre chronique", class: "form-label" %>
+              <%= form.text_field :title, class: "form-control", placeholder: "Ex. : Pourquoi Camus m’a bouleversé" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :content, "Contenu de la chronique", class: "form-label" %>
+              <%= form.text_area :content, rows: 8, class: "form-control", placeholder: "Exprimez vos ressentis, vos analyses…" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :photo, "Image", class: "form-label" %>
+              <%= form.file_field :photo, class: "form-control" %>
+            </div>
+
+            <div class="d-grid mt-4">
+              <%= form.submit "Publier ma chronique", class: "btn btn-primary" %>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+
+     <div class="text-center mt-5">
+        <%= link_to chronicles_path, class: "btn btn-outline-secondary px-4 py-2 rounded-pill shadow-sm fw-semibold" do %>
+          ← Retour aux chroniques
+        <% end %>
+      </div>
+
+
+    </div>
   </div>
 </div>
