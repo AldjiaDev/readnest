@@ -1,7 +1,84 @@
 @import "bootstrap";
 @import "application.bootstrap";
 
-.card:hover {
-  transform: scale(1.02);
-  transition: transform 0.3s ease;
+// Palette inspirée de l’image vintage
+:root {
+  --primary: #a27c63;        // brun doux
+  --secondary: #f4ede5;      // beige crème
+  --accent: #d9c2b0;         // sable clair
+  --text-dark: #3b2f2f;      // brun foncé
+  --text-light: #fffaf3;     // blanc cassé
 }
+
+body {
+  background-color: var(--secondary);
+  color: var(--text-dark);
+  font-family: 'Georgia', serif;
+}
+
+// TITRES
+h1, h2, h3, h4 {
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+// LIENS & BOUTONS
+a,
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+a:hover,
+.btn-primary:hover {
+  background-color: #8f6851;
+  border-color: #8f6851;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: var(--accent);
+  border: none;
+  color: var(--text-dark);
+}
+.btn-secondary:hover {
+  background-color: #c4aa98;
+  color: var(--text-dark);
+}
+
+// CARDS
+.card {
+  background-color: var(--text-light);
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.card-title {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.card-text {
+  color: var(--text-dark);
+}
+
+// FOOTER
+footer {
+  background-color: var(--accent);
+  color: var(--text-dark);
+  font-size: 0.9rem;
+}
+
+// MAP
+#map {
+  border-radius: 0.5rem;
+  border: 2px solid var(--accent);
+}
+
+.text-brown {
+  color: #5a3e36;
+}
+

@@ -2,7 +2,9 @@
 <div class="position-relative text-white mb-5">
   <%= image_tag "hero_books.jpeg", class: "img-fluid w-100", style: "height: 450px; object-fit: cover;" %>
   <div class="position-absolute top-50 start-50 translate-middle text-center px-3">
-    <h1 class="display-4 fw-bold text-shadow">Chaque livre est une porte vers un autre monde</h1>
+    <h1 class="display-4 fw-bold text-white" style="text-shadow: 1px 1px 3px #000;">
+      Chaque livre est une porte vers un autre monde
+    </h1>
     <%= link_to "Commencer à écrire", new_chronicle_path, class: "btn btn-primary btn-lg mt-3" %>
   </div>
 </div>
@@ -21,7 +23,7 @@
 
 <!-- Dernières chroniques -->
 <div class="container my-5">
-  <h2 class="mb-4 text-center text-primary">Dernières chroniques</h2>
+  <h2 class="mb-4 text-center text-brown">Dernières chroniques</h2>
 
   <% if @chronicles.empty? %>
     <div class="text-center text-muted my-5">
@@ -48,9 +50,9 @@
   </div>
 </div>
 
-<!-- TOP 10 LIVRES AVEC SLIDER -->
+<!-- Top 10 des livres à lire -->
 <div class="container my-5">
-  <h2 class="mb-4 text-center text-primary">Top 10 des livres à lire</h2>
+  <h2 class="mb-4 text-center text-brown">Top 10 des livres à lire</h2>
 
   <div id="booksCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -83,7 +85,6 @@
       <% end %>
     </div>
 
-    <!-- Contrôles -->
     <button class="carousel-control-prev" type="button" data-bs-target="#booksCarousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Précédent</span>
@@ -95,13 +96,9 @@
   </div>
 </div>
 
-
-
-
-
 <!-- Carte : librairie proche -->
 <div class="container my-5">
-  <h2 class="mb-4 text-center text-primary">Trouver une librairie autour de vous</h2>
+  <h2 class="mb-4 text-center text-brown">Trouver une librairie autour de vous</h2>
   <div id="map" style="height: 400px;" class="border rounded shadow-sm"></div>
 </div>
 
@@ -122,13 +119,11 @@
           attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Marqueur utilisateur
         L.marker([lat, lng])
           .addTo(map)
           .bindPopup("📍 Vous êtes ici")
           .openPopup();
 
-        // Requête Overpass pour les librairies
         const query = `
           [out:json];
           (
@@ -143,9 +138,9 @@
           method: "POST",
           body: query
         })
-        .then((res) => res.json())
-        .then((data) => {
-          data.elements.forEach((el) => {
+        .then(res => res.json())
+        .then(data => {
+          data.elements.forEach(el => {
             const name = el.tags?.name || "Librairie";
             const markerLat = el.lat || el.center?.lat;
             const markerLng = el.lon || el.center?.lon;
@@ -157,7 +152,7 @@
             }
           });
         })
-        .catch((error) => console.error("Erreur de récupération des librairies :", error));
+        .catch(error => console.error("Erreur de récupération des librairies :", error));
       });
     } else {
       alert("La géolocalisation n’est pas supportée.");
