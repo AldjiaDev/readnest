@@ -1,8 +1,8 @@
-<%= form_with(model: chronicle, local: true, multipart: true, class: "space-y-6") do |form| %>
+<%= form_with(model: chronicle, local: true, multipart: true, class: "space-y-6 bg-white p-6 rounded shadow-sm") do |form| %>
   <% if chronicle.errors.any? %>
     <div class="bg-red-100 border border-red-300 text-red-700 p-4 rounded">
-      <h2 class="font-bold mb-2">
-        <%= pluralize(chronicle.errors.count, "error") %> prohibited this chronicle from being saved:
+      <h2 class="font-semibold mb-2">
+        <%= pluralize(chronicle.errors.count, "erreur") %> empêchent la sauvegarde de la chronique :
       </h2>
       <ul class="list-disc list-inside">
         <% chronicle.errors.full_messages.each do |message| %>
@@ -12,23 +12,44 @@
     </div>
   <% end %>
 
+  <!-- Titre de la chronique -->
   <div>
-    <%= form.label :title, class: "block font-medium text-gray-700" %>
-    <%= form.text_field :title, class: "mt-1 block w-full border border-gray-300 rounded px-3 py-2" %>
+    <%= form.label :title, "Titre de la chronique", class: "block font-medium text-gray-800 mb-1" %>
+    <%= form.text_field :title, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-primary" %>
   </div>
 
+  <!-- Auteur du livre -->
   <div>
-    <%= form.label :content, class: "block font-medium text-gray-700" %>
-    <%= form.text_area :content, rows: 6, class: "mt-1 block w-full border border-gray-300 rounded px-3 py-2" %>
+    <%= form.label :author, "Auteur.e du livre", class: "block font-medium text-gray-800 mb-1" %>
+    <%= form.text_field :author, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-primary" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :photo %>
-    <%= form.file_field :photo %>
+  <!-- Titre du livre -->
+  <div>
+    <%= form.label :book_title, "Titre du livre", class: "block font-medium text-gray-800 mb-1" %>
+    <%= form.text_field :book_title, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-primary" %>
   </div>
 
-
+  <!-- Maison d'édition -->
   <div>
-    <%= form.submit "Publish Chronicle", class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
+    <%= form.label :publisher, "Maison d'édition", class: "block font-medium text-gray-800 mb-1" %>
+    <%= form.text_field :publisher, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-primary" %>
+  </div>
+
+  <!-- Contenu -->
+  <div>
+    <%= form.label :content, "Contenu de la chronique", class: "block font-medium text-gray-800 mb-1" %>
+    <%= form.text_area :content, rows: 8, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-primary" %>
+  </div>
+
+  <!-- Image -->
+  <div>
+    <%= form.label :photo, "Image", class: "block font-medium text-gray-800 mb-1" %>
+    <%= form.file_field :photo, class: "w-full" %>
+  </div>
+
+  <!-- Bouton -->
+  <div class="text-center pt-4">
+    <%= form.submit "Publier la chronique", class: "bg-primary text-white px-6 py-2 rounded hover:bg-opacity-90 transition" %>
   </div>
 <% end %>
