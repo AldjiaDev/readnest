@@ -26,6 +26,25 @@
     <%= simple_format(@chronicle.content) %>
   </div>
 
+<div class="d-flex align-items-center gap-2 mt-3">
+  <% if user_signed_in? %>
+    <% if @chronicle.likes.exists?(user: current_user) %>
+      <%= button_to chronicle_like_path(@chronicle), method: :delete, class: "btn btn-like liked px-3 py-1" do %>
+        ❤️ Retirer
+      <% end %>
+    <% else %>
+      <%= button_to chronicle_like_path(@chronicle), method: :post, class: "btn btn-like px-3 py-1" do %>
+        🤍 J’aime
+      <% end %>
+    <% end %>
+  <% else %>
+    <p class="text-muted small mb-0">Connectez-vous pour aimer cette chronique</p>
+  <% end %>
+
+  <span class="text-muted small"><%= pluralize(@chronicle.likes.count, "like") %></span>
+</div>
+
+
   <div class="mt-5">
   <h3 class="mb-3">Commentaires</h3>
 

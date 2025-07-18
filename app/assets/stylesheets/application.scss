@@ -99,3 +99,22 @@ footer a:hover {
     background-color: darken(#5e4636, 5%);
   }
 }
+
+.btn-like {
+  border: 1px solid #a27c5c;
+  background-color: white;
+  color: #a27c5c;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #a27c5c;
+    color: white;
+  }
+
+  &.liked {
+    background-color: #a27c5c;
+    color: white;
+    font-weight: bold;
+  }
+}

@@ -22,6 +22,12 @@ class CommentsController < ApplicationController
     end
   end
 
+  def report
+    @comment = Comment.find(params[:id])
+    @comment.update(reported: true)
+    redirect_back fallback_location: root_path, notice: "Le commentaire a été signalé."
+  end
+
   private
 
   def set_chronicle

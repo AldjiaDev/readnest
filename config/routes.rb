@@ -22,7 +22,18 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-    resources :chronicles do
+  resources :chronicles do
     resources :comments, only: [:create, :destroy]
+  end
+
+  resources :chronicles do
+    resource :like, only: [:create, :destroy]
+  end
+
+
+  resources :comments do
+    member do
+      patch :report
+    end
   end
 end
