@@ -26,6 +26,48 @@
     <%= simple_format(@chronicle.content) %>
   </div>
 
+  <div class="mt-5">
+  <h3 class="mb-3">Commentaires</h3>
+
+  <% @chronicle.comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
+    <div class="mb-4 p-3 border rounded bg-light">
+      <strong><%= comment.user.username %></strong> <small class="text-muted">· <%= time_ago_in_words(comment.created_at) %> ago</small>
+      <p class="mb-1"><%= comment.content %></p>
+
+      <% comment.replies.each do |reply| %>
+        <div class="ms-4 mt-2 border-start ps-3">
+          <strong><%= reply.user.username %></strong> <small class="text-muted">· <%= time_ago_in_words(reply.created_at) %> ago</small>
+          <p class="mb-1"><%= reply.content %></p>
+        </div>
+      <% end %>
+
+      <!-- Répondre au commentaire -->
+      <%= form_with model: [comment.chronicle, Comment.new], local: true do |f| %>
+        <%= f.hidden_field :parent_id, value: comment.id %>
+        <div class="mb-2">
+          <%= f.text_area :content, placeholder: "Répondre à ce commentaire...", rows: 2, class: "form-control" %>
+        </div>
+        <%= f.submit "Répondre", class: "btn btn-sm btn-outline-primary" %>
+      <% end %>
+
+      <!-- Supprimer -->
+      <% if comment.user == current_user %>
+        <%= link_to "Supprimer", chronicle_comment_path(@chronicle, comment), method: :delete, data: { confirm: "Confirmer la suppression ?" }, class: "btn btn-sm btn-outline-danger mt-2" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Ajouter un nouveau commentaire -->
+  <h5 class="mt-4">Ajouter un commentaire</h5>
+  <%= form_with model: [@chronicle, Comment.new], local: true do |f| %>
+    <div class="mb-2">
+      <%= f.text_area :content, placeholder: "Votre commentaire...", rows: 3, class: "form-control" %>
+    </div>
+    <%= f.submit "Commenter", class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+
   <!-- Bouton retour -->
   <div class="text-center mt-5">
     <%= link_to "← Retour aux chroniques", chronicles_path, class: "btn btn-outline-secondary px-4 py-2" %>
