@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:create, :destroy]
   before_action :set_chronicle
 
   def create
@@ -13,9 +13,13 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = current_user.comments.find(params[:id])
-    @comment.destroy
-    redirect_to @comment.chronicle, notice: "Commentaire supprimé."
+    @comment = Comment.find(params[:id])
+    if @comment.user == current_user
+      @comment.destroy
+      redirect_back fallback_location: root_path, notice: "Commentaire supprimé."
+    else
+      redirect_back fallback_location: root_path, alert: "Action non autorisée."
+    end
   end
 
   private

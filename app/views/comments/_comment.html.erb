@@ -1,0 +1,4 @@
+
+<%= link_to "Supprimer", comment_path(comment), method: :delete,
+      data: { turbo_confirm: "Es-tu sûr de vouloir supprimer ce commentaire ?" },
+      class: "btn btn-sm btn-outline-danger" %>
