@@ -44,22 +44,31 @@
                 <% end %>
               </li>
 
-              <!-- Autres liens -->
-              <li class="nav-item"><%= link_to "Mon profil", user_path(current_user), class: "nav-link text-brown" %></li>
-              <li class="nav-item"><%= link_to "Nouvelle chronique", new_chronicle_path, class: "nav-link text-brown" %></li>
+              <!-- Navigation connectée -->
               <li class="nav-item">
-                <%= link_to "Se déconnecter", destroy_user_session_path, method: :delete, class: "nav-link text-danger", data: { turbo: false } %>
+                <%= link_to "Mon profil", user_path(current_user), class: "nav-link text-brown" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Nouvelle chronique", new_chronicle_path, class: "nav-link text-brown" %>
+              </li>
+              <li class="nav-item">
+                <%= button_to "Se déconnecter", destroy_user_session_path, method: :delete, class: "btn btn-link nav-link text-danger", form: { data: { turbo: false } } %>
               </li>
             <% else %>
-              <li class="nav-item"><%= link_to "Créer un compte", new_user_registration_path, class: "nav-link text-brown" %></li>
-              <li class="nav-item"><%= link_to "Se connecter", new_user_session_path, class: "nav-link text-brown" %></li>
+              <!-- Navigation non connectée -->
+              <li class="nav-item">
+                <%= link_to "Créer un compte", new_user_registration_path, class: "nav-link text-brown" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Se connecter", new_user_session_path, class: "nav-link text-brown" %>
+              </li>
             <% end %>
           </ul>
         </div>
       </div>
     </nav>
 
-    <!-- Contenu de page -->
+    <!-- Contenu principal avec espace sous la navbar -->
     <main class="flex-grow-1">
       <%= yield %>
     </main>
@@ -97,7 +106,7 @@
       </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- JS -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
 
     <!-- Leaflet JS -->

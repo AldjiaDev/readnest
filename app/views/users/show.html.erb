@@ -1,24 +1,41 @@
 <% content_for :title, "Profil de #{@user.username}" %>
 
-<div class="container mt-5 py-5">
+<div class="container py-5 mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8 text-center">
+
+      <!-- Avatar utilisateur -->
       <% if @user.avatar.attached? %>
         <%= image_tag @user.avatar.variant(resize_to_fill: [150, 150]), class: "rounded-circle mb-3 shadow-sm", alt: "#{@user.username}", style: "object-fit: cover;" %>
       <% else %>
         <div class="rounded-circle bg-secondary mb-3 d-inline-block" style="width: 150px; height: 150px;"></div>
       <% end %>
 
+      <!-- Nom d'utilisateur -->
       <h2 class="fw-bold mb-1" style="color: #5e4636;"><%= @user.username %></h2>
+
+      <!-- Bio -->
       <% if @user.bio.present? %>
         <p class="text-muted mb-2"><%= @user.bio %></p>
       <% end %>
 
+      <!-- Email -->
       <p class="text-muted small">📧 <%= mail_to @user.email %></p>
 
-      <hr class="my-4">
+      <!-- Bouton suivre / se désabonner -->
+      <% if user_signed_in? && current_user != @user %>
+        <% if current_user.followed_users.include?(@user) %>
+          <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id), method: :delete, class: "btn btn-outline-secondary btn-sm mt-2" %>
+        <% else %>
+          <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-primary btn-sm mt-2" %>
+        <% end %>
+      <% end %>
 
+      <hr class="my-5">
+
+      <!-- Liste des chroniques -->
       <h4 class="mb-4" style="color: #5e4636;">Mes chroniques</h4>
+
       <% if @user.chronicles.any? %>
         <div class="row">
           <% @user.chronicles.each do |chronicle| %>
@@ -28,9 +45,9 @@
                   <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
                 <% end %>
                 <div class="card-body">
-                  <h5 class="card-title"><%= truncate(chronicle.title, length: 60) %></h5>
+                  <h5 class="card-title" style="color: #5e4636;"><%= truncate(chronicle.title, length: 60) %></h5>
                   <p class="card-text text-muted small"><%= truncate(chronicle.content, length: 100) %></p>
-                  <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-2" %>
+                  <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-brown btn-sm mt-2" %>
                 </div>
               </div>
             </div>

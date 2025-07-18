@@ -7,6 +7,14 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def show
+    @user = User.find_by(id: params[:id])
+
+    unless @user
+      redirect_to root_path, alert: "Utilisateur introuvable."
+    end
+  end
+
   private
 
   def valid_integer_id?(value)

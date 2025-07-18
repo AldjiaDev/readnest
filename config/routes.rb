@@ -1,47 +1,36 @@
 Rails.application.routes.draw do
-  get "notifications/index"
-  get "notifications/mark_as_read"
-  resources :chronicles
-  get "home/index"
-  get "users/show"
+  # Devise (authentification)
   devise_for :users, controllers: {
     registrations: "users/registrations"
   }
-  resources :users, only: [:show]
 
+  # Page d'accueil
   root "home#index"
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Pages statiques ou personnalisées
+  get "up", to: "rails/health#show", as: :rails_health_check
+  get "service-worker", to: "rails/pwa#service_worker", as: :pwa_service_worker
+  get "manifest", to: "rails/pwa#manifest", as: :pwa_manifest
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  # Profils utilisateurs
+  resources :users, only: [:show]
 
-  # Render dynamic PWA files from app/views/pwa/*
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
-  # Defines the root path route ("/")
-  # root "posts#index"
-
+  # Chroniques
   resources :chronicles do
     resources :comments, only: [:create, :destroy]
-  end
-
-  resources :chronicles do
     resource :like, only: [:create, :destroy]
   end
 
-
-  resources :comments do
-    member do
-      patch :report
-    end
+  # Commentaires
+  resources :comments, only: [] do
+    patch :report, on: :member
   end
 
+  # Notifications
   resources :notifications, only: [:index] do
-    member do
-      patch :mark_as_read
-    end
+    patch :mark_as_read, on: :member
   end
+
+  # Suivi entre utilisateurs
+  resources :follows, only: [:create, :destroy]
 end
