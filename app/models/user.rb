@@ -8,4 +8,7 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_chronicles, through: :likes, source: :chronicle
+  has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
+  has_many :received_notifications, class_name: "Notification", foreign_key: :recipient_id, dependent: :destroy
+  has_many :sent_notifications, class_name: "Notification", foreign_key: :actor_id, dependent: :nullify
 end

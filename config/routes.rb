@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "notifications/index"
+  get "notifications/mark_as_read"
   resources :chronicles
   get "home/index"
   get "users/show"
@@ -34,6 +36,12 @@ Rails.application.routes.draw do
   resources :comments do
     member do
       patch :report
+    end
+  end
+
+  resources :notifications, only: [:index] do
+    member do
+      patch :mark_as_read
     end
   end
 end

@@ -1,0 +1,30 @@
+<% content_for :title, "Mes notifications" %>
+
+<div class="container pt-5 pb-5">
+  <h1 class="mb-4 text-center fw-bold text-brown">Mes notifications</h1>
+
+  <% if @notifications.any? %>
+    <ul class="list-group shadow-sm">
+      <% @notifications.each do |notification| %>
+        <li class="list-group-item d-flex justify-content-between align-items-start <%= 'bg-light' unless notification.read %>">
+          <div class="me-auto">
+            <%= link_to notification.actor.username, user_path(notification.actor), class: "fw-semibold text-decoration-none text-brown" %>
+            <span>
+              <%= notification.action %>
+            </span>
+            <span>
+              <%= link_to polymorphic_path(notification.notifiable), class: "text-primary text-decoration-none" do %>
+                Voir
+              <% end %>
+            </span>
+          </div>
+          <small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="alert alert-info text-center">
+      Vous n’avez aucune notification pour le moment.
+    </div>
+  <% end %>
+</div>
