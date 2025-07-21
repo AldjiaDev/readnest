@@ -21,4 +21,8 @@ class User < ApplicationRecord
   has_many :reverse_follows, as: :followable, class_name: "Follow", dependent: :destroy
   has_many :followers, through: :reverse_follows, source: :follower
   has_many :publishing_houses, dependent: :destroy
+  has_many :sent_conversations, class_name: "Conversation", foreign_key: "sender_id", dependent: :destroy
+  has_many :received_conversations, class_name: "Conversation", foreign_key: "receiver_id", dependent: :destroy
+
+  has_many :messages, dependent: :destroy
 end

@@ -1,0 +1,14 @@
+<h2 class="mb-4">Mes conversations</h2>
+
+<% if @conversations.any? %>
+  <ul class="list-group">
+    <% @conversations.each do |conversation| %>
+      <% other = conversation.sender == current_user ? conversation.receiver : conversation.sender %>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <%= link_to other.username, conversation_path(conversation), class: "text-decoration-none" %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="text-muted">Aucune conversation pour le moment.</p>
+<% end %>

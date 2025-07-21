@@ -31,6 +31,10 @@
         <% end %>
       <% end %>
 
+      <% if user_signed_in? && current_user != @user %>
+        <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-primary mt-2" %>
+      <% end %>
+
       <hr class="my-5">
 
       <!-- Liste des chroniques -->

@@ -1,0 +1,18 @@
+<h2 class="mb-4">Conversation avec <%= @conversation.other_user(current_user).username %></h2>
+
+<div class="border rounded p-3 mb-3 bg-white" style="max-height: 400px; overflow-y: auto;">
+  <% @messages.each do |message| %>
+    <div class="mb-2">
+      <strong><%= message.user.username %>:</strong>
+      <span><%= message.content %></span>
+      <div class="text-muted small"><%= l(message.created_at, format: :short) %></div>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with(model: [@conversation, @message], local: true) do |form| %>
+  <div class="input-group">
+    <%= form.text_field :content, class: "form-control", placeholder: "Votre message..." %>
+    <button class="btn btn-primary" type="submit">Envoyer</button>
+  </div>
+<% end %>

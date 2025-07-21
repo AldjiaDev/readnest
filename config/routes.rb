@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get "messages/create"
+  get "conversations/index"
+  get "conversations/show"
+  get "conversations/create"
   resources :publishing_houses
   # Devise (authentification)
   devise_for :users, controllers: {
@@ -35,4 +39,8 @@ Rails.application.routes.draw do
   # Suivi entre utilisateurs
   resources :publishing_houses
   resources :follows, only: [:create, :destroy]
+
+  resources :conversations, only: [:index, :show, :create] do
+    resources :messages, only: [:create]
+  end
 end
