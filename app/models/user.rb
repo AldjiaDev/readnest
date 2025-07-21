@@ -20,4 +20,5 @@ class User < ApplicationRecord
   # Follows qu’il reçoit (utilisateurs qui le suivent)
   has_many :reverse_follows, as: :followable, class_name: "Follow", dependent: :destroy
   has_many :followers, through: :reverse_follows, source: :follower
+  has_many :publishing_houses, dependent: :destroy
 end

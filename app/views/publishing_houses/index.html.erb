@@ -1,0 +1,36 @@
+<% content_for :title, "Maisons d’édition" %>
+
+<div class="container py-5 mt-4">
+  <% if notice %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+    </div>
+  <% end %>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold text-primary">📚 Maisons d’édition</h1>
+    <%= link_to "Ajouter une maison", new_publishing_house_path, class: "btn btn-primary" %>
+  </div>
+
+  <% if @publishing_houses.any? %>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <% @publishing_houses.each do |house| %>
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title"><%= house.name %></h5>
+              <p class="card-text text-muted small"><%= truncate(house.description, length: 120) %></p>
+              <%= link_to "Voir", publishing_house_path(house), class: "btn btn-outline-primary btn-sm" %>
+            </div>
+            <div class="card-footer bg-light small text-muted">
+              Créé par <%= link_to house.user.username, user_path(house.user), class: "text-decoration-none" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-muted fst-italic">Aucune maison d’édition n’a encore été ajoutée.</p>
+  <% end %>
+</div>

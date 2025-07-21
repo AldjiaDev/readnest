@@ -1,4 +1,6 @@
+# app/models/publisher.rb
 class Publisher < ApplicationRecord
-  has_many :follows, as: :followable, dependent: :destroy
-  has_many :followers, through: :follows, source: :follower
+  belongs_to :user, optional: true
+  has_many :chronicles
+  has_one_attached :logo
 end

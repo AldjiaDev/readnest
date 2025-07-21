@@ -1,0 +1,42 @@
+<% content_for :title, @publishing_house.name %>
+
+<div class="container mt-5 py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+
+      <% if @publishing_house.logo.attached? %>
+        <%= image_tag @publishing_house.logo.variant(resize_to_limit: [200, 200]), class: "img-fluid rounded mb-4 shadow-sm", alt: "#{@publishing_house.name} Logo" %>
+      <% end %>
+
+      <h2 class="fw-bold mb-3"><%= @publishing_house.name %></h2>
+
+      <% if @publishing_house.description.present? %>
+        <p class="lead text-muted"><%= simple_format(@publishing_house.description) %></p>
+      <% else %>
+        <p class="text-muted fst-italic">Aucune description disponible.</p>
+      <% end %>
+
+      <% if user_signed_in? && current_user != @publishing_house.user %>
+        <div class="mt-4">
+          <% if current_user.following?(@publishing_house) %>
+            <%= button_to "Ne plus suivre", follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id), method: :delete, class: "btn btn-outline-danger" %>
+          <% else %>
+            <%= button_to "Suivre cette maison d’édition", follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id), method: :post, class: "btn btn-outline-primary" %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if user_signed_in? && current_user == @publishing_house.user %>
+        <div class="mt-4">
+          <%= link_to "Modifier", edit_publishing_house_path(@publishing_house), class: "btn btn-secondary me-2" %>
+          <%= button_to "Supprimer", @publishing_house, method: :delete, data: { confirm: "Êtes-vous sûr(e) ?" }, class: "btn btn-danger" %>
+        </div>
+      <% end %>
+
+      <div class="mt-5">
+        <%= link_to "← Retour aux maisons d’édition", publishing_houses_path, class: "btn btn-link text-decoration-none" %>
+      </div>
+
+    </div>
+  </div>
+</div>

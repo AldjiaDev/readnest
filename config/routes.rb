@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :publishing_houses
   # Devise (authentification)
   devise_for :users, controllers: {
     registrations: "users/registrations"
@@ -32,5 +33,6 @@ Rails.application.routes.draw do
   end
 
   # Suivi entre utilisateurs
+  resources :publishing_houses
   resources :follows, only: [:create, :destroy]
 end

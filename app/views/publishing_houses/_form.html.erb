@@ -1,0 +1,42 @@
+<%= form_with(model: publishing_house, local: true, html: { multipart: true }, class: "needs-validation") do |form| %>
+  <% if publishing_house.errors.any? %>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading">
+        <%= pluralize(publishing_house.errors.count, "erreur") %> empêchent l’enregistrement :
+      </h4>
+      <ul class="mb-0">
+        <% publishing_house.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, "Nom de la maison d’édition", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "Ex : Éditions Gallimard", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, "Description", class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 5, placeholder: "Parlez de votre ligne éditoriale, du type d’ouvrages publiés…" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :logo, "Logo de la maison", class: "form-label" %>
+    <%= form.file_field :logo, class: "form-control" %>
+  </div>
+
+  <% if publishing_house.logo.attached? %>
+    <div class="mb-3">
+      <p class="text-muted">Logo actuel :</p>
+      <%= image_tag publishing_house.logo.variant(resize_to_limit: [200, 200]), class: "img-thumbnail" %>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :user_id, value: publishing_house.user_id || current_user&.id %>
+
+  <div class="mt-4">
+    <%= form.submit publishing_house.new_record? ? "Créer la maison d’édition" : "Mettre à jour", class: "btn btn-primary" %>
+  </div>
+<% end %>
