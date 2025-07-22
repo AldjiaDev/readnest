@@ -1,0 +1,24 @@
+<div class="col-md-4 mb-5">
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+    <% if chronicle.photo.attached? %>
+      <%= link_to chronicle_path(chronicle) do %>
+        <%= image_tag chronicle.photo, class: "img-fluid w-100", style: "height: 220px; object-fit: cover;" %>
+      <% end %>
+    <% end %>
+
+    <div class="card-body px-3 py-3 d-flex flex-column">
+      <p class="text-muted small mb-1">
+        <%= chronicle.created_at.strftime("%d %b %Y") %> &nbsp;•&nbsp;
+        par <%= chronicle.user.username %>
+      </p>
+
+      <h5 class="card-title fw-bold mb-2" style="font-size: 1.1rem;">
+        <%= link_to truncate(chronicle.title, length: 70), chronicle_path(chronicle), class: "text-decoration-none text-dark" %>
+      </h5>
+
+      <p class="card-text text-muted mb-3"><%= truncate(chronicle.content, length: 100) %></p>
+
+      <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-auto w-100" %>
+    </div>
+  </div>
+</div>

@@ -118,3 +118,20 @@ footer a:hover {
     font-weight: bold;
   }
 }
+.book-card {
+  transition: transform 0.3s ease;
+  border: none;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .book-cover {
+    border-bottom: 1px solid #eee;
+  }
+
+  .book-body {
+    background: white;
+    border-top: none;
+  }
+}
