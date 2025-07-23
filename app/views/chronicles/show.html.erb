@@ -14,10 +14,10 @@
   <!-- Infos auteur / livre -->
   <div class="row justify-content-center mb-4">
     <div class="col-md-8 text-center text-muted">
-      <p class="mb-1"><strong>Auteur·e :</strong> <%= @chronicle.author.presence || "Non renseigné" %></p>
-      <p class="mb-1"><strong>Livre :</strong> <%= @chronicle.book_title.presence || "Non renseigné" %></p>
-      <p class="mb-1"><strong>Maison d’édition :</strong> <%= @chronicle.publisher.presence || "Non renseignée" %></p>
-      <p class="mb-0"><strong>Publié par :</strong> <%= link_to @chronicle.user.username, user_path(@chronicle.user), class: "text-decoration-none" %></p>
+      <p><strong>Auteur·e :</strong> <%= @chronicle.author.presence || "Non renseigné" %></p>
+      <p><strong>Livre :</strong> <%= @chronicle.book_title.presence || "Non renseigné" %></p>
+      <p><strong>Maison d’édition :</strong> <%= @chronicle.publisher.presence || "Non renseignée" %></p>
+      <p><strong>Publié par :</strong> <%= link_to @chronicle.user.username, user_path(@chronicle.user), class: "text-decoration-none" %></p>
     </div>
   </div>
 
@@ -26,7 +26,7 @@
     <%= simple_format(@chronicle.content) %>
   </div>
 
-  <!-- Likes de chronique -->
+  <!-- Likes -->
   <div class="d-flex align-items-center gap-3 mb-5">
     <% if user_signed_in? %>
       <% if @chronicle.likes.exists?(user: current_user) %>
@@ -93,13 +93,14 @@
         <% end %>
 
         <!-- Supprimer -->
-        <% if comment.user == current_user %>
-          <%= link_to "Supprimer", chronicle_comment_path(@chronicle, comment), method: :delete, data: { confirm: "Confirmer la suppression ?" }, class: "btn btn-sm btn-outline-danger mt-2" %>
+        <% if comment.user == current_user || @chronicle.user == current_user %>
+          <%= button_to "Supprimer", chronicle_comment_path(@chronicle, comment), method: :delete, data: { confirm: "Confirmer la suppression ?" }, class: "btn btn-sm btn-outline-danger mt-2" %>
+
         <% end %>
       </div>
     <% end %>
 
-    <%# Nouveau commentaire %>
+    <!-- Nouveau commentaire -->
     <% if user_signed_in? %>
       <div class="mt-4">
         <h5>Ajouter un commentaire</h5>
