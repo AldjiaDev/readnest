@@ -31,6 +31,10 @@ Rails.application.routes.draw do
     patch :report, on: :member
   end
 
+  resources :comments do
+    resource :comment_like, only: [:create, :destroy]
+  end
+
   # Notifications
   resources :notifications, only: [:index] do
     patch :mark_as_read, on: :member
