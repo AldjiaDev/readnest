@@ -119,19 +119,12 @@ footer a:hover {
   }
 }
 .book-card {
-  transition: transform 0.3s ease;
-  border: none;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
-
-  .book-cover {
-    border-bottom: 1px solid #eee;
-  }
-
-  .book-body {
-    background: white;
-    border-top: none;
-  }
+  border: 1px solid #ddd;
+  transition: transform 0.2s ease-in-out;
 }
+
+.book-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+

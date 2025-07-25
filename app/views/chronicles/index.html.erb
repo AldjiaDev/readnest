@@ -7,35 +7,37 @@
     <div class="text-center text-muted">
       <p>Aucune chronique disponible pour le moment.</p>
     </div>
-  <% end %>
+  <% else %>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <% @chronicles.each do |chronicle| %>
+        <div class="col">
+          <div class="book-card h-100 shadow rounded overflow-hidden position-relative bg-white">
 
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    <% @chronicles.each do |chronicle| %>
-      <div class="col">
-        <div class="book-card h-100 shadow rounded overflow-hidden position-relative">
-          <% if chronicle.photo.attached? %>
-            <%= link_to chronicle_path(chronicle) do %>
-              <%= image_tag chronicle.photo, class: "book-cover w-100", style: "height: 300px; object-fit: cover;" %>
+            <% if chronicle.photo.attached? %>
+              <%= link_to chronicle_path(chronicle) do %>
+                <%= image_tag chronicle.photo, class: "book-cover w-100", style: "height: 300px; object-fit: cover;" %>
+              <% end %>
             <% end %>
-          <% end %>
 
-          <div class="book-body p-3 bg-white d-flex flex-column">
-            <p class="text-muted small mb-1">
-              <%= chronicle.created_at.strftime("%d %b %Y") %> · par <%= chronicle.user.username %>
-            </p>
+            <div class="book-body p-3 d-flex flex-column">
+              <p class="text-muted small mb-1">
+                <%= chronicle.created_at.strftime("%d %b %Y") %> · par <%= chronicle.user.username %>
+              </p>
 
-            <h5 class="fw-bold mb-2" style="font-size: 1.1rem;">
-              <%= link_to truncate(chronicle.title, length: 60), chronicle_path(chronicle), class: "text-decoration-none text-dark" %>
-            </h5>
+              <h5 class="fw-bold mb-2" style="font-size: 1.1rem;">
+                <%= link_to truncate(chronicle.title, length: 60), chronicle_path(chronicle), class: "text-decoration-none text-dark" %>
+              </h5>
 
-            <p class="text-muted small flex-grow-1">
-              <%= truncate(chronicle.content, length: 90) %>
-            </p>
+              <p class="text-muted small flex-grow-1">
+                <%= truncate(strip_tags(chronicle.content), length: 90) %>
+              </p>
 
-            <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-3 w-100" %>
+              <%= link_to "Lire la chronique", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-3 w-100" %>
+            </div>
+
           </div>
         </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>

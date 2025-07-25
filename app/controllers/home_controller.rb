@@ -1,3 +1,4 @@
+
 class HomeController < ApplicationController
   def index
     if params[:query].present?
@@ -9,5 +10,7 @@ class HomeController < ApplicationController
     else
       @chronicles = Chronicle.includes(:user).order(created_at: :desc)
     end
+
+    @publishing_houses = PublishingHouse.limit(3).order(created_at: :desc)
   end
 end

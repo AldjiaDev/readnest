@@ -96,6 +96,32 @@
   </div>
 </div>
 
+<section class="container my-5">
+  <h2 class="text-center mb-4 fw-bold" style="color: #5e4636;">Maisons d’édition à découvrir</h2>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <% @publishing_houses.each do |house| %>
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+          <% if house.logo.attached? %>
+            <%= image_tag house.logo, class: "card-img-top", style: "height: 180px; object-fit: contain;" %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= house.name %></h5>
+            <p class="card-text text-muted small"><%= truncate(house.description, length: 100) %></p>
+            <%= link_to "Voir la maison", publishing_house_path(house), class: "btn btn-outline-primary btn-sm mt-2" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="text-center mt-4">
+    <%= link_to "Voir toutes les maisons d’édition", publishing_houses_path, class: "btn btn-primary" %>
+  </div>
+</section>
+
+
 <!-- Carte : librairie proche -->
 <div class="container my-5">
   <h2 class="mb-4 text-center text-brown">Trouver une librairie autour de vous</h2>
