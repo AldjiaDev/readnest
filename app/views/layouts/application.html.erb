@@ -28,8 +28,7 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto align-items-center">
-
-            <!-- Liens visibles par tous -->
+            <!-- Liens universels -->
             <li class="nav-item">
               <%= link_to "Toutes les chroniques", chronicles_path, class: "nav-link text-brown" %>
             </li>
@@ -51,7 +50,7 @@
                 <% end %>
               </li>
 
-              <!-- Profil utilisateur -->
+              <!-- Lien profil -->
               <li class="nav-item">
                 <%= link_to "Mon profil", user_path(current_user), class: "nav-link text-brown" %>
               </li>
@@ -82,8 +81,8 @@
       </div>
     </nav>
 
-    <!-- Main content (avec décalage navbar) -->
-    <main class="flex-grow-1 pt-5 mt-4">
+    <!-- Contenu principal sans décalage -->
+    <main class="flex-grow-1">
       <%= yield %>
     </main>
 
