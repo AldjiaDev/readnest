@@ -94,7 +94,7 @@
           </div>
         <% end %>
 
-        <!-- Formulaire de réponse -->
+        <!-- Répondre -->
         <% if user_signed_in? %>
           <%= form_with model: [comment.chronicle, Comment.new], local: true do |f| %>
             <%= f.hidden_field :parent_id, value: comment.id %>
@@ -105,14 +105,14 @@
           <% end %>
         <% end %>
 
-        <!-- Supprimer -->
+        <!-- Supprimer commentaire -->
         <% if comment.user == current_user || @chronicle.user == current_user %>
           <%= button_to "Supprimer", chronicle_comment_path(@chronicle, comment), method: :delete, data: { confirm: "Confirmer la suppression ?" }, class: "btn btn-sm btn-outline-danger mt-2" %>
         <% end %>
       </div>
     <% end %>
 
-    <!-- Ajouter un commentaire -->
+    <!-- Nouveau commentaire -->
     <% if user_signed_in? %>
       <div class="mt-4">
         <h5>Ajouter un commentaire</h5>
@@ -128,8 +128,18 @@
     <% end %>
   </div>
 
+  <!-- Supprimer la chronique (auteur uniquement) -->
+  <% if user_signed_in? && current_user == @chronicle.user %>
+    <div class="text-center mt-5">
+      <%= button_to "🗑️ Supprimer cette chronique", chronicle_path(@chronicle),
+          method: :delete,
+          data: { confirm: "Es-tu sûr de vouloir supprimer cette chronique ?" },
+          class: "btn btn-sm btn-outline-danger" %>
+    </div>
+  <% end %>
+
   <!-- Retour -->
-  <div class="text-center mt-5">
+  <div class="text-center mt-4">
     <%= link_to "← Retour aux chroniques", chronicles_path, class: "btn btn-outline-secondary px-4 py-2" %>
   </div>
 </div>

@@ -22,17 +22,15 @@
       <!-- Email -->
       <p class="text-muted small">📧 <%= mail_to @user.email %></p>
 
-      <!-- Boutons d'interaction -->
+      <!-- Boutons suivre / message -->
       <% if user_signed_in? && current_user != @user %>
-        <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
-          <% if current_user.followed_users.include?(@user) %>
-            <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id), method: :delete, class: "btn btn-outline-secondary btn-sm" %>
-          <% else %>
-            <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-primary btn-sm" %>
-          <% end %>
+        <% if current_user.followed_users.include?(@user) %>
+          <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id), method: :delete, class: "btn btn-outline-secondary btn-sm mt-2" %>
+        <% else %>
+          <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-primary btn-sm mt-2" %>
+        <% end %>
 
-          <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-primary btn-sm" %>
-        </div>
+        <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-primary btn-sm mt-2 ms-2" %>
       <% end %>
 
       <hr class="my-5">
@@ -41,9 +39,33 @@
       <h4 class="mb-4" style="color: #5e4636;">Mes chroniques</h4>
 
       <% if @user.chronicles.any? %>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="row">
           <% @user.chronicles.each do |chronicle| %>
-            <%= render partial: "chronicles/card", locals: { chronicle: chronicle } %>
+            <div class="col-md-6 mb-4">
+              <div class="card h-100 shadow-sm">
+                <% if chronicle.photo.attached? %>
+                  <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+                <% end %>
+
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title" style="color: #5e4636;">
+                    <%= truncate(chronicle.title, length: 60) %>
+                  </h5>
+                  <p class="card-text text-muted small flex-grow-1">
+                    <%= truncate(chronicle.content, length: 100) %>
+                  </p>
+
+                  <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-2" %>
+
+                  <% if user_signed_in? && current_user == chronicle.user %>
+                    <%= button_to "🗑️ Supprimer", chronicle_path(chronicle),
+                        method: :delete,
+                        data: { confirm: "Supprimer cette chronique ?" },
+                        class: "btn btn-sm btn-outline-danger mt-2" %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
           <% end %>
         </div>
       <% else %>

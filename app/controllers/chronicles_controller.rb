@@ -1,5 +1,6 @@
 class ChroniclesController < ApplicationController
-  before_action :set_chronicle, only: %i[ show edit update destroy ]
+  before_action :set_chronicle, only: %i[show edit update destroy]
+  before_action :authorize_owner!, only: %i[edit update destroy]
 
   def index
     @chronicles = Chronicle.all
@@ -12,9 +13,6 @@ class ChroniclesController < ApplicationController
     @chronicle = Chronicle.new
   end
 
-  def edit
-  end
-
   def create
     @chronicle = current_user.chronicles.build(chronicle_params)
 
@@ -23,6 +21,9 @@ class ChroniclesController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
   end
 
   def update
@@ -34,17 +35,23 @@ class ChroniclesController < ApplicationController
   end
 
   def destroy
-    @chronicle.destroy!
+    @chronicle.destroy
     redirect_to chronicles_path, status: :see_other, notice: "Chronique supprimée."
   end
 
   private
 
-    def set_chronicle
-      @chronicle = Chronicle.find(params[:id])
-    end
+  def set_chronicle
+    @chronicle = Chronicle.find(params[:id])
+  end
 
-    def chronicle_params
-      params.require(:chronicle).permit(:title, :author, :book_title, :publisher, :content, :photo)
+  def authorize_owner!
+    unless @chronicle.user == current_user
+      redirect_to chronicles_path, alert: "Vous n’êtes pas autorisé à effectuer cette action."
     end
+  end
+
+  def chronicle_params
+    params.require(:chronicle).permit(:title, :author, :book_title, :publisher, :content, :photo)
+  end
 end
