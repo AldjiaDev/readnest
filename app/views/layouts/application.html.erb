@@ -8,17 +8,11 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
-        <!-- Police Inter -->
+    <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
-
     <!-- Leaflet CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-sA+e2XkG0tZDAvZSCaMtwU0I0C8n1NkPU9XdJr0rqtI="
-      crossorigin=""
-    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   </head>
 
   <body class="d-flex flex-column min-vh-100 bg-light">
@@ -26,21 +20,30 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom">
       <div class="container">
-        <%= link_to "Readnest", root_path, class: "navbar-brand fw-bold text-brown" %>
+        <%= link_to "📚 Readnest", root_path, class: "navbar-brand fw-bold text-brown" %>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
+          <ul class="navbar-nav ms-auto align-items-center">
+
+            <!-- Liens visibles par tous -->
+            <li class="nav-item">
+              <%= link_to "Toutes les chroniques", chronicles_path, class: "nav-link text-brown" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Maisons d’édition", publishing_houses_path, class: "nav-link text-brown" %>
+            </li>
+
             <% if user_signed_in? %>
               <!-- Notifications -->
-              <li class="nav-item position-relative">
-                <%= link_to notifications_path, class: "nav-link position-relative text-brown" do %>
+              <li class="nav-item mx-2 position-relative">
+                <%= link_to notifications_path, class: "nav-link position-relative px-2" do %>
                   🔔
                   <% unread_count = current_user.received_notifications.unread.count %>
-                  <% if unread_count > 0 %>
+                  <% if unread_count.positive? %>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                       <%= unread_count %>
                     </span>
@@ -48,23 +51,30 @@
                 <% end %>
               </li>
 
-              <!-- Navigation connectée -->
+              <!-- Profil utilisateur -->
               <li class="nav-item">
                 <%= link_to "Mon profil", user_path(current_user), class: "nav-link text-brown" %>
               </li>
+
+              <!-- Nouvelle chronique -->
               <li class="nav-item">
                 <%= link_to "Nouvelle chronique", new_chronicle_path, class: "nav-link text-brown" %>
               </li>
+
+              <!-- Déconnexion -->
               <li class="nav-item">
-                <%= button_to "Se déconnecter", destroy_user_session_path, method: :delete, class: "btn btn-link nav-link text-danger", form: { data: { turbo: false } } %>
+                <%= button_to "Se déconnecter", destroy_user_session_path,
+                      method: :delete,
+                      class: "btn btn-link nav-link text-danger",
+                      form: { data: { turbo: false } } %>
               </li>
             <% else %>
-              <!-- Navigation non connectée -->
+              <!-- Non connecté -->
               <li class="nav-item">
-                <%= link_to "Créer un compte", new_user_registration_path, class: "nav-link text-brown" %>
+                <%= link_to "S'inscrire", new_user_registration_path, class: "nav-link text-brown" %>
               </li>
               <li class="nav-item">
-                <%= link_to "Se connecter", new_user_session_path, class: "nav-link text-brown" %>
+                <%= link_to "Connexion", new_user_session_path, class: "nav-link text-brown" %>
               </li>
             <% end %>
           </ul>
@@ -72,8 +82,8 @@
       </div>
     </nav>
 
-    <!-- Contenu principal avec espace sous la navbar -->
-    <main class="flex-grow-1">
+    <!-- Main content (avec décalage navbar) -->
+    <main class="flex-grow-1 pt-5 mt-4">
       <%= yield %>
     </main>
 
@@ -90,8 +100,9 @@
             <h6 class="fw-bold">Navigation</h6>
             <ul class="list-unstyled small">
               <li><%= link_to "Accueil", root_path, class: "text-light text-decoration-none" %></li>
+              <li><%= link_to "Toutes les chroniques", chronicles_path, class: "text-light text-decoration-none" %></li>
+              <li><%= link_to "Maisons d’édition", publishing_houses_path, class: "text-light text-decoration-none" %></li>
               <li><%= link_to "Nouvelle chronique", new_chronicle_path, class: "text-light text-decoration-none" %></li>
-              <li><%= link_to "Mon profil", user_signed_in? ? user_path(current_user) : "#", class: "text-light text-decoration-none" %></li>
             </ul>
           </div>
 
@@ -112,15 +123,7 @@
 
     <!-- JS -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-
-    <!-- Leaflet JS -->
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-+9LU4tDyJMy4uqEVGZj+rfJHcb7Poyl3GzvA/j1C3yY="
-      crossorigin=""
-    ></script>
-
-    <!-- Bootstrap JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   </body>
 </html>

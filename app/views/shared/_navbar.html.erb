@@ -1,19 +1,35 @@
-<header class="bg-white shadow">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    <%= link_to "📚 Readnest", root_path, class: "text-xl font-bold text-blue-600 hover:underline" %>
+<header class="bg-white shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
 
-    <nav class="space-x-4 text-sm text-gray-700 flex items-center">
-      <%= link_to "Chroniques", chronicles_path, class: "hover:text-blue-600" %>
-      <%= link_to "Maisons d’édition", publishing_houses_path, class: "hover:text-blue-600" %>
+    <!-- Logo -->
+    <%= link_to root_path, class: "text-2xl font-bold text-blue-600 hover:text-blue-800" do %>
+      📚 <span class="align-middle">Readnest</span>
+    <% end %>
 
+    <!-- Navigation principale -->
+    <nav class="hidden md:flex space-x-5 text-sm text-gray-700 items-center">
+
+      <!-- Liens publics -->
+      <%= link_to "📖 Toutes les chroniques", chronicles_path, class: "hover:text-blue-600 font-medium" %>
+      <%= link_to "🏛️ Maisons d’édition", publishing_houses_path, class: "hover:text-blue-600 font-medium" %>
+
+      <!-- Utilisateur connecté -->
       <% if user_signed_in? %>
-        <%= link_to "Mon profil", user_path(current_user), class: "hover:text-blue-600" %>
-        <%= link_to "Nouvelle chronique", new_chronicle_path, class: "hover:text-blue-600" %>
-        <%= link_to "Déconnexion", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "text-red-500 hover:underline" %>
+        <%= link_to "➕ Nouvelle chronique", new_chronicle_path, class: "hover:text-blue-600" %>
+        <%= link_to "👤 Mon profil", user_path(current_user), class: "hover:text-blue-600" %>
+        <%= link_to "🚪 Déconnexion", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "text-red-500 hover:underline" %>
+
       <% else %>
+        <!-- Utilisateur non connecté -->
         <%= link_to "S'inscrire", new_user_registration_path, class: "hover:text-blue-600" %>
         <%= link_to "Connexion", new_user_session_path, class: "hover:text-blue-600" %>
       <% end %>
     </nav>
+
+    <!-- Burger pour mobile -->
+    <div class="md:hidden">
+      <span class="text-gray-500">☰</span>
+    </div>
+
   </div>
 </header>
