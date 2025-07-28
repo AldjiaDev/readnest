@@ -22,17 +22,17 @@
       <!-- Email -->
       <p class="text-muted small">📧 <%= mail_to @user.email %></p>
 
-      <!-- Bouton suivre / se désabonner -->
+      <!-- Boutons d'interaction -->
       <% if user_signed_in? && current_user != @user %>
-        <% if current_user.followed_users.include?(@user) %>
-          <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id), method: :delete, class: "btn btn-outline-secondary btn-sm mt-2" %>
-        <% else %>
-          <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-primary btn-sm mt-2" %>
-        <% end %>
-      <% end %>
+        <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
+          <% if current_user.followed_users.include?(@user) %>
+            <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id), method: :delete, class: "btn btn-outline-secondary btn-sm" %>
+          <% else %>
+            <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-primary btn-sm" %>
+          <% end %>
 
-      <% if user_signed_in? && current_user != @user %>
-        <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-primary mt-2" %>
+          <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-primary btn-sm" %>
+        </div>
       <% end %>
 
       <hr class="my-5">
@@ -41,20 +41,9 @@
       <h4 class="mb-4" style="color: #5e4636;">Mes chroniques</h4>
 
       <% if @user.chronicles.any? %>
-        <div class="row">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
           <% @user.chronicles.each do |chronicle| %>
-            <div class="col-md-6 mb-4">
-              <div class="card h-100 shadow-sm">
-                <% if chronicle.photo.attached? %>
-                  <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
-                <% end %>
-                <div class="card-body">
-                  <h5 class="card-title" style="color: #5e4636;"><%= truncate(chronicle.title, length: 60) %></h5>
-                  <p class="card-text text-muted small"><%= truncate(chronicle.content, length: 100) %></p>
-                  <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-brown btn-sm mt-2" %>
-                </div>
-              </div>
-            </div>
+            <%= render partial: "chronicles/card", locals: { chronicle: chronicle } %>
           <% end %>
         </div>
       <% else %>

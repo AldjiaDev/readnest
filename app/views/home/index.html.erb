@@ -58,8 +58,8 @@
           <div class="row justify-content-center">
             <% group.each do |book| %>
               <div class="col-6 col-sm-4 col-md-3 mb-4">
-                <div class="card h-100 shadow-sm" style="border-radius: 8px; aspect-ratio: 2 / 3;">
-                  <%= image_tag book[:image], class: "card-img-top", style: "height: 100%; object-fit: cover;" %>
+                <div class="card h-100 shadow-sm border-0" style="aspect-ratio: 2 / 3; overflow: hidden;">
+                  <%= image_tag book[:image], class: "card-img-top", style: "height: 70%; object-fit: cover;" %>
                   <div class="card-body text-center p-2">
                     <h6 class="card-title mb-1 fw-bold"><%= book[:title] %></h6>
                     <p class="card-text text-muted mb-0" style="font-size: 0.85rem;">par <%= book[:author] %></p>
@@ -90,11 +90,11 @@
   <div class="row row-cols-1 row-cols-md-3 g-4">
     <% @publishing_houses.each do |house| %>
       <div class="col">
-        <div class="card h-100 shadow-sm border-0">
+        <div class="card h-100 shadow-sm border-0" style="aspect-ratio: 2 / 3; overflow: hidden;">
           <% if house.logo.attached? %>
-            <%= image_tag house.logo, class: "card-img-top", style: "height: 180px; object-fit: contain;" %>
+            <%= image_tag house.logo, class: "card-img-top", style: "height: 70%; object-fit: contain;" %>
           <% end %>
-          <div class="card-body">
+          <div class="card-body text-center p-3">
             <h5 class="card-title"><%= house.name %></h5>
             <p class="card-text text-muted small"><%= truncate(house.description, length: 100) %></p>
             <%= link_to "Voir la maison", publishing_house_path(house), class: "btn btn-outline-primary btn-sm mt-2" %>

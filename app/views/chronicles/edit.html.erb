@@ -1,12 +1,16 @@
-<% content_for :title, "Editing chronicle" %>
+<% content_for :title, "Modifier la chronique" %>
 
-<h1>Editing chronicle</h1>
+<div class="container py-5 mt-4">
+  <h1 class="text-center mb-4 fw-bold" style="color: #5e4636;">Modifier votre chronique</h1>
 
-<%= render "form", chronicle: @chronicle %>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <%= render "form", chronicle: @chronicle %>
 
-<br>
-
-<div>
-  <%= link_to "Show this chronicle", @chronicle %> |
-  <%= link_to "Back to chronicles", chronicles_path %>
+      <div class="mt-4 d-flex justify-content-between">
+        <%= link_to "← Voir la chronique", @chronicle, class: "btn btn-outline-secondary" %>
+        <%= link_to "← Retour à la liste", chronicles_path, class: "btn btn-outline-primary" %>
+      </div>
+    </div>
+  </div>
 </div>

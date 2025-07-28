@@ -2,32 +2,45 @@
 
 <div class="container py-5 mt-4">
   <!-- Titre -->
-  <h1 class="text-center mb-4 fw-bold" style="color: #5e4636;"><%= @chronicle.title %></h1>
+  <h1 class="text-center mb-4 fw-bold" style="color: #5e4636;">
+    <%= @chronicle.title %>
+  </h1>
 
   <!-- Image -->
   <% if @chronicle.photo.attached? %>
-    <div class="text-center mb-5">
-      <%= image_tag @chronicle.photo, class: "img-fluid rounded shadow-sm", style: "max-height: 450px; object-fit: cover;" %>
+    <div class="d-flex justify-content-center mb-5">
+      <div class="shadow-sm rounded overflow-hidden" style="aspect-ratio: 2 / 3; max-height: 450px;">
+        <%= image_tag @chronicle.photo, class: "img-fluid h-100", style: "object-fit: cover;" %>
+      </div>
     </div>
   <% end %>
 
   <!-- Infos livre et auteur -->
   <div class="row justify-content-center mb-4">
-    <div class="col-md-8 text-center text-muted">
-      <p><strong>Auteur·e :</strong> <%= @chronicle.author.presence || "Non renseigné" %></p>
-      <p><strong>Livre :</strong> <%= @chronicle.book_title.presence || "Non renseigné" %></p>
-      <p><strong>Maison d’édition :</strong> <%= @chronicle.publisher.presence || "Non renseignée" %></p>
-      <p><strong>Publié par :</strong> <%= link_to @chronicle.user.username, user_path(@chronicle.user), class: "text-decoration-none" %></p>
+    <div class="col-md-8 text-center text-muted small">
+      <% if @chronicle.book_title.present? %>
+        <p><strong>Livre :</strong> <%= @chronicle.book_title %></p>
+      <% end %>
+      <% if @chronicle.author.present? %>
+        <p><strong>Auteur·e :</strong> <%= @chronicle.author %></p>
+      <% end %>
+      <% if @chronicle.publisher.present? %>
+        <p><strong>Maison d’édition :</strong> <%= @chronicle.publisher %></p>
+      <% end %>
+      <p>
+        <strong>Publié par :</strong>
+        <%= link_to @chronicle.user.username, user_path(@chronicle.user), class: "text-decoration-none" %>
+      </p>
     </div>
   </div>
 
   <!-- Contenu de la chronique -->
-  <div class="bg-white p-4 rounded shadow-sm mb-4" style="line-height: 1.8; font-size: 1.1rem;">
+  <div class="bg-white p-4 rounded shadow-sm mb-5" style="line-height: 1.8; font-size: 1.1rem;">
     <%= simple_format(@chronicle.content) %>
   </div>
 
-  <!-- Likes de la chronique -->
-  <div class="d-flex align-items-center gap-3 mb-5">
+  <!-- Likes -->
+  <div class="d-flex align-items-center gap-3 mb-5 justify-content-center">
     <% if user_signed_in? %>
       <% if @chronicle.likes.exists?(user: current_user) %>
         <%= button_to chronicle_like_path(@chronicle), method: :delete, class: "btn btn-sm btn-outline-danger" do %>
@@ -81,7 +94,7 @@
           </div>
         <% end %>
 
-        <!-- Répondre -->
+        <!-- Formulaire de réponse -->
         <% if user_signed_in? %>
           <%= form_with model: [comment.chronicle, Comment.new], local: true do |f| %>
             <%= f.hidden_field :parent_id, value: comment.id %>
@@ -99,7 +112,7 @@
       </div>
     <% end %>
 
-    <!-- Nouveau commentaire -->
+    <!-- Ajouter un commentaire -->
     <% if user_signed_in? %>
       <div class="mt-4">
         <h5>Ajouter un commentaire</h5>
