@@ -33,19 +33,7 @@
 
   <div class="row">
     <% @chronicles.each do |chronicle| %>
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-          <% if chronicle.photo.attached? %>
-            <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
-          <% end %>
-          <div class="card-body">
-            <h5 class="card-title"><%= truncate(chronicle.title, length: 50) %></h5>
-            <p class="card-text"><%= truncate(chronicle.content, length: 100) %></p>
-            <p class="text-muted mb-1"><small>Par <%= chronicle.user.username %></small></p>
-            <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-2" %>
-          </div>
-        </div>
-      </div>
+      <%= render partial: "chronicles/card", locals: { chronicle: chronicle } %>
     <% end %>
   </div>
 </div>
@@ -56,7 +44,6 @@
 
   <div id="booksCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-
       <% top_books = [
         { title: "1984", author: "George Orwell", image: "1984.jpg" },
         { title: "Le Petit Prince", author: "Antoine de Saint-Exupéry", image: "le_petit_prince.jpg" },
@@ -96,6 +83,7 @@
   </div>
 </div>
 
+<!-- Maisons d’édition -->
 <section class="container my-5">
   <h2 class="text-center mb-4 fw-bold" style="color: #5e4636;">Maisons d’édition à découvrir</h2>
 
@@ -120,7 +108,6 @@
     <%= link_to "Voir toutes les maisons d’édition", publishing_houses_path, class: "btn btn-primary" %>
   </div>
 </section>
-
 
 <!-- Carte : librairie proche -->
 <div class="container my-5">
