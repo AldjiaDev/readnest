@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "pages/about"
   get "messages/create"
   get "conversations/index"
   get "conversations/show"
@@ -47,4 +48,5 @@ Rails.application.routes.draw do
   resources :conversations, only: [:index, :show, :create] do
     resources :messages, only: [:create]
   end
+  get "about", to: "pages#about"
 end

@@ -26,4 +26,5 @@ class User < ApplicationRecord
 
   has_many :messages, dependent: :destroy
   has_many :comment_likes, dependent: :destroy
+  has_one :publishing_house
 end
