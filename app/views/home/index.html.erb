@@ -1,49 +1,41 @@
-<!-- Hero Section -->
-<div class="position-relative text-white mb-5">
-  <%= image_tag "hero_books.jpeg", class: "img-fluid w-100", style: "height: 450px; object-fit: cover;" %>
+<!-- Hero avec barre de recherche -->
+<section class="position-relative text-white" style="height: 90vh; overflow: hidden;">
+  <%= image_tag "hero_books.jpeg", class: "w-100 h-100 position-absolute top-0 start-0", style: "object-fit: cover; filter: brightness(60%);" %>
   <div class="position-absolute top-50 start-50 translate-middle text-center px-3">
-    <h1 class="display-4 fw-bold text-white" style="text-shadow: 1px 1px 3px #000;">
-      Chaque livre est une porte vers un autre monde
-    </h1>
-    <%= link_to "Commencer à écrire", new_chronicle_path, class: "btn btn-primary btn-lg mt-3" %>
-  </div>
-</div>
+    <h1 class="display-4 fw-bold mb-4" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.6);">Chaque livre est une porte vers un autre monde</h1>
 
-<!-- Barre de recherche -->
-<div class="container my-4">
-  <%= form_with url: root_path, method: :get, local: true, class: "row g-2 justify-content-center" do |form| %>
-    <div class="col-md-6">
-      <%= form.text_field :query, value: params[:query], placeholder: "Rechercher une chronique par titre, contenu ou auteur", class: "form-control" %>
+    <%= form_with url: root_path, method: :get, local: true, class: "d-flex justify-content-center gap-2" do |form| %>
+      <%= form.text_field :query, value: params[:query], placeholder: "Rechercher une chronique...", class: "form-control form-control-lg rounded-pill w-50 px-4 shadow-sm" %>
+      <%= form.submit "Rechercher", class: "btn btn-primary btn-lg rounded-pill px-4" %>
+    <% end %>
+
+    <div class="mt-4">
+      <%= link_to "Commencer à écrire", new_chronicle_path, class: "btn btn-outline-light btn-lg rounded-pill px-4 shadow-sm" %>
     </div>
-    <div class="col-auto">
-      <%= form.submit "Rechercher", class: "btn btn-primary" %>
-    </div>
-  <% end %>
-</div>
+  </div>
+</section>
 
 <!-- Dernières chroniques -->
-<div class="container my-5">
-  <h2 class="mb-4 text-center text-brown">Dernières chroniques</h2>
+<section class="container py-5">
+  <h2 class="text-center mb-5 text-brown fw-bold">Dernières chroniques</h2>
 
   <% if @chronicles.empty? %>
-    <div class="text-center text-muted my-5">
-      <p>Aucune chronique trouvée pour cette recherche.</p>
+    <p class="text-muted text-center">Aucune chronique trouvée.</p>
+  <% else %>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <% @chronicles.each do |chronicle| %>
+        <%= render partial: "chronicles/card", locals: { chronicle: chronicle } %>
+      <% end %>
     </div>
   <% end %>
+</section>
 
-  <div class="row">
-    <% @chronicles.each do |chronicle| %>
-      <%= render partial: "chronicles/card", locals: { chronicle: chronicle } %>
-    <% end %>
-  </div>
-</div>
+<!-- Top 10 livres à lire -->
+<section class="bg-light py-5">
+  <div class="container">
+    <h2 class="text-center mb-5 text-brown fw-bold">Top 10 des livres à lire</h2>
 
-<!-- Top 10 des livres à lire -->
-<div class="container my-5">
-  <h2 class="mb-4 text-center text-brown">Top 10 des livres à lire</h2>
-
-  <div id="booksCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
+    <div class="d-flex overflow-auto gap-4 px-2">
       <% top_books = [
         { title: "1984", author: "George Orwell", image: "1984.jpg" },
         { title: "Le Petit Prince", author: "Antoine de Saint-Exupéry", image: "le_petit_prince.jpg" },
@@ -53,71 +45,51 @@
         { title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "gatsby.jpg" }
       ] %>
 
-      <% top_books.each_slice(4).with_index do |group, i| %>
-        <div class="carousel-item <%= 'active' if i == 0 %>">
-          <div class="row justify-content-center">
-            <% group.each do |book| %>
-              <div class="col-6 col-sm-4 col-md-3 mb-4">
-                <div class="card h-100 shadow-sm border-0" style="aspect-ratio: 2 / 3; overflow: hidden;">
-                  <%= image_tag book[:image], class: "card-img-top", style: "height: 70%; object-fit: cover;" %>
-                  <div class="card-body text-center p-2">
-                    <h6 class="card-title mb-1 fw-bold"><%= book[:title] %></h6>
-                    <p class="card-text text-muted mb-0" style="font-size: 0.85rem;">par <%= book[:author] %></p>
-                  </div>
-                </div>
-              </div>
-            <% end %>
+      <% top_books.each do |book| %>
+        <div class="card border-0 shadow-sm rounded-4" style="min-width: 200px; aspect-ratio: 2/3;">
+          <%= image_tag book[:image], class: "card-img-top rounded-top-4", style: "height: 70%; object-fit: cover;" %>
+          <div class="card-body text-center">
+            <h6 class="fw-bold mb-0"><%= book[:title] %></h6>
+            <p class="text-muted small">par <%= book[:author] %></p>
           </div>
         </div>
       <% end %>
     </div>
-
-    <button class="carousel-control-prev" type="button" data-bs-target="#booksCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Précédent</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#booksCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Suivant</span>
-    </button>
   </div>
-</div>
+</section>
 
 <!-- Maisons d’édition -->
-<section class="container my-5">
-  <h2 class="text-center mb-4 fw-bold" style="color: #5e4636;">Maisons d’édition à découvrir</h2>
-
+<section class="container py-5">
+  <h2 class="text-center mb-5 text-brown fw-bold">Maisons d’édition à découvrir</h2>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     <% @publishing_houses.each do |house| %>
       <div class="col">
-        <div class="card h-100 shadow-sm border-0" style="aspect-ratio: 2 / 3; overflow: hidden;">
+        <div class="card h-100 shadow-sm border-0 rounded-4">
           <% if house.logo.attached? %>
-            <%= image_tag house.logo, class: "card-img-top", style: "height: 70%; object-fit: contain;" %>
+            <%= image_tag house.logo, class: "card-img-top p-4", style: "height: 200px; object-fit: contain;" %>
           <% end %>
-          <div class="card-body text-center p-3">
-            <h5 class="card-title"><%= house.name %></h5>
-            <p class="card-text text-muted small"><%= truncate(house.description, length: 100) %></p>
+          <div class="card-body text-center">
+            <h5 class="fw-bold"><%= house.name %></h5>
+            <p class="text-muted small"><%= truncate(house.description, length: 100) %></p>
             <%= link_to "Voir la maison", publishing_house_path(house), class: "btn btn-outline-primary btn-sm mt-2" %>
           </div>
         </div>
       </div>
     <% end %>
   </div>
-
   <div class="text-center mt-4">
-    <%= link_to "Voir toutes les maisons d’édition", publishing_houses_path, class: "btn btn-primary" %>
+    <%= link_to "Voir toutes les maisons", publishing_houses_path, class: "btn btn-primary px-4 rounded-pill" %>
   </div>
 </section>
 
-<!-- Carte : librairie proche -->
-<div class="container my-5">
-  <h2 class="mb-4 text-center text-brown">Trouver une librairie autour de vous</h2>
-  <div id="map" style="height: 400px;" class="border rounded shadow-sm"></div>
-</div>
+<!-- Carte : Librairie proche -->
+<section class="container py-5">
+  <h2 class="text-center mb-4 text-brown fw-bold">Trouver une librairie autour de vous</h2>
+  <div id="map" style="height: 400px;" class="border rounded-4 shadow-sm"></div>
+</section>
 
-<!-- Leaflet CDN -->
 <%= stylesheet_link_tag "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", crossorigin: "" %>
-<%= javascript_include_tag "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", crossorigin: "", defer: true %>
+<%= javascript_include_tag "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", defer: true %>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
