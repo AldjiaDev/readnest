@@ -1,15 +1,6 @@
 @import "bootstrap";
 @import "application.bootstrap";
 
-// Palette inspirée de l’image vintage
-:root {
-  --primary: #a27c63;        // brun doux
-  --secondary: #f4ede5;      // beige crème
-  --accent: #d9c2b0;         // sable clair
-  --text-dark: #3b2f2f;      // brun foncé
-  --text-light: #fffaf3;     // blanc cassé
-}
-
 body {
   background-color: var(--secondary);
   color: var(--text-dark);
@@ -22,31 +13,8 @@ h1, h2, h3, h4 {
   font-weight: 700;
   text-transform: capitalize;
 }
-
-// LIENS & BOUTONS
-a,
-.btn-primary {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  color: var(--text-light);
-}
-
 a:hover,
-.btn-primary:hover {
-  background-color: #8f6851;
-  border-color: #8f6851;
-  color: white;
-}
 
-.btn-secondary {
-  background-color: var(--accent);
-  border: none;
-  color: var(--text-dark);
-}
-.btn-secondary:hover {
-  background-color: #c4aa98;
-  color: var(--text-dark);
-}
 
 // CARDS
 .card {
@@ -78,28 +46,6 @@ footer {
   border: 2px solid var(--accent);
 }
 
-.text-brown {
-  color: #5a3e36;
-}
-
-.bg-brown {
-  background-color: #6e4b3a;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-.custom-brown-btn {
-  color: #fff;
-  background-color: #5e4636;
-  border: none;
-
-  &:hover {
-    background-color: darken(#5e4636, 5%);
-  }
-}
-
 .btn-like {
   border: 1px solid #a27c5c;
   background-color: white;
@@ -125,4 +71,18 @@ footer a:hover {
 }
 .chronicle-card:hover {
   transform: translateY(-4px);
+}
+
+.custom-nav-link {
+  color: black !important;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.custom-nav-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  color: black !important;
+  background-color: transparent !important;
 }

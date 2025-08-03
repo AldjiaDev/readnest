@@ -18,71 +18,81 @@
   <body class="d-flex flex-column min-vh-100 bg-light">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom">
-      <div class="container">
-        <%= link_to "📚 Readnest", root_path, class: "navbar-brand fw-bold text-brown" %>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom py-2">
+  <div class="container d-flex align-items-center justify-content-between">
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
+   <!-- Logo -->
+   <%= link_to root_path, class: "navbar-brand" do %>
+      <%= image_tag "logo.jpg", alt: "Readnest", style: "height: 70px;" %>
+    <% end %>
+
+
+
+    <!-- Burger mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Liens principaux -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
+        <li class="nav-item">
+          <%= link_to "À propos", about_path, class: "nav-link custom-nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Toutes les chroniques", chronicles_path, class: "nav-link custom-nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Maisons d’édition", publishing_houses_path, class: "nav-link custom-nav-link" %>
+        </li>
+
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to "Nouvelle chronique", new_chronicle_path, class: "nav-link custom-nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Mon profil", user_path(current_user), class: "nav-link custom-nav-link" %>
+          </li>
+        <% end %>
+      </ul>
+
+      <!-- Partie droite -->
+      <div class="d-flex align-items-center gap-3">
+
+        <!-- Recherche -->
+        <button class="btn btn-light border rounded-circle p-2">
+          <i class="bi bi-search"></i>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-center">
-            <!-- Liens universels -->
-            <li class="nav-item">
-              <%= link_to "À propos", about_path, class: "nav-link text-brown" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Toutes les chroniques", chronicles_path, class: "nav-link text-brown" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Maisons d’édition", publishing_houses_path, class: "nav-link text-brown" %>
-            </li>
-
-            <% if user_signed_in? %>
-              <!-- Notifications -->
-              <li class="nav-item mx-2 position-relative">
-                <%= link_to notifications_path, class: "nav-link position-relative px-2" do %>
-                  🔔
-                  <% unread_count = current_user.received_notifications.unread.count %>
-                  <% if unread_count.positive? %>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      <%= unread_count %>
-                    </span>
-                  <% end %>
-                <% end %>
-              </li>
-
-              <!-- Lien profil -->
-              <li class="nav-item">
-                <%= link_to "Mon profil", user_path(current_user), class: "nav-link text-brown" %>
-              </li>
-
-              <!-- Nouvelle chronique -->
-              <li class="nav-item">
-                <%= link_to "Nouvelle chronique", new_chronicle_path, class: "nav-link text-brown" %>
-              </li>
-
-              <!-- Déconnexion -->
-              <li class="nav-item">
-                <%= button_to "Se déconnecter", destroy_user_session_path,
-                      method: :delete,
-                      class: "btn btn-link nav-link text-danger",
-                      form: { data: { turbo: false } } %>
-              </li>
-            <% else %>
-              <!-- Non connecté -->
-              <li class="nav-item">
-                <%= link_to "S'inscrire", new_user_registration_path, class: "nav-link text-brown" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "Connexion", new_user_session_path, class: "nav-link text-brown" %>
-              </li>
+        <% if user_signed_in? %>
+          <!-- Notifications -->
+          <%= link_to notifications_path, class: "position-relative text-dark" do %>
+            <i class="bi bi-bell fs-5"></i>
+            <% unread_count = current_user.received_notifications.unread.count %>
+            <% if unread_count.positive? %>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <%= unread_count %>
+              </span>
             <% end %>
-          </ul>
-        </div>
+          <% end %>
+
+          <!-- Déconnexion -->
+          <%= button_to "Se déconnecter", destroy_user_session_path,
+                method: :delete,
+                class: "btn btn-outline-dark rounded-pill px-3 fw-bold text-uppercase",
+                form: { data: { turbo: false } } %>
+
+        <% else %>
+          <!-- Connexion / Inscription -->
+          <%= link_to "Connexion", new_user_session_path, class: "btn btn-outline-dark rounded-pill px-3 fw-bold text-uppercase" %>
+          <%= link_to "S’inscrire", new_user_registration_path, class: "btn btn-dark rounded-pill px-3 fw-bold text-uppercase" %>
+        <% end %>
       </div>
-    </nav>
+    </div>
+  </div>
+</nav>
+
+
 
     <!-- Contenu principal sans décalage -->
     <main class="flex-grow-1">
