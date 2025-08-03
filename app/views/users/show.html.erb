@@ -1,76 +1,93 @@
 <% content_for :title, "Profil de #{@user.username}" %>
-
+<section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
 <div class="container py-5 mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8 text-center">
 
-      <!-- Avatar utilisateur -->
+      <!-- Avatar -->
       <% if @user.avatar.attached? %>
-        <%= image_tag @user.avatar.variant(resize_to_fill: [150, 150]), class: "rounded-circle mb-3 shadow-sm", alt: "#{@user.username}", style: "object-fit: cover;" %>
+        <%= image_tag @user.avatar.variant(resize_to_fill: [160, 160]),
+              class: "rounded-circle shadow mb-3 border border-2",
+              style: "object-fit: cover;" %>
       <% else %>
-        <div class="rounded-circle bg-secondary mb-3 d-inline-block" style="width: 150px; height: 150px;"></div>
+        <div class="rounded-circle bg-secondary mb-3" style="width: 160px; height: 160px;"></div>
       <% end %>
 
-      <!-- Nom d'utilisateur -->
-      <h2 class="fw-bold mb-1" style="color: #5e4636;"><%= @user.username %></h2>
+      <!-- Username -->
+      <h2 class="fw-bold text-black mb-1"><%= @user.username %></h2>
 
       <!-- Bio -->
       <% if @user.bio.present? %>
-        <p class="text-muted mb-2"><%= @user.bio %></p>
+        <p class="text-muted small mb-2"><%= @user.bio %></p>
       <% end %>
 
       <!-- Email -->
-      <p class="text-muted small">📧 <%= mail_to @user.email %></p>
+      <p class="text-muted small mb-3">📧 <%= mail_to @user.email %></p>
 
-      <!-- Boutons suivre / message -->
+      <!-- Boutons follow/message -->
       <% if user_signed_in? && current_user != @user %>
-        <% if current_user.followed_users.include?(@user) %>
-          <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id), method: :delete, class: "btn btn-outline-secondary btn-sm mt-2" %>
-        <% else %>
-          <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-primary btn-sm mt-2" %>
-        <% end %>
+        <div class="d-flex justify-content-center gap-2 mb-4 flex-wrap">
+          <% if current_user.followed_users.include?(@user) %>
+            <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id),
+                method: :delete, class: "btn btn-outline-dark btn-sm rounded-pill" %>
+          <% else %>
+            <%= button_to "S’abonner", follows_path(type: "User", id: @user.id),
+                method: :post, class: "btn btn-dark btn-sm rounded-pill text-white" %>
+          <% end %>
 
-        <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-primary btn-sm mt-2 ms-2" %>
+          <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id),
+              method: :post, class: "btn btn-outline-secondary btn-sm rounded-pill" %>
+        </div>
       <% end %>
 
+      <!-- Séparateur -->
       <hr class="my-5">
 
-      <!-- Liste des chroniques -->
-      <h4 class="mb-4" style="color: #5e4636;">Mes chroniques</h4>
+      <!-- MES CHRONIQUES -->
+<div class="mt-5">
+  <div class="d-flex align-items-center mb-4">
+    <h4 class="text-black fw-bold text-uppercase mb-0 me-3">Mes chroniques</h4>
+    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+  </div>
 
-      <% if @user.chronicles.any? %>
-        <div class="row">
-          <% @user.chronicles.each do |chronicle| %>
-            <div class="col-md-6 mb-4">
-              <div class="card h-100 shadow-sm">
-                <% if chronicle.photo.attached? %>
-                  <%= image_tag chronicle.photo, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+  <% if @user.chronicles.any? %>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <% @user.chronicles.each do |chronicle| %>
+        <div class="col">
+          <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
+
+            <!-- Image -->
+            <% if chronicle.photo.attached? %>
+              <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+            <% else %>
+              <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+            <% end %>
+
+            <!-- Overlay aligné à gauche -->
+            <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
+              <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                <%= truncate(chronicle.title, length: 55) %>
+              </h5>
+
+              <p class="text-white mb-0 small fw-medium">
+                <% if @user.is_publishing_house? && @user.publishing_house.present? %>
+                  <%= @user.publishing_house.name %>
+                <% else %>
+                  <%= @user.username %>
                 <% end %>
+              </p>
 
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title" style="color: #5e4636;">
-                    <%= truncate(chronicle.title, length: 60) %>
-                  </h5>
-                  <p class="card-text text-muted small flex-grow-1">
-                    <%= truncate(chronicle.content, length: 100) %>
-                  </p>
-
-                  <%= link_to "Lire la suite", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm mt-2" %>
-
-                  <% if user_signed_in? && current_user == chronicle.user %>
-                    <%= button_to "🗑️ Supprimer", chronicle_path(chronicle),
-                        method: :delete,
-                        data: { confirm: "Supprimer cette chronique ?" },
-                        class: "btn btn-sm btn-outline-danger mt-2" %>
-                  <% end %>
-                </div>
-              </div>
+              <p class="text-white-50 small mb-0">
+                <%= chronicle.created_at.strftime("%b %d, %Y") %>
+              </p>
             </div>
-          <% end %>
+
+          </div>
         </div>
-      <% else %>
-        <p class="text-muted">Cet utilisateur n’a pas encore publié de chronique.</p>
       <% end %>
     </div>
-  </div>
+  <% else %>
+    <p class="text-muted text-center">Cet utilisateur n’a pas encore publié de chronique.</p>
+  <% end %>
 </div>
+
