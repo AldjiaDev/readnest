@@ -1,16 +1,15 @@
-
 class HomeController < ApplicationController
   def index
-    if params[:query].present?
-      query = params[:query]
-      @chronicles = Chronicle.joins(:user).where(
-        "chronicles.title ILIKE :q OR chronicles.content ILIKE :q OR users.username ILIKE :q",
-        q: "%#{query}%"
-      )
-    else
-      @chronicles = Chronicle.includes(:user).order(created_at: :desc)
-    end
+    @chronicles = Chronicle.order(created_at: :desc).limit(6)
+    @publishing_houses = PublishingHouse.limit(6)
 
-    @publishing_houses = PublishingHouse.limit(3).order(created_at: :desc)
+    @top_books = [
+      { title: "1984", author: "George Orwell", image: "1984.jpg" },
+      { title: "Le Petit Prince", author: "Antoine de Saint-Exupéry", image: "le_petit_prince.jpg" },
+      { title: "To Kill a Mockingbird", author: "Harper Lee", image: "mockingbird.jpg" },
+      { title: "L'Étranger", author: "Albert Camus", image: "etranger.jpg" },
+      { title: "Les Misérables", author: "Victor Hugo", image: "les_miserables.jpg" },
+      { title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "gatsby.jpg" }
+    ]
   end
 end
