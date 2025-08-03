@@ -1,5 +1,5 @@
 <!-- HERO SECTION WITH SEARCH (Noir sur fond clair) -->
-<section class="bg-light py-5 text-center position-relative overflow-hidden">
+<section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
   <div class="container py-5">
 
    <!-- Slogan principal tout en noir, plus grand et gras -->
@@ -87,36 +87,6 @@
 </section>
 
 
-
-
-<!-- LIVRES RECOMMANDÉS -->
-<section class="bg-white py-5 text-black">
-  <div class="container">
-
-    <!-- Titre avec trait -->
-    <div class="d-flex align-items-center mb-4">
-      <h2 class="fw-bold text-uppercase mb-0 me-3" style="color: #000;">RECOMMANDÉS POUR VOUS</h2>
-      <div class="flex-grow-1" style="height: 1px; background-color: #000;"></div>
-    </div>
-
-    <!-- Liste horizontale de livres -->
-    <div class="d-flex overflow-auto gap-4 px-2">
-      <% @top_books.each do |book| %>
-        <div class="card bg-white text-black border-0 shadow-sm rounded-4" style="min-width: 200px;">
-          <%= image_tag book[:image], class: "card-img-top rounded-top-4", style: "object-fit: cover; height: 250px;" %>
-          <div class="card-body">
-            <h6 class="fw-bold mb-1"><%= book[:title] %></h6>
-            <p class="text-muted small mb-0">par <%= book[:author] %></p>
-          </div>
-        </div>
-      <% end %>
-    </div>
-
-  </div>
-</section>
-
-
-
 <!-- MAISONS D'ÉDITION À DÉCOUVRIR -->
 <section class="container py-5">
 
@@ -159,8 +129,6 @@
   </div>
 
 </section>
-
-
 
 
 <!-- LIBRAIRIES À PROXIMITÉ -->
