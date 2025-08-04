@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_23_094244) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_04_112430) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_23_094244) do
     t.string "author"
     t.string "publisher"
     t.string "book_title"
+    t.text "summary"
+    t.string "caption"
     t.index ["user_id"], name: "index_chronicles_on_user_id"
   end
 

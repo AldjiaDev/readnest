@@ -1,7 +1,7 @@
-<%= form_with(model: chronicle, local: true, html: { multipart: true }, class: "bg-white p-4 rounded shadow-sm") do |form| %>
+<%= form_with(model: chronicle, local: true, html: { multipart: true }, class: "bg-white p-4 rounded-4 shadow-sm") do |form| %>
   <% if chronicle.errors.any? %>
-    <div class="alert alert-danger">
-      <h4 class="alert-heading"><%= pluralize(chronicle.errors.count, "erreur") %> empêchent la sauvegarde :</h4>
+    <div class="alert alert-danger rounded-3">
+      <h5 class="fw-bold mb-2"><%= pluralize(chronicle.errors.count, "erreur") %> empêchent la sauvegarde :</h5>
       <ul class="mb-0">
         <% chronicle.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -11,50 +11,69 @@
   <% end %>
 
   <!-- Titre -->
-  <div class="mb-3">
-    <%= form.label :title, "Titre de la chronique", class: "form-label fw-semibold" %>
-    <%= form.text_field :title, class: "form-control" %>
+  <div class="mb-4">
+    <%= form.label :title, "Titre de la chronique", class: "form-label fw-bold" %>
+    <%= form.text_field :title, class: "form-control rounded-pill px-4 py-2" %>
   </div>
 
-  <!-- Auteur·e -->
-  <div class="mb-3">
-    <%= form.label :author, "Auteur·e du livre", class: "form-label fw-semibold" %>
-    <%= form.text_field :author, class: "form-control" %>
+  <!-- Résumé -->
+  <div class="mb-4">
+    <%= form.label :summary, "Introduction / Chapo", class: "form-label fw-bold" %>
+    <%= form.text_area :summary, rows: 3, placeholder: "Quelques lignes résumant votre chronique...", class: "form-control rounded-3 px-3 py-2" %>
+  </div>
+
+  <!-- Auteur du livre -->
+  <div class="mb-4">
+    <%= form.label :author, "Auteur·e du livre", class: "form-label fw-bold" %>
+    <%= form.text_field :author, class: "form-control rounded-pill px-4 py-2" %>
   </div>
 
   <!-- Titre du livre -->
-  <div class="mb-3">
-    <%= form.label :book_title, "Titre du livre", class: "form-label fw-semibold" %>
-    <%= form.text_field :book_title, class: "form-control" %>
+  <div class="mb-4">
+    <%= form.label :book_title, "Titre du livre", class: "form-label fw-bold" %>
+    <%= form.text_field :book_title, class: "form-control rounded-pill px-4 py-2" %>
   </div>
 
   <!-- Maison d’édition -->
-  <div class="mb-3">
-    <%= form.label :publisher, "Maison d’édition", class: "form-label fw-semibold" %>
-    <%= form.text_field :publisher, class: "form-control" %>
+  <div class="mb-4">
+    <%= form.label :publisher, "Maison d’édition", class: "form-label fw-bold" %>
+    <%= form.text_field :publisher, class: "form-control rounded-pill px-4 py-2" %>
   </div>
 
-  <!-- Contenu -->
-  <div class="mb-3">
-    <%= form.label :content, "Contenu de la chronique", class: "form-label fw-semibold" %>
-    <%= form.text_area :content, rows: 8, class: "form-control" %>
+  <!-- Table des matières -->
+  <div class="mb-4">
+    <%= form.label :table_of_contents, "Table des matières (facultatif)", class: "form-label fw-bold" %>
+    <%= form.text_area :table_of_contents, rows: 3, placeholder: "Un élément par ligne (ex: Introduction, Chapitre 1...)", class: "form-control rounded-3 px-3 py-2" %>
+    <p class="form-text">Utilisez la touche Entrée pour séparer les entrées.</p>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="mb-4">
+    <%= form.label :content, "Contenu de la chronique", class: "form-label fw-bold" %>
+    <%= form.text_area :content, rows: 12, placeholder: "Rédigez votre chronique ici...", class: "form-control rounded-4 px-3 py-3", style: "line-height: 1.7;" %>
   </div>
 
   <!-- Image -->
-  <div class="mb-3">
-    <%= form.label :photo, "Image du livre", class: "form-label fw-semibold" %>
+  <div class="mb-4">
+    <%= form.label :photo, "Image associée à la chronique", class: "form-label fw-bold" %>
     <%= form.file_field :photo, class: "form-control" %>
 
     <% if chronicle.photo.attached? %>
       <div class="mt-3">
         <p class="form-text">Image actuelle :</p>
-        <%= image_tag chronicle.photo.variant(resize_to_limit: [400, 400]), class: "img-thumbnail" %>
+        <%= image_tag chronicle.photo.variant(resize_to_limit: [400, 400]), class: "img-thumbnail rounded" %>
       </div>
     <% end %>
   </div>
 
+  <!-- Légende -->
+  <div class="mb-4">
+    <%= form.label :caption, "Légende de l’image", class: "form-label fw-bold" %>
+    <%= form.text_field :caption, placeholder: "Ex: Couverture de l’édition 2023", class: "form-control rounded-pill px-4 py-2" %>
+  </div>
+
   <!-- Bouton -->
-  <div class="text-center pt-3">
-    <%= form.submit "Publier la chronique", class: "btn btn-primary px-4 py-2" %>
+  <div class="text-center mt-5">
+    <%= form.submit "Publier la chronique", class: "btn btn-dark rounded-pill px-4 py-2 text-uppercase fw-bold" %>
   </div>
 <% end %>

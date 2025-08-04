@@ -1,46 +1,65 @@
 <% content_for :title, @chronicle.title %>
 
-<div class="container py-5 mt-4">
-  <!-- Titre -->
-  <h1 class="text-center mb-4 fw-bold" style="color: #5e4636;">
-    <%= @chronicle.title %>
-  </h1>
+<<div class="container py-5" style="margin-top: 100px;">
 
-  <!-- Image -->
+  <!-- TAGS + DATE -->
+  <div class="mb-3 text-muted small d-flex gap-2 flex-wrap">
+    <span class="badge bg-light border text-dark">Littérature</span>
+    <span class="badge bg-light border text-dark">Chronique</span>
+    <span><%= l(@chronicle.created_at.to_date, format: :long) %> · 3 min de lecture</span>
+  </div>
+
+  <!-- TITRE -->
+  <h1 class="fw-bold mb-3 text-black" style="font-size: 2rem;"><%= @chronicle.title %></h1>
+
+  <!-- SOUS-TITRE / CHAPÔ -->
+  <% if @chronicle.summary.present? %>
+    <p class="lead mb-4"><%= @chronicle.summary %></p>
+  <% end %>
+
+  <!-- IMAGE -->
   <% if @chronicle.photo.attached? %>
-    <div class="d-flex justify-content-center mb-5">
-      <div class="shadow-sm rounded overflow-hidden" style="aspect-ratio: 2 / 3; max-height: 450px;">
-        <%= image_tag @chronicle.photo, class: "img-fluid h-100", style: "object-fit: cover;" %>
-      </div>
+    <div class="mb-4">
+      <%= image_tag @chronicle.photo, class: "img-fluid rounded-4 w-100 shadow-sm", style: "object-fit: cover;" %>
+      <p class="text-muted small mt-2">
+        <%= @chronicle.caption.presence || "Image fournie par l’auteur" %>
+      </p>
     </div>
   <% end %>
 
-  <!-- Infos livre et auteur -->
-  <div class="row justify-content-center mb-4">
-    <div class="col-md-8 text-center text-muted small">
-      <% if @chronicle.book_title.present? %>
-        <p><strong>Livre :</strong> <%= @chronicle.book_title %></p>
-      <% end %>
-      <% if @chronicle.author.present? %>
-        <p><strong>Auteur·e :</strong> <%= @chronicle.author %></p>
-      <% end %>
-      <% if @chronicle.publisher.present? %>
-        <p><strong>Maison d’édition :</strong> <%= @chronicle.publisher %></p>
-      <% end %>
-      <p>
-        <strong>Publié par :</strong>
-        <%= link_to @chronicle.user.username, user_path(@chronicle.user), class: "text-decoration-none" %>
-      </p>
+  <!-- INFOS AUTEUR -->
+  <div class="d-flex align-items-center mb-4 gap-3">
+    <% if @chronicle.user.avatar.attached? %>
+      <%= image_tag @chronicle.user.avatar.variant(resize_to_fill: [40, 40]), class: "rounded-circle", style: "object-fit: cover;" %>
+    <% else %>
+      <div class="rounded-circle bg-secondary" style="width: 40px; height: 40px;"></div>
+    <% end %>
+
+    <div>
+      <strong><%= link_to @chronicle.user.username, user_path(@chronicle.user), class: "text-decoration-none text-dark" %></strong><br>
+      <span class="text-muted small">Auteur</span>
     </div>
   </div>
 
-  <!-- Contenu de la chronique -->
-  <div class="bg-white p-4 rounded shadow-sm mb-5" style="line-height: 1.8; font-size: 1.1rem;">
+  <!-- TABLE DES MATIÈRES -->
+  <% if @chronicle.table_of_contents.present? %>
+    <div class="bg-light border rounded-3 p-3 mb-4">
+      <h6 class="fw-bold mb-2">Table des matières</h6>
+      <ul class="list-unstyled small mb-0">
+        <% @chronicle.table_of_contents.each do |item| %>
+          <li>• <%= item %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- CONTENU DE LA CHRONIQUE -->
+  <div class="mb-5" style="line-height: 1.8; font-size: 1.1rem;">
     <%= simple_format(@chronicle.content) %>
   </div>
 
-  <!-- Likes -->
-  <div class="d-flex align-items-center gap-3 mb-5 justify-content-center">
+  <!-- INTERACTIONS : J'AIME -->
+  <div class="d-flex align-items-center gap-3 mb-5">
     <% if user_signed_in? %>
       <% if @chronicle.likes.exists?(user: current_user) %>
         <%= button_to chronicle_like_path(@chronicle), method: :delete, class: "btn btn-sm btn-outline-danger" do %>
@@ -51,95 +70,44 @@
           🤍 J’aime
         <% end %>
       <% end %>
-    <% else %>
-      <p class="text-muted small mb-0">Connectez-vous pour aimer cette chronique</p>
     <% end %>
     <span class="text-muted small"><%= pluralize(@chronicle.likes.count, "like") %></span>
   </div>
 
-  <!-- Commentaires -->
+  <!-- COMMENTAIRES -->
   <div class="mt-5">
-    <h3 class="mb-4">Commentaires</h3>
+    <h4 class="mb-4 fw-bold">Commentaires</h4>
 
     <% @chronicle.comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
       <div class="mb-4 p-3 border rounded bg-light">
         <strong><%= comment.user.username %></strong>
         <small class="text-muted">· <%= time_ago_in_words(comment.created_at) %> ago</small>
         <p class="mb-2"><%= comment.content %></p>
-
-        <!-- Likes du commentaire -->
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <% if user_signed_in? %>
-            <% if comment.comment_likes.exists?(user: current_user) %>
-              <%= button_to comment_comment_like_path(comment), method: :delete, class: "btn btn-sm btn-outline-danger px-2 py-1" do %>
-                ❤️ Retirer
-              <% end %>
-            <% else %>
-              <%= button_to comment_comment_like_path(comment), method: :post, class: "btn btn-sm btn-outline-primary px-2 py-1" do %>
-                🤍 J’aime
-              <% end %>
-            <% end %>
-          <% else %>
-            <span class="text-muted small">Connectez-vous pour aimer</span>
-          <% end %>
-          <span class="text-muted small"><%= pluralize(comment.comment_likes.count, "like") %></span>
-        </div>
-
-        <!-- Réponses -->
-        <% comment.replies.each do |reply| %>
-          <div class="ms-4 mt-2 ps-3 border-start">
-            <strong><%= reply.user.username %></strong>
-            <small class="text-muted">· <%= time_ago_in_words(reply.created_at) %> ago</small>
-            <p class="mb-2"><%= reply.content %></p>
-          </div>
-        <% end %>
-
-        <!-- Répondre -->
-        <% if user_signed_in? %>
-          <%= form_with model: [comment.chronicle, Comment.new], local: true do |f| %>
-            <%= f.hidden_field :parent_id, value: comment.id %>
-            <div class="mb-2">
-              <%= f.text_area :content, placeholder: "Répondre à ce commentaire...", rows: 2, class: "form-control" %>
-            </div>
-            <%= f.submit "Répondre", class: "btn btn-sm btn-outline-primary" %>
-          <% end %>
-        <% end %>
-
-        <!-- Supprimer commentaire -->
-        <% if comment.user == current_user || @chronicle.user == current_user %>
-          <%= button_to "Supprimer", chronicle_comment_path(@chronicle, comment), method: :delete, data: { confirm: "Confirmer la suppression ?" }, class: "btn btn-sm btn-outline-danger mt-2" %>
-        <% end %>
       </div>
     <% end %>
 
-    <!-- Nouveau commentaire -->
     <% if user_signed_in? %>
-      <div class="mt-4">
-        <h5>Ajouter un commentaire</h5>
-        <%= form_with model: [@chronicle, Comment.new], local: true do |f| %>
-          <div class="mb-2">
-            <%= f.text_area :content, placeholder: "Votre commentaire...", rows: 3, class: "form-control" %>
-          </div>
-          <%= f.submit "Commenter", class: "btn btn-primary" %>
-        <% end %>
-      </div>
+      <h5 class="mt-4">Ajouter un commentaire</h5>
+      <%= form_with model: [@chronicle, Comment.new], local: true do |f| %>
+        <div class="mb-2">
+          <%= f.text_area :content, placeholder: "Votre commentaire...", rows: 3, class: "form-control" %>
+        </div>
+        <%= f.submit "Commenter", class: "btn btn-dark" %>
+      <% end %>
     <% else %>
       <p class="text-muted">Connectez-vous pour commenter cette chronique.</p>
     <% end %>
   </div>
 
-  <!-- Supprimer la chronique (auteur uniquement) -->
-  <% if user_signed_in? && current_user == @chronicle.user %>
-    <div class="text-center mt-5">
+  <!-- RETOUR ET SUPPRESSION -->
+  <div class="text-center mt-5">
+    <%= link_to "← Retour aux chroniques", chronicles_path, class: "btn btn-outline-secondary px-4 py-2 me-2" %>
+
+    <% if user_signed_in? && current_user == @chronicle.user %>
       <%= button_to "🗑️ Supprimer cette chronique", chronicle_path(@chronicle),
           method: :delete,
-          data: { confirm: "Es-tu sûr de vouloir supprimer cette chronique ?" },
-          class: "btn btn-sm btn-outline-danger" %>
-    </div>
-  <% end %>
-
-  <!-- Retour -->
-  <div class="text-center mt-4">
-    <%= link_to "← Retour aux chroniques", chronicles_path, class: "btn btn-outline-secondary px-4 py-2" %>
+          data: { confirm: "Supprimer définitivement cette chronique ?" },
+          class: "btn btn-outline-danger px-4 py-2" %>
+    <% end %>
   </div>
 </div>

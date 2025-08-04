@@ -52,6 +52,6 @@ class ChroniclesController < ApplicationController
   end
 
   def chronicle_params
-    params.require(:chronicle).permit(:title, :author, :book_title, :publisher, :content, :photo)
+    params.require(:chronicle).permit(:title, :content, :photo, :caption, :summary, :book_title, :author, :publisher, table_of_contents: [])
   end
 end
