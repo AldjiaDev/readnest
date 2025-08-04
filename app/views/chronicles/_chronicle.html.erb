@@ -1,25 +1,38 @@
-<div id="<%= dom_id chronicle %>" class="p-3 border rounded shadow-sm bg-light mb-3">
-  <p class="mb-1 text-muted small">
-    <%= chronicle.created_at.strftime("%d %b %Y") %> · par <strong><%= chronicle.user.username %></strong>
+<div id="<%= dom_id chronicle %>" class="p-4 rounded-4 shadow-sm bg-white mb-4 border">
+
+  <!-- Date et auteur -->
+  <p class="mb-2 text-muted small">
+    <%= l(chronicle.created_at.to_date, format: :long) %> · par
+    <strong>
+      <%= link_to chronicle.user.username, user_path(chronicle.user), class: "text-decoration-none text-dark" %>
+    </strong>
   </p>
 
-  <h5 class="fw-bold mb-2"><%= chronicle.title %></h5>
+  <!-- Titre de la chronique -->
+  <h4 class="fw-bold text-dark mb-3"><%= truncate(chronicle.title, length: 80) %></h4>
 
-  <p class="mb-2"><%= truncate(strip_tags(chronicle.content), length: 150) %></p>
+  <!-- Résumé du contenu -->
+  <p class="text-muted mb-3" style="line-height: 1.6;">
+    <%= truncate(strip_tags(chronicle.content), length: 160) %>
+  </p>
 
+  <!-- Détails du livre -->
   <% if chronicle.book_title.present? || chronicle.author.present? || chronicle.publisher.present? %>
-    <ul class="list-unstyled small text-muted mb-2">
+    <div class="small text-muted mb-3">
       <% if chronicle.book_title.present? %>
-        <li><strong>Livre :</strong> <%= chronicle.book_title %></li>
+        <strong>Livre :</strong> <%= chronicle.book_title %><br>
       <% end %>
       <% if chronicle.author.present? %>
-        <li><strong>Auteur·e :</strong> <%= chronicle.author %></li>
+        ✍️ <strong>Auteur·e :</strong> <%= chronicle.author %><br>
       <% end %>
       <% if chronicle.publisher.present? %>
-        <li><strong>Éditeur :</strong> <%= chronicle.publisher %></li>
+        <strong>Éditeur :</strong> <%= chronicle.publisher %>
       <% end %>
-    </ul>
+    </div>
   <% end %>
 
-  <%= link_to "Voir la chronique", chronicle_path(chronicle), class: "btn btn-outline-primary btn-sm" %>
+  <!-- Bouton -->
+  <%= link_to "Lire la chronique", chronicle_path(chronicle),
+        class: "btn btn-outline-dark btn-sm rounded-pill px-4 fw-semibold" %>
+
 </div>

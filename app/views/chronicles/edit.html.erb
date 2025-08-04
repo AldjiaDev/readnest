@@ -1,15 +1,23 @@
 <% content_for :title, "Modifier la chronique" %>
 
-<div class="container py-5 mt-4">
-  <h1 class="text-center mb-4 fw-bold" style="color: #5e4636;">Modifier votre chronique</h1>
+<div class="container py-5 mt-5">
+  <!-- Titre principal -->
+  <div class="text-center mb-4">
+    <h1 class="fw-bold text-black display-5">Modifier votre chronique</h1>
+    <p class="text-muted">Mettez à jour votre texte ou complétez votre analyse littéraire.</p>
+  </div>
 
+  <!-- Formulaire -->
   <div class="row justify-content-center">
-    <div class="col-md-8">
-      <%= render "form", chronicle: @chronicle %>
+    <div class="col-lg-8">
+      <div class="bg-white p-4 rounded-4 shadow-sm">
+        <%= render "form", chronicle: @chronicle %>
+      </div>
 
+      <!-- Liens de navigation -->
       <div class="mt-4 d-flex justify-content-between">
-        <%= link_to "← Voir la chronique", @chronicle, class: "btn btn-outline-secondary" %>
-        <%= link_to "← Retour à la liste", chronicles_path, class: "btn btn-outline-primary" %>
+        <%= link_to "← Voir la chronique", @chronicle, class: "btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold" %>
+        <%= link_to "← Retour à la liste", chronicles_path, class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold" %>
       </div>
     </div>
   </div>
