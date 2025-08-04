@@ -1,65 +1,80 @@
 <% content_for :title, "Nouvelle chronique" %>
 
-<div class="container py-5 mt-4">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
+<div class="container py-5 mt-5" style="max-width: 768px;">
 
-      <!-- Titre principal -->
-      <div class="text-center mb-4">
-        <h1 class="fw-bold display-5" style="color: #5a3e36;">Racontez votre histoire</h1>
-        <p class="text-muted">Partagez vos impressions de lecture avec la communauté Readnest.</p>
-      </div>
+  <!-- En-tête -->
+  <<div class="container py-5 mt-5" style="margin-top: 100px;">
 
-      <!-- Formulaire -->
-      <div class="card shadow border-0">
-        <div class="card-body p-4">
-          <%= form_with model: @chronicle, local: true do |form| %>
-
-            <div class="mb-3">
-              <%= form.label :book_title, "Titre du livre", class: "form-label" %>
-              <%= form.text_field :book_title, class: "form-control", placeholder: "Ex. : L'Étranger" %>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :author, "Auteur.e du livre", class: "form-label" %>
-              <%= form.text_field :author, class: "form-control", placeholder: "Ex. : Albert Camus" %>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :publisher, "Maison d’édition", class: "form-label" %>
-              <%= form.text_field :publisher, class: "form-control", placeholder: "Ex. : Gallimard" %>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :title, "Titre de votre chronique", class: "form-label" %>
-              <%= form.text_field :title, class: "form-control", placeholder: "Ex. : Pourquoi Camus m’a bouleversé" %>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :content, "Contenu de la chronique", class: "form-label" %>
-              <%= form.text_area :content, rows: 8, class: "form-control", placeholder: "Exprimez vos ressentis, vos analyses…" %>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :photo, "Image", class: "form-label" %>
-              <%= form.file_field :photo, class: "form-control" %>
-            </div>
-
-            <div class="d-grid mt-4">
-              <%= form.submit "Publier ma chronique", class: "btn btn-primary" %>
-            </div>
-
-          <% end %>
-        </div>
-      </div>
-
-     <div class="text-center mt-5">
-        <%= link_to chronicles_path, class: "btn btn-outline-secondary px-4 py-2 rounded-pill shadow-sm fw-semibold" do %>
-          ← Retour aux chroniques
-        <% end %>
-      </div>
-
-
-    </div>
+    <h1 class="fw-bold display-5 text-black">Nouvelle chronique</h1>
+    <p class="text-muted">Partagez vos impressions de lecture avec la communauté Readnest.</p>
   </div>
+
+  <!-- Formulaire -->
+  <%= form_with(model: @chronicle, local: true, html: { multipart: true }, class: "bg-white p-4 rounded-4 shadow-sm") do |form| %>
+    <% if @chronicle.errors.any? %>
+      <div class="alert alert-danger rounded-3">
+        <h5 class="fw-bold mb-2"><%= pluralize(@chronicle.errors.count, "erreur") %> empêchent la sauvegarde :</h5>
+        <ul class="mb-0">
+          <% @chronicle.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Titre du livre -->
+    <div class="mb-4">
+      <%= form.label :book_title, "Titre du livre", class: "form-label fw-bold" %>
+      <%= form.text_field :book_title, placeholder: "Ex. : L'Étranger", class: "form-control rounded-pill px-4 py-2" %>
+    </div>
+
+    <!-- Auteur -->
+    <div class="mb-4">
+      <%= form.label :author, "Auteur·e du livre", class: "form-label fw-bold" %>
+      <%= form.text_field :author, placeholder: "Ex. : Albert Camus", class: "form-control rounded-pill px-4 py-2" %>
+    </div>
+
+    <!-- Maison d’édition -->
+    <div class="mb-4">
+      <%= form.label :publisher, "Maison d’édition", class: "form-label fw-bold" %>
+      <%= form.text_field :publisher, placeholder: "Ex. : Gallimard", class: "form-control rounded-pill px-4 py-2" %>
+    </div>
+
+    <!-- Titre de la chronique -->
+    <div class="mb-4">
+      <%= form.label :title, "Titre de la chronique", class: "form-label fw-bold" %>
+      <%= form.text_field :title, placeholder: "Ex. : Pourquoi Camus m’a bouleversé", class: "form-control rounded-pill px-4 py-2" %>
+    </div>
+
+    <!-- Résumé -->
+    <div class="mb-4">
+      <%= form.label :summary, "Introduction / Chapo", class: "form-label fw-bold" %>
+      <%= form.text_area :summary, rows: 3, placeholder: "Quelques lignes résumant votre chronique...", class: "form-control rounded-3 px-3 py-2" %>
+    </div>
+
+    <!-- Contenu -->
+    <div class="mb-4">
+      <%= form.label :content, "Contenu de la chronique", class: "form-label fw-bold" %>
+      <%= form.text_area :content, rows: 10, placeholder: "Exprimez vos ressentis, vos analyses…", class: "form-control rounded-4 px-3 py-3", style: "line-height: 1.7;" %>
+    </div>
+
+    <!-- Image -->
+    <div class="mb-4">
+      <%= form.label :photo, "Image associée", class: "form-label fw-bold" %>
+      <%= form.file_field :photo, class: "form-control" %>
+    </div>
+
+    <!-- Bouton -->
+    <div class="text-center mt-5">
+      <%= form.submit "Publier ma chronique", class: "btn btn-dark rounded-pill px-4 py-2 text-uppercase fw-bold" %>
+    </div>
+  <% end %>
+
+  <!-- Retour -->
+  <div class="text-center mt-5">
+    <%= link_to chronicles_path, class: "btn btn-outline-secondary px-4 py-2 rounded-pill shadow-sm fw-semibold" do %>
+      ← Retour aux chroniques
+    <% end %>
+  </div>
+
 </div>
