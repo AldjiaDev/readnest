@@ -1,0 +1,79 @@
+<% content_for :title, "Modifier mon profil" %>
+
+
+<div class="container py-5" style="margin-top: 120px; max-width: 720px;">
+
+  <h1 class="text-center mb-5 fw-bold text-black">Modifier mon profil</h1>
+
+  <%= form_with model: @user, local: true, html: { multipart: true }, class: "bg-white p-4 rounded-4 shadow-sm" do |f| %>
+
+    <% if @user.errors.any? %>
+      <div class="alert alert-danger rounded-3">
+        <h5 class="fw-bold mb-2"><%= pluralize(@user.errors.count, "erreur") %> empêchent la sauvegarde :</h5>
+        <ul class="mb-0">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Pseudo -->
+    <div class="mb-4">
+      <%= f.label :username, "Pseudo", class: "form-label fw-bold text-black" %>
+      <%= f.text_field :username, class: "form-control rounded-pill px-4 py-2 text-black" %>
+    </div>
+
+    <!-- Bio -->
+    <div class="mb-4">
+      <%= f.label :bio, "Bio", class: "form-label fw-bold text-black" %>
+      <%= f.text_area :bio, rows: 4, placeholder: "Parlez-nous un peu de vous...", class: "form-control rounded-3 px-3 py-2 text-black" %>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-4">
+      <%= f.label :email, "Adresse e-mail", class: "form-label fw-bold text-black" %>
+      <%= f.email_field :email, class: "form-control rounded-pill px-4 py-2 text-black" %>
+    </div>
+
+    <!-- Réseaux sociaux -->
+    <div class="mb-4">
+      <%= f.label :twitter, "Twitter", class: "form-label fw-bold text-black" %>
+      <%= f.text_field :twitter, placeholder: "@monprofil", class: "form-control rounded-pill px-4 py-2 text-black" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :instagram, "Instagram", class: "form-label fw-bold text-black" %>
+      <%= f.text_field :instagram, placeholder: "@monprofil", class: "form-control rounded-pill px-4 py-2 text-black" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :website, "Site web", class: "form-label fw-bold text-black" %>
+      <%= f.url_field :website, placeholder: "https://monsite.com", class: "form-control rounded-pill px-4 py-2 text-black" %>
+    </div>
+
+    <!-- Avatar -->
+    <div class="mb-4">
+      <%= f.label :avatar, "Photo de profil", class: "form-label fw-bold text-black" %>
+      <%= f.file_field :avatar, class: "form-control text-black" %>
+
+      <% if @user.avatar.attached? %>
+        <div class="mt-3">
+          <p class="form-text text-black">Image actuelle :</p>
+          <%= image_tag @user.avatar.variant(resize_to_limit: [160, 160]), class: "rounded-circle shadow border border-2", style: "object-fit: cover;" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Bouton -->
+    <div class="text-center mt-5">
+      <%= f.submit "Mettre à jour mon profil", class: "btn btn-dark rounded-pill px-4 py-2 text-uppercase fw-bold" %>
+    </div>
+
+  <% end %>
+
+  <!-- Retour -->
+  <div class="text-center mt-4">
+    <%= link_to "← Retour au profil", user_path(@user), class: "btn btn-outline-secondary px-4 py-2 rounded-pill fw-semibold" %>
+  </div>
+</div>

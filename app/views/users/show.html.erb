@@ -1,93 +1,99 @@
 <% content_for :title, "Profil de #{@user.username}" %>
-<section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
-<div class="container py-5 mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 text-center">
 
-      <!-- Avatar -->
-      <% if @user.avatar.attached? %>
-        <%= image_tag @user.avatar.variant(resize_to_fill: [160, 160]),
+<section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
+  <div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-center">
+
+        <!-- Avatar -->
+        <% if @user.avatar.attached? %>
+          <%= image_tag @user.avatar.variant(resize_to_fill: [160, 160]),
               class: "rounded-circle shadow mb-3 border border-2",
               style: "object-fit: cover;" %>
-      <% else %>
-        <div class="rounded-circle bg-secondary mb-3" style="width: 160px; height: 160px;"></div>
-      <% end %>
+        <% else %>
+          <div class="rounded-circle bg-secondary mb-3" style="width: 160px; height: 160px;"></div>
+        <% end %>
 
-      <!-- Username -->
-      <h2 class="fw-bold text-black mb-1"><%= @user.username %></h2>
+        <!-- Pseudo -->
+        <h2 class="fw-bold text-black mb-1"><%= @user.username %></h2>
 
-      <!-- Bio -->
-      <% if @user.bio.present? %>
-        <p class="text-muted small mb-2"><%= @user.bio %></p>
-      <% end %>
+        <!-- Bio -->
+        <% if @user.bio.present? %>
+          <p class="small text-black mb-2"><%= @user.bio %></p>
+        <% end %>
 
-      <!-- Email -->
-      <p class="text-muted small mb-3">📧 <%= mail_to @user.email %></p>
+        <!-- Email -->
+        <p class="small text-black mb-3">📧 <%= mail_to @user.email, nil, class: "text-decoration-none text-black" %></p>
 
-      <!-- Boutons follow/message -->
-      <% if user_signed_in? && current_user != @user %>
-        <div class="d-flex justify-content-center gap-2 mb-4 flex-wrap">
-          <% if current_user.followed_users.include?(@user) %>
-            <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id),
-                method: :delete, class: "btn btn-outline-dark btn-sm rounded-pill" %>
-          <% else %>
-            <%= button_to "S’abonner", follows_path(type: "User", id: @user.id),
-                method: :post, class: "btn btn-dark btn-sm rounded-pill text-white" %>
-          <% end %>
-
-          <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id),
-              method: :post, class: "btn btn-outline-secondary btn-sm rounded-pill" %>
-        </div>
-      <% end %>
-
-      <!-- Séparateur -->
-      <hr class="my-5">
-
-      <!-- MES CHRONIQUES -->
-<div class="mt-5">
-  <div class="d-flex align-items-center mb-4">
-    <h4 class="text-black fw-bold text-uppercase mb-0 me-3">Mes chroniques</h4>
-    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-  </div>
-
-  <% if @user.chronicles.any? %>
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-      <% @user.chronicles.each do |chronicle| %>
-        <div class="col">
-          <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
-
-            <!-- Image -->
-            <% if chronicle.photo.attached? %>
-              <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+        <!-- Boutons -->
+        <% if user_signed_in? && current_user != @user %>
+          <div class="d-flex justify-content-center gap-2 mb-4 flex-wrap">
+            <% if current_user.followed_users.include?(@user) %>
+              <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id),
+                  method: :delete, class: "btn btn-outline-dark btn-sm rounded-pill" %>
             <% else %>
-              <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+              <%= button_to "S’abonner", follows_path(type: "User", id: @user.id),
+                  method: :post, class: "btn btn-secondary btn-sm rounded-pill text-white" %>
             <% end %>
 
-            <!-- Overlay aligné à gauche -->
-            <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
-              <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
-                <%= truncate(chronicle.title, length: 55) %>
-              </h5>
-
-              <p class="text-white mb-0 small fw-medium">
-                <% if @user.is_publishing_house? && @user.publishing_house.present? %>
-                  <%= @user.publishing_house.name %>
-                <% else %>
-                  <%= @user.username %>
-                <% end %>
-              </p>
-
-              <p class="text-white-50 small mb-0">
-                <%= chronicle.created_at.strftime("%b %d, %Y") %>
-              </p>
-            </div>
-
+            <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id),
+                method: :post, class: "btn btn-outline-dark btn-sm rounded-pill text-black" %>
           </div>
-        </div>
-      <% end %>
-    </div>
-  <% else %>
-    <p class="text-muted text-center">Cet utilisateur n’a pas encore publié de chronique.</p>
-  <% end %>
-</div>
+        <% elsif user_signed_in? && current_user == @user %>
+          <%= link_to "Modifier mon profil", edit_user_path(@user),
+              class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black mb-4" %>
+        <% end %>
 
+        <!-- Séparateur -->
+        <hr class="my-5">
+
+        <!-- MES CHRONIQUES -->
+        <div class="mt-5">
+          <div class="d-flex align-items-center mb-4">
+            <h4 class="text-black fw-bold text-uppercase mb-0 me-3">Mes chroniques</h4>
+            <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+          </div>
+
+          <% if @user.chronicles.any? %>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+              <% @user.chronicles.each do |chronicle| %>
+                <div class="col">
+                  <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
+
+                    <!-- Image -->
+                    <% if chronicle.photo.attached? %>
+                      <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+                    <% else %>
+                      <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+                    <% end %>
+
+                    <!-- Overlay aligné à gauche -->
+                    <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
+                      <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                        <%= truncate(chronicle.title, length: 55) %>
+                      </h5>
+
+                      <p class="text-white mb-0 small fw-medium">
+                        <% if @user.is_publishing_house? && @user.publishing_house.present? %>
+                          <%= @user.publishing_house.name %>
+                        <% else %>
+                          <%= @user.username %>
+                        <% end %>
+                      </p>
+
+                      <p class="text-white-50 small mb-0">
+                        <%= chronicle.created_at.strftime("%b %d, %Y") %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-muted text-center">Cet utilisateur n’a pas encore publié de chronique.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

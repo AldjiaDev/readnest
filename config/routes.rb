@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get "manifest", to: "rails/pwa#manifest", as: :pwa_manifest
 
   # Profils utilisateurs
-  resources :users, only: [:show]
+  resources :users, only: [:show, :edit, :update]
 
   # Chroniques
   resources :chronicles do
