@@ -33,12 +33,14 @@ Rails.application.routes.draw do
   end
 
   resources :comments do
-    resource :comment_like, only: [:create, :destroy]
+      resource :comment_like, only: [:create, :destroy]
   end
 
   # Notifications
   resources :notifications, only: [:index] do
-    patch :mark_as_read, on: :member
+    collection do
+      patch :mark_as_read
+    end
   end
 
   # Suivi entre utilisateurs

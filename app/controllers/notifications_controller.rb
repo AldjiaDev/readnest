@@ -5,9 +5,9 @@ class NotificationsController < ApplicationController
     @notifications = current_user.received_notifications.order(created_at: :desc)
   end
 
+  # Marquer toutes les notifications comme lues
   def mark_as_read
-    @notification = current_user.received_notifications.find(params[:id])
-    @notification.update(read: true)
-    redirect_to polymorphic_path(@notification.notifiable)
+    current_user.received_notifications.update_all(read: true)
+    redirect_to notifications_path, notice: "Toutes vos notifications ont été marquées comme lues."
   end
 end

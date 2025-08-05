@@ -1,2 +1,9 @@
-<h1>Notifications#mark_as_read</h1>
-<p>Find me in app/views/notifications/mark_as_read.html.erb</p>
+<% content_for :title, "Notifications lues" %>
+
+<div class="container text-center mt-5 pt-5">
+  <div class="alert alert-success shadow-sm">
+    Toutes vos notifications ont été marquées comme lues.
+  </div>
+
+  <%= link_to "← Retour aux notifications", notifications_path, class: "btn btn-outline-primary mt-3" %>
+</div>

@@ -19,6 +19,9 @@
 
   <body class="d-flex flex-column min-vh-100 bg-light">
 
+    <% if notice %>
+        <div class="alert alert-success text-center m-3 rounded-3 shadow-sm"><%= notice %></div>
+      <% end %>
     <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom py-2">
   <div class="container d-flex align-items-center justify-content-between">
