@@ -6,10 +6,8 @@
       <div class="col-md-8 text-center">
 
         <!-- Avatar -->
-        <% if @user.avatar.attached? %>
-          <%= image_tag @user.avatar.variant(resize_to_fill: [160, 160]),
-              class: "rounded-circle shadow mb-3 border border-2",
-              style: "object-fit: cover;" %>
+       <% if @user.avatar.attached? %>
+          <%= image_tag url_for(@user.avatar), class: "rounded-circle shadow mb-3 border border-2", style: "width: 160px; height: 160px; object-fit: cover;" %>
         <% else %>
           <div class="rounded-circle bg-secondary mb-3" style="width: 160px; height: 160px;"></div>
         <% end %>
@@ -23,7 +21,29 @@
         <% end %>
 
         <!-- Email -->
-        <p class="small text-black mb-3">📧 <%= mail_to @user.email, nil, class: "text-decoration-none text-black" %></p>
+        <p class="small text-black mb-3"><%= mail_to @user.email, nil, class: "text-decoration-none text-black" %></p>
+
+        <!-- Réseaux sociaux -->
+      <div class="d-flex justify-content-center gap-3 mt-3">
+        <% if @user.website.present? %>
+          <a href="<%= @user.website %>" target="_blank" rel="noopener" class="text-dark fs-4">
+            <i class="bi bi-globe"></i>
+          </a>
+        <% end %>
+
+        <% if @user.twitter.present? %>
+          <a href="https://twitter.com/<%= @user.twitter.delete_prefix('@') %>" target="_blank" rel="noopener" class="text-dark fs-4">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+        <% end %>
+
+        <% if @user.instagram.present? %>
+          <a href="https://instagram.com/<%= @user.instagram.delete_prefix('@') %>" target="_blank" rel="noopener" class="text-dark fs-4">
+            <i class="bi bi-instagram"></i>
+          </a>
+        <% end %>
+      </div>
+
 
         <!-- Boutons -->
         <% if user_signed_in? && current_user != @user %>
