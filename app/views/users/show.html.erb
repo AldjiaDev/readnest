@@ -1,76 +1,64 @@
 <% content_for :title, "Profil de #{@user.username}" %>
 
-<section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
-  <div class="container py-5 mt-5">
+<section class="bg-light pt-5 pb-5" style="margin-top: 100px;">
+  <div class="container mt-5">
     <div class="row justify-content-center">
-      <div class="col-md-8 text-center">
-
-        <!-- Avatar -->
-       <% if @user.avatar.attached? %>
-          <%= image_tag url_for(@user.avatar), class: "rounded-circle shadow mb-3 border border-2", style: "width: 160px; height: 160px; object-fit: cover;" %>
-        <% else %>
-          <div class="rounded-circle bg-secondary mb-3" style="width: 160px; height: 160px;"></div>
-        <% end %>
-
-        <!-- Pseudo -->
-        <h2 class="fw-bold text-black mb-1"><%= @user.username %></h2>
-
-        <!-- Bio -->
-        <% if @user.bio.present? %>
-          <p class="small text-black mb-2"><%= @user.bio %></p>
-        <% end %>
-
-        <!-- Email -->
-        <p class="small text-black mb-3"><%= mail_to @user.email, nil, class: "text-decoration-none text-black" %></p>
-
-        <!-- Réseaux sociaux -->
-      <div class="d-flex justify-content-center gap-3 mt-3">
-        <% if @user.website.present? %>
-          <a href="<%= @user.website %>" target="_blank" rel="noopener" class="text-dark fs-4">
-            <i class="bi bi-globe"></i>
-          </a>
-        <% end %>
-
-        <% if @user.twitter.present? %>
-          <% twitter_url = @user.twitter.match?(/^http/) ? @user.twitter : "https://twitter.com/#{@user.twitter.delete_prefix('@')}" %>
-            <a href="<%= twitter_url %>" target="_blank" rel="noopener" class="text-dark fs-4">
-              <i class="bi bi-twitter-x"></i>
-            </a>
-        <% end %>
-
-        <% if @user.instagram.present? %>
-          <% insta_url = @user.instagram.match?(/^http/) ? @user.instagram : "https://instagram.com/#{@user.instagram.delete_prefix('@')}" %>
-          <a href="<%= insta_url %>" target="_blank" rel="noopener" class="text-dark fs-4">
-            <i class="bi bi-instagram"></i>
-          </a>
-        <% end %>
-        </div>
-
-
-        <!-- Boutons -->
-        <% if user_signed_in? && current_user != @user %>
-          <div class="d-flex justify-content-center gap-2 mb-4 flex-wrap">
-            <% if current_user.followed_users.include?(@user) %>
-              <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id),
-                  method: :delete, class: "btn btn-outline-dark btn-sm rounded-pill" %>
+      <div class="col-md-10">
+        <div class="row align-items-center mb-5">
+          <!-- Avatar à gauche -->
+          <div class="col-md-3 text-center mb-4 mb-md-0">
+            <% if @user.avatar.attached? %>
+              <%= image_tag url_for(@user.avatar), class: "rounded-circle shadow border border-2", style: "width: 160px; height: 160px; object-fit: cover;" %>
             <% else %>
-              <%= button_to "S’abonner", follows_path(type: "User", id: @user.id),
-                  method: :post, class: "btn btn-secondary btn-sm rounded-pill text-white" %>
+              <div class="rounded-circle bg-secondary" style="width: 160px; height: 160px;"></div>
+            <% end %>
+          </div>
+
+          <!-- Infos utilisateur -->
+          <div class="col-md-9">
+            <h2 class="fw-bold text-black mb-1"><%= @user.username %></h2>
+
+            <% if @user.bio.present? %>
+              <p class="small text-black mb-2"><%= @user.bio %></p>
             <% end %>
 
-            <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id),
-                method: :post, class: "btn btn-outline-dark btn-sm rounded-pill text-black" %>
-          </div>
-        <% elsif user_signed_in? && current_user == @user %>
-          <%= link_to "Modifier mon profil", edit_user_path(@user),
-              class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black mb-4" %>
-        <% end %>
+            <p class="small text-black mb-2"><%= mail_to @user.email, nil, class: "text-decoration-none text-black" %></p>
 
-        <!-- Séparateur -->
+            <!-- Réseaux sociaux -->
+            <div class="d-flex gap-3 mt-2">
+              <% if @user.website.present? %>
+                <a href="<%= @user.website %>" target="_blank" class="text-dark fs-4"><i class="bi bi-globe"></i></a>
+              <% end %>
+              <% if @user.twitter.present? %>
+                <% twitter_url = @user.twitter.match?(/^http/) ? @user.twitter : "https://twitter.com/#{@user.twitter.delete_prefix('@')}" %>
+                <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4"><i class="bi bi-twitter-x"></i></a>
+              <% end %>
+              <% if @user.instagram.present? %>
+                <% insta_url = @user.instagram.match?(/^http/) ? @user.instagram : "https://instagram.com/#{@user.instagram.delete_prefix('@')}" %>
+                <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4"><i class="bi bi-instagram"></i></a>
+              <% end %>
+            </div>
+
+            <!-- Actions -->
+            <div class="mt-4 d-flex flex-wrap gap-2">
+              <% if user_signed_in? && current_user != @user %>
+                <% if current_user.followed_users.include?(@user) %>
+                  <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id), method: :delete, class: "btn btn-outline-dark btn-sm rounded-pill" %>
+                <% else %>
+                  <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-secondary btn-sm rounded-pill text-white" %>
+                <% end %>
+                <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-dark btn-sm rounded-pill text-black" %>
+              <% elsif user_signed_in? && current_user == @user %>
+                <%= link_to "Modifier mon profil", edit_user_path(@user), class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
         <hr class="my-5">
 
         <!-- MES CHRONIQUES -->
-        <div class="mt-5">
+        <div>
           <div class="d-flex align-items-center mb-4">
             <h4 class="text-black fw-bold text-uppercase mb-0 me-3">Mes chroniques</h4>
             <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
@@ -80,34 +68,26 @@
             <div class="row row-cols-1 row-cols-md-2 g-4">
               <% @user.chronicles.each do |chronicle| %>
                 <div class="col">
-                  <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
+                  <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
+                    <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
+                      <% if chronicle.photo.attached? %>
+                        <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+                      <% else %>
+                        <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+                      <% end %>
 
-                    <!-- Image -->
-                    <% if chronicle.photo.attached? %>
-                      <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-                    <% else %>
-                      <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-                    <% end %>
-
-                    <!-- Overlay aligné à gauche -->
-                    <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
-                      <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
-                        <%= truncate(chronicle.title, length: 55) %>
-                      </h5>
-
-                      <p class="text-white mb-0 small fw-medium">
-                        <% if @user.is_publishing_house? && @user.publishing_house.present? %>
-                          <%= @user.publishing_house.name %>
-                        <% else %>
-                          <%= @user.username %>
-                        <% end %>
-                      </p>
-
-                      <p class="text-white-50 small mb-0">
-                        <%= chronicle.created_at.strftime("%b %d, %Y") %>
-                      </p>
+                      <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
+                           style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
+                        <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                          <%= truncate(chronicle.title, length: 55) %>
+                        </h5>
+                        <p class="text-white mb-0 small fw-medium">
+                          <%= @user.is_publishing_house? && @user.publishing_house.present? ? @user.publishing_house.name : @user.username %>
+                        </p>
+                        <p class="text-white-50 small mb-0"><%= chronicle.created_at.strftime("%b %d, %Y") %></p>
+                      </div>
                     </div>
-                  </div>
+                  <% end %>
                 </div>
               <% end %>
             </div>
