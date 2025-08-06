@@ -36,9 +36,8 @@ class UsersController < ApplicationController
       :bio,
       :avatar,
       :website,
-      :facebook_url,
-      :twitter_url,
-      :instagram_url
+      :twitter,
+      :instagram
     )
   end
 end
