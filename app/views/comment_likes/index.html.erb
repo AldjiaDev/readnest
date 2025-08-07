@@ -1,0 +1,17 @@
+<% content_for :title, "Commentaires aimés" %>
+
+<div class="container py-5 mt-5">
+  <h1 class="text-center fw-bold mb-4 text-black">Commentaires que j’ai aimés</h1>
+
+  <% if current_user.comment_likes.any? %>
+    <div class="list-group shadow-sm rounded-4">
+      <% current_user.comment_likes.includes(:comment).each do |like| %>
+        <%= render partial: "comment_like", locals: { like: like } %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-info text-center mt-5">
+      Vous n’avez encore aimé aucun commentaire.
+    </div>
+  <% end %>
+</div>

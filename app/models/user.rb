@@ -26,6 +26,7 @@ class User < ApplicationRecord
 
   has_many :messages, dependent: :destroy
   has_many :comment_likes, dependent: :destroy
+  has_many :liked_by_users, through: :comment_likes, source: :user
   has_one :publishing_house
 
   def is_publishing_house?

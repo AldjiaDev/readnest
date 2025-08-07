@@ -1,0 +1,15 @@
+<% comment = like.comment %>
+
+<div class="list-group-item d-flex justify-content-between align-items-start">
+  <div class="me-auto">
+    <p class="mb-1 text-dark">
+      <strong><%= comment.user.username %></strong> :
+      <%= truncate(comment.body, length: 120) %>
+    </p>
+    <small class="text-muted">
+      Sur la chronique :
+      <%= link_to comment.commentable.title, chronicle_path(comment.commentable), class: "text-decoration-none text-primary" %>
+    </small>
+  </div>
+  <small class="text-muted"><%= time_ago_in_words(comment.created_at) %> ago</small>
+</div>

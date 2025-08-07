@@ -29,17 +29,22 @@
 
   <!-- INFOS AUTEUR -->
   <div class="d-flex align-items-center mb-4 gap-3">
+
     <% if @chronicle.user.avatar.attached? %>
-      <%= image_tag @chronicle.user.avatar.variant(resize_to_fill: [40, 40]), class: "rounded-circle", style: "object-fit: cover;" %>
+      <%= image_tag url_for(@chronicle.user.avatar), class: "rounded-circle", style: "width: 40px; height: 40px; object-fit: cover;" %>
     <% else %>
-      <div class="rounded-circle bg-secondary" style="width: 40px; height: 40px;"></div>
+      <%= image_tag "default_avatar.png", class: "rounded-circle", style: "width: 40px; height: 40px; object-fit: cover;" %>
     <% end %>
 
     <div>
-      <strong><%= link_to @chronicle.user.username, user_path(@chronicle.user), class: "text-decoration-none text-dark" %></strong><br>
+      <strong>
+        <%= link_to @chronicle.user.username, user_path(@chronicle.user), class: "text-decoration-none text-dark" %>
+      </strong><br>
       <span class="text-muted small">Auteur</span>
     </div>
   </div>
+
+
 
   <!-- TABLE DES MATIÈRES -->
   <% if @chronicle.table_of_contents.present? %>

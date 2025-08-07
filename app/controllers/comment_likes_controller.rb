@@ -3,7 +3,9 @@ class CommentLikesController < ApplicationController
   before_action :set_comment
 
   def create
-    @comment.comment_likes.create(user: current_user)
+    unless @comment.comment_likes.exists?(user: current_user)
+      @comment.comment_likes.create(user: current_user)
+    end
     redirect_back fallback_location: root_path
   end
 

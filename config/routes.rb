@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   end
 
   resources :comments do
-      resource :comment_like, only: [:create, :destroy]
+      resources :comment_likes, only: [:create, :destroy]
   end
 
   # Notifications

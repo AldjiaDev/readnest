@@ -47,7 +47,7 @@
                 <% else %>
                   <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-secondary btn-sm rounded-pill text-white" %>
                 <% end %>
-                <%= link_to "💬 Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-dark btn-sm rounded-pill text-black" %>
+                <%= link_to "Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-dark btn-sm rounded-pill text-black" %>
               <% elsif user_signed_in? && current_user == @user %>
                 <%= link_to "Modifier mon profil", edit_user_path(@user), class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
               <% end %>
