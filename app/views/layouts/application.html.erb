@@ -42,9 +42,6 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
         <li class="nav-item">
-          <%= link_to "À propos", about_path, class: "nav-link custom-nav-link" %>
-        </li>
-        <li class="nav-item">
           <%= link_to "Toutes les chroniques", chronicles_path, class: "nav-link custom-nav-link" %>
         </li>
         <li class="nav-item">
@@ -107,9 +104,10 @@
 <!-- Footer -->
 <footer class="bg-black text-white py-5 mt-5">
   <div class="container">
-    <div class="row text-center text-md-start align-items-center">
-      <!-- Logo + description -->
-      <div class="col-md-4 mb-4 mb-md-0">
+    <div class="row text-center text-md-start justify-content-center align-items-start">
+
+      <!-- Logo + Description -->
+      <div class="col-md-5 mb-4 mb-md-0">
         <%= image_tag "logo.jpg", alt: "Readnest", style: "max-height: 70px;" %>
         <p class="small mt-3 mb-0">
           Une bibliothèque numérique où chaque chronique est une aventure littéraire.<br>
@@ -118,31 +116,24 @@
       </div>
 
       <!-- Navigation -->
-      <div class="col-md-4 mb-4 mb-md-0">
+      <div class="col-md-5">
         <h6 class="text-uppercase fw-bold mb-3">Navigation</h6>
         <ul class="list-unstyled small">
           <li class="mb-1"><%= link_to "Accueil", root_path, class: "text-white text-decoration-none" %></li>
           <li class="mb-1"><%= link_to "Toutes les chroniques", chronicles_path, class: "text-white text-decoration-none" %></li>
           <li class="mb-1"><%= link_to "Maisons d’édition", publishing_houses_path, class: "text-white text-decoration-none" %></li>
           <li class="mb-1"><%= link_to "Nouvelle chronique", new_chronicle_path, class: "text-white text-decoration-none" %></li>
+          <li class="mb-1"><%= link_to "À propos", about_path, class: "text-white text-decoration-none" %></li>
         </ul>
       </div>
 
-      <!-- Réseaux sociaux -->
-      <div class="col-md-4">
-        <h6 class="text-uppercase fw-bold mb-3">Suivez-nous</h6>
-        <div class="d-flex gap-3 justify-content-center justify-content-md-start">
-          <a href="#" class="text-white fs-5"><i class="bi bi-twitter-x"></i></a>
-          <a href="#" class="text-white fs-5"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="text-white fs-5"><i class="bi bi-bookmark-star"></i></a>
-        </div>
-      </div>
     </div>
 
     <hr class="border-light mt-4" />
     <p class="text-center small mb-0">&copy; <%= Time.current.year %> Readnest — Tous droits réservés.</p>
   </div>
 </footer>
+
 
 
     <!-- JS -->

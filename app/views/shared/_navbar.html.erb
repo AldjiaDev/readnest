@@ -10,14 +10,14 @@
     <nav class="hidden md:flex space-x-5 text-sm text-gray-700 items-center">
 
       <!-- Liens publics -->
-      <%= link_to "📖 Toutes les chroniques", chronicles_path, class: "hover:text-blue-600 font-medium" %>
-      <%= link_to "🏛️ Maisons d’édition", publishing_houses_path, class: "hover:text-blue-600 font-medium" %>
+      <%= link_to "Toutes les chroniques", chronicles_path, class: "hover:text-blue-600 font-medium" %>
+      <%= link_to "Maisons d’édition", publishing_houses_path, class: "hover:text-blue-600 font-medium" %>
 
       <!-- Utilisateur connecté -->
       <% if user_signed_in? %>
-        <%= link_to "➕ Nouvelle chronique", new_chronicle_path, class: "hover:text-blue-600" %>
-        <%= link_to "👤 Mon profil", user_path(current_user), class: "hover:text-blue-600" %>
-        <%= link_to "🚪 Déconnexion", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "text-red-500 hover:underline" %>
+        <%= link_to "Nouvelle chronique", new_chronicle_path, class: "hover:text-blue-600" %>
+        <%= link_to "Mon profil", user_path(current_user), class: "hover:text-blue-600" %>
+        <%= link_to "Déconnexion", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "text-red-500 hover:underline" %>
 
       <% else %>
         <!-- Utilisateur non connecté -->
