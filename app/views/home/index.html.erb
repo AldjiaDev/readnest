@@ -34,11 +34,11 @@
 
 <!-- Dernières chroniques -->
 <section class="container py-5">
- <div class="d-flex align-items-center mb-4">
-  <h2 class="text-black fw-bold text-uppercase mb-0 me-3">DERNIÈRES CHRONIQUES</h2>
-  <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-</div>
-
+  <!-- Titre de section -->
+  <div class="d-flex align-items-center mb-4">
+    <h2 class="text-black fw-bold text-uppercase mb-0 me-3">Dernières chroniques</h2>
+    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+  </div>
 
   <% if @chronicles.empty? %>
     <p class="text-muted text-center">Aucune chronique trouvée.</p>
@@ -46,45 +46,49 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
       <% @chronicles.each do |chronicle| %>
         <div class="col">
-          <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
+          <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
+            <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
 
-            <!-- Image avec bords arrondis -->
-            <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+              <!-- Image de couverture -->
+              <% if chronicle.photo.attached? %>
+                <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+              <% else %>
+                <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+              <% end %>
 
-            <!-- Dégradé bas -->
-            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
-              <!-- Titre -->
-              <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
-                <%= truncate(chronicle.title, length: 55) %>
-              </h5>
+              <!-- Overlay avec titre et auteur -->
+              <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
+                <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                  <%= truncate(chronicle.title, length: 55) %>
+                </h5>
 
-              <!-- Auteur -->
-              <p class="text-white mb-0 small fw-medium">
-                <% if chronicle.user.respond_to?(:is_publishing_house?) && chronicle.user.is_publishing_house? && chronicle.user.publishing_house.present? %>
-                  <%= chronicle.user.publishing_house.name %>
-                <% else %>
-                  <%= chronicle.user.username %>
-                <% end %>
-              </p>
+                <!-- Auteur ou maison d'édition -->
+                <p class="text-white mb-0 small fw-medium">
+                  <% if chronicle.user.respond_to?(:is_publishing_house?) && chronicle.user.is_publishing_house? && chronicle.user.publishing_house.present? %>
+                    <%= chronicle.user.publishing_house.name %>
+                  <% else %>
+                    <%= chronicle.user.username %>
+                  <% end %>
+                </p>
 
-              <!-- Date + catégories -->
-              <p class="text-white-50 small mb-0">
-                <%= chronicle.created_at.strftime("%b %d, %Y") %>
-                | Fiction, Littérature
-              </p>
+                <!-- Date -->
+                <p class="text-white-50 small mb-0">
+                  <%= chronicle.created_at.strftime("%d %b %Y") %>
+                </p>
+              </div>
             </div>
-
-          </div>
+          <% end %>
         </div>
       <% end %>
     </div>
 
-    <!-- Bouton -->
+    <!-- Bouton Voir toutes -->
     <div class="text-center">
-     <%= link_to "Voir toutes les chroniques", chronicles_path, class: "btn btn-dark rounded-pill px-4" %>
+      <%= link_to "Voir toutes les chroniques", chronicles_path, class: "btn btn-dark rounded-pill px-4" %>
     </div>
   <% end %>
 </section>
+
 
 
 <!-- MAISONS D'ÉDITION À DÉCOUVRIR -->

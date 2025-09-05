@@ -61,11 +61,6 @@
       <!-- Partie droite -->
       <div class="d-flex align-items-center gap-3">
 
-        <!-- Recherche -->
-        <button class="btn btn-light border rounded-circle p-2">
-          <i class="bi bi-search"></i>
-        </button>
-
         <% if user_signed_in? %>
           <!-- Notifications -->
           <%= link_to notifications_path, class: "position-relative text-dark" do %>
