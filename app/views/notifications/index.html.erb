@@ -16,12 +16,32 @@
               <%= link_to notification.actor.username, user_path(notification.actor), class: "text-decoration-none text-dark" %>
             </strong>
 
-            <span class="ms-1"><%= notification.action %></span>
+            <span class="ms-1">
+              <% case notification.action %>
+              <% when "liked" %>
+                a aimé votre chronique
+              <% when "commented" %>
+                a commenté votre chronique
+              <% when "followed" %>
+                a commencé à vous suivre
+              <% else %>
+                a effectué une action
+              <% end %>
+            </span>
 
-            <%= link_to "→ Voir", polymorphic_path(notification.notifiable), class: "text-decoration-none fw-semibold ms-2" %>
+            <% path =
+              case notification.notifiable
+              when Comment
+                chronicle_path(notification.notifiable.chronicle)
+              else
+                polymorphic_path(notification.notifiable)
+              end
+            %>
+
+            <%= link_to "→ Voir", path, class: "text-decoration-none fw-semibold ms-2" %>
           </div>
 
-          <small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small>
+          <small class="text-muted">il y a <%= time_ago_in_words(notification.created_at) %></small>
         </div>
       <% end %>
 
@@ -29,8 +49,7 @@
 
     <!-- Marquer toutes comme lues -->
     <div class="text-center mt-4">
-      <%= link_to "Marquer toutes comme lues", mark_as_read_notifications_path, method: :patch,
-          class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold" %>
+        <%= button_to "Marquer toutes comme lues", "/notifications/mark_as_read", method: :patch, class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold" %>
     </div>
 
   <% else %>

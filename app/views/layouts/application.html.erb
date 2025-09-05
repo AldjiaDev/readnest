@@ -19,9 +19,13 @@
 
   <body class="d-flex flex-column min-vh-100 bg-light">
 
-    <% if notice %>
-        <div class="alert alert-success text-center m-3 rounded-3 shadow-sm"><%= notice %></div>
-      <% end %>
+    <% flash.each do |key, message| %>
+      <div class="alert alert-<%= bootstrap_class_for(key) %> alert-dismissible fade show text-center mx-3 mt-5 rounded-3 shadow-sm" role="alert">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+
     <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom py-2">
   <div class="container d-flex align-items-center justify-content-between">

@@ -4,23 +4,20 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:destroy, :report]
 
   def create
-    @comment = @chronicle.comments.new(comment_params)
-    @comment.user = current_user
+    @chronicle = Chronicle.find(params[:chronicle_id])
+    @comment = @chronicle.comments.build(comment_params.merge(user: current_user))
 
     if @comment.save
-      # Créer une notification pour l’auteur de la chronique (sauf si c’est l’auteur lui-même)
-      if @chronicle.user != current_user
-        Notification.create(
-          recipient: @chronicle.user,
-          actor: current_user,
-          action: "commented",
-          notifiable: @comment
-        )
-      end
+      Notification.create(
+        recipient: @chronicle.user,
+        actor: current_user,
+        action: "commented",
+        notifiable: @comment
+      )
 
-      redirect_to @chronicle, notice: "Votre commentaire a été publié."
+      redirect_to @chronicle, notice: "Commentaire publié."
     else
-      redirect_to @chronicle, alert: "Erreur lors de la publication du commentaire."
+      render "chronicles/show", status: :unprocessable_entity
     end
   end
 
