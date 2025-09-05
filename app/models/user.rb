@@ -32,4 +32,8 @@ class User < ApplicationRecord
   def is_publishing_house?
     publishing_house.present?
   end
+
+  def following?(record)
+    follows.exists?(followable: record)
+  end
 end
