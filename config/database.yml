@@ -18,7 +18,6 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: <%= ENV['DATABASE_URL'] %>
 
 development:
   <<: *default
@@ -80,6 +79,4 @@ test:
 #
 production:
   <<: *default
-  database: readnest_production
-  username: readnest
-  password: <%= ENV["READNEST_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
