@@ -1,42 +1,87 @@
-<% content_for :title, @publishing_house.name %>
+<% content_for :title, "Maison d’édition : #{@publishing_house.name}" %>
 
-<div class="container mt-5 py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 text-center">
+<section class="bg-light pt-5 pb-5" style="margin-top: 100px;">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="row align-items-center mb-5">
+          <!-- Logo à gauche -->
+          <div class="col-md-3 text-center mb-4 mb-md-0">
+            <% if @publishing_house.logo.attached? %>
+              <%= image_tag @publishing_house.logo, class: "rounded-circle shadow border border-2", style: "width: 160px; height: 160px; object-fit: cover;" %>
+            <% else %>
+              <%= image_tag "maison.jpeg", class: "rounded-circle shadow border border-2", style: "width: 160px; height: 160px; object-fit: cover;" %>
+            <% end %>
+          </div>
 
-      <% if @publishing_house.logo.attached? %>
-        <%= image_tag @publishing_house.logo.variant(resize_to_limit: [200, 200]), class: "img-fluid rounded mb-4 shadow-sm", alt: "#{@publishing_house.name} Logo" %>
-      <% end %>
+          <!-- Infos de la maison -->
+          <div class="col-md-9">
+            <h2 class="fw-bold text-black mb-1"><%= @publishing_house.name %></h2>
 
-      <h2 class="fw-bold mb-3"><%= @publishing_house.name %></h2>
+            <% if @publishing_house.description.present? %>
+              <p class="small text-black mb-3"><%= simple_format(@publishing_house.description) %></p>
+            <% end %>
 
-      <% if @publishing_house.description.present? %>
-        <p class="lead text-muted"><%= simple_format(@publishing_house.description) %></p>
-      <% else %>
-        <p class="text-muted fst-italic">Aucune description disponible.</p>
-      <% end %>
+            <p class="small text-muted">
+              Ajoutée par
+              <%= link_to @publishing_house.user.username, user_path(@publishing_house.user), class: "text-decoration-none text-dark fw-semibold" %>
+            </p>
 
-      <% if user_signed_in? && current_user != @publishing_house.user %>
-        <div class="mt-4">
-          <% if current_user.following?(@publishing_house) %>
-            <%= button_to "Ne plus suivre", follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id), method: :delete, class: "btn btn-outline-danger" %>
+            <!-- Suivre -->
+            <div class="mt-4">
+              <% if user_signed_in? && current_user != @publishing_house.user %>
+                <% if current_user.following?(@publishing_house) %>
+                  <%= button_to "Ne plus suivre", follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id),
+                      method: :delete, class: "btn btn-outline-dark btn-sm rounded-pill px-4" %>
+                <% else %>
+                  <%= button_to "Suivre cette maison d’édition", follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id),
+                      method: :post, class: "btn btn-secondary btn-sm rounded-pill text-white px-4" %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-5">
+
+        <!-- CHRONIQUES PUBLIÉES -->
+        <div>
+          <div class="d-flex align-items-center mb-4">
+            <h4 class="text-black fw-bold text-uppercase mb-0 me-3">Chroniques publiées</h4>
+            <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+          </div>
+
+          <% if @publishing_house.user.chronicles.any? %>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+              <% @publishing_house.user.chronicles.each do |chronicle| %>
+                <div class="col">
+                  <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
+                    <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
+                      <% if chronicle.photo.attached? %>
+                        <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+                      <% else %>
+                        <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+                      <% end %>
+
+                      <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
+                           style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
+                        <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                          <%= truncate(chronicle.title, length: 55) %>
+                        </h5>
+                        <p class="text-white-50 small mb-0"><%= chronicle.created_at.strftime("%d %B %Y") %></p>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
           <% else %>
-            <%= button_to "Suivre cette maison d’édition", follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id), method: :post, class: "btn btn-outline-primary" %>
+            <p class="text-muted text-center">Cette maison n’a pas encore publié de chronique.</p>
           <% end %>
         </div>
-      <% end %>
 
-      <% if user_signed_in? && current_user == @publishing_house.user %>
-        <div class="mt-4">
-          <%= link_to "Modifier", edit_publishing_house_path(@publishing_house), class: "btn btn-secondary me-2" %>
-          <%= button_to "Supprimer", @publishing_house, method: :delete, data: { confirm: "Êtes-vous sûr(e) ?" }, class: "btn btn-danger" %>
-        </div>
-      <% end %>
-
-      <div class="mt-5">
-        <%= link_to "← Retour aux maisons d’édition", publishing_houses_path, class: "btn btn-link text-decoration-none" %>
       </div>
-
     </div>
   </div>
-</div>
+</section>
+
