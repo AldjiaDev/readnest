@@ -106,10 +106,13 @@
 
   <!-- RETOUR ET SUPPRESSION -->
   <div class="text-center mt-5">
-    <%= link_to "← Retour aux chroniques", chronicles_path, class: "btn btn-outline-secondary px-4 py-2 me-2" %>
+    <%= link_to "Retour aux chroniques", chronicles_path, class: "btn btn-outline-secondary px-4 py-2 me-2" %>
+        <% if current_user == @chronicle.user %>
+      <%= link_to "Modifier", edit_chronicle_path(@chronicle), class: "btn btn-outline-primary me-2" %>
+    <% end %>
 
     <% if user_signed_in? && current_user == @chronicle.user %>
-      <%= button_to "🗑️ Supprimer cette chronique", chronicle_path(@chronicle),
+      <%= button_to "Supprimer cette chronique", chronicle_path(@chronicle),
           method: :delete,
           data: { confirm: "Supprimer définitivement cette chronique ?" },
           class: "btn btn-outline-danger px-4 py-2" %>

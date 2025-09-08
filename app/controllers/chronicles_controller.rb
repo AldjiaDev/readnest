@@ -22,15 +22,21 @@ class ChroniclesController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-
   def edit
+    @chronicle = Chronicle.find(params[:id])
+    redirect_to root_path, alert: "Non autorisé" unless @chronicle.user == current_user
   end
 
   def update
-    if @chronicle.update(chronicle_params)
-      redirect_to @chronicle, notice: "Chronique mise à jour avec succès."
+    @chronicle = Chronicle.find(params[:id])
+    if @chronicle.user == current_user
+      if @chronicle.update(chronicle_params)
+        redirect_to @chronicle, notice: "Chronique mise à jour avec succès."
+      else
+        render :edit, status: :unprocessable_entity
+      end
     else
-      render :edit, status: :unprocessable_entity
+      redirect_to root_path, alert: "Non autorisé"
     end
   end
 
