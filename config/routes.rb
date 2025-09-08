@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "errors/not_found"
+  get "errors/internal_server_error"
   get "pages/about"
   get "messages/create"
   get "conversations/index"
@@ -42,6 +44,10 @@ Rails.application.routes.draw do
       patch :mark_as_read
     end
   end
+
+  # Gestion des erreurs
+  match "/404", to: "errors#not_found", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
 
   # Suivi entre utilisateurs
   resources :publishing_houses
