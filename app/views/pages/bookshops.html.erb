@@ -1,0 +1,81 @@
+<% content_for :title, "Librairies" %>
+
+<!-- Leaflet CDN -->
+<%= stylesheet_link_tag "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", crossorigin: "" %>
+<%= javascript_include_tag "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", defer: true %>
+
+<main class="flex-grow-1">
+  <!-- En-tête -->
+  <div class="text-center py-5 bg-dark text-white" style="margin-top: 80px;">
+    <h1 class="display-4 fw-bold">Librairies</h1>
+    <p class="lead">Explorez les librairies autour de vous</p>
+  </div>
+
+  <!-- Carte pleine largeur -->
+  <div id="map" style="height: 700px; width: 100%; margin-bottom: 0;"></div>
+</main>
+
+<!-- Script JS -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const map = L.map("map").setView([48.8566, 2.3522], 12); // Fallback Paris
+
+    // Fond de carte
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(map);
+
+    // Librairies Readnest depuis la base de données
+    <% @bookshops.each do |shop| %>
+      L.marker([<%= shop.latitude %>, <%= shop.longitude %>])
+        .addTo(map)
+        .bindPopup("<strong><%= j shop.name %></strong><br><%= j shop.address %>");
+    <% end %>
+
+    // Géolocalisation utilisateur + librairies OSM
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        map.setView([lat, lng], 14);
+
+        L.marker([lat, lng])
+          .addTo(map)
+          .bindPopup("📍 Vous êtes ici")
+          .openPopup();
+
+        const query = `
+          [out:json];
+          (
+            node["shop"="books"](around:5000, ${lat}, ${lng});
+            way["shop"="books"](around:5000, ${lat}, ${lng});
+            relation["shop"="books"](around:5000, ${lat}, ${lng});
+          );
+          out center;
+        `;
+
+        fetch("https://overpass-api.de/api/interpreter", {
+          method: "POST",
+          body: query,
+        })
+        .then(res => res.json())
+        .then(data => {
+          data.elements.forEach(el => {
+            const name = el.tags?.name || "Librairie (OSM)";
+            const markerLat = el.lat || el.center?.lat;
+            const markerLng = el.lon || el.center?.lon;
+            if (markerLat && markerLng) {
+              L.marker([markerLat, markerLng])
+                .addTo(map)
+                .bindPopup(`📚 ${name}`);
+            }
+          });
+        })
+        .catch(error => console.error("Erreur de récupération des librairies OSM :", error));
+      });
+    } else {
+      alert("La géolocalisation n’est pas supportée sur ce navigateur.");
+    }
+  });
+</script>

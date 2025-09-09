@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
-  def about
+  def bookshops
+    @bookshops = Bookshop.all
   end
 end

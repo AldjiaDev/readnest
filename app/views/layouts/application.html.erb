@@ -51,6 +51,10 @@
         <li class="nav-item">
           <%= link_to "Maisons d’édition", publishing_houses_path, class: "nav-link custom-nav-link" %>
         </li>
+        <li class="nav-item">
+          <%= link_to "Librairies", bookshops_path, class: "nav-link custom-nav-link" %>
+        </li>
+
 
         <% if user_signed_in? %>
           <li class="nav-item">
@@ -101,7 +105,7 @@
     </main>
 
 <!-- Footer -->
-<footer class="bg-black text-white py-5 mt-5">
+<footer class="bg-black text-white py-5">
   <div class="container">
     <div class="row text-center text-md-start justify-content-center align-items-start">
 
