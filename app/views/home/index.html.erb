@@ -141,73 +141,24 @@
 </section>
 
 
-
-
 <!-- LIBRAIRIES À PROXIMITÉ -->
-<section class="container py-5">
+<section class="container py-5" style="margin-top: 80px;">
+  <!-- Titre + ligne -->
   <div class="d-flex align-items-center mb-4">
-    <h2 class="fw-bold text-uppercase mb-0 me-3" style="color: #000;">LIBRAIRIES À PROXIMITÉ</h2>
+    <h2 class="fw-bold text-uppercase mb-0 me-3 text-dark">Librairies à proximité</h2>
     <div class="flex-grow-1" style="height: 1px; background-color: #000;"></div>
   </div>
 
-  <div class="rounded-4 border shadow-sm overflow-hidden" style="height: 400px;">
-    <div id="map" style="height: 100%; width: 100%;"></div>
+  <!-- Texte d’accroche + bouton -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-8">
+      <p class="lead text-muted mb-3">
+        Que vous soyez en quête d’une perle rare ou d’un coup de cœur inattendu, les librairies autour de vous regorgent de trésors à découvrir.
+        Plongez dans l’univers des livres et soutenez les librairies indépendantes près de chez vous.
+      </p>
+    </div>
+    <div class="col-md-4 text-md-end text-center">
+      <%= link_to "Voir les librairies autour de vous", bookshops_path, class: "btn btn-dark rounded-pill px-4 py-2 fw-semibold" %>
+    </div>
   </div>
 </section>
-
-<!-- Leaflet -->
-<%= stylesheet_link_tag "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", crossorigin: "" %>
-<%= javascript_include_tag "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", defer: true %>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-
-        const map = L.map('map').setView([lat, lng], 14);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        L.marker([lat, lng])
-          .addTo(map)
-          .bindPopup("📍 Vous êtes ici")
-          .openPopup();
-
-        const query = `
-          [out:json];
-          (
-            node["shop"="books"](around:5000, ${lat}, ${lng});
-            way["shop"="books"](around:5000, ${lat}, ${lng});
-            relation["shop"="books"](around:5000, ${lat}, ${lng});
-          );
-          out center;
-        `;
-
-        fetch("https://overpass-api.de/api/interpreter", {
-          method: "POST",
-          body: query
-        })
-        .then(res => res.json())
-        .then(data => {
-          data.elements.forEach(el => {
-            const name = el.tags?.name || "Librairie";
-            const markerLat = el.lat || el.center?.lat;
-            const markerLng = el.lon || el.center?.lon;
-            if (markerLat && markerLng) {
-              L.marker([markerLat, markerLng])
-                .addTo(map)
-                .bindPopup(`📚 ${name}`);
-            }
-          });
-        })
-        .catch(error => console.error("Erreur de récupération des librairies :", error));
-      });
-    } else {
-      alert("La géolocalisation n’est pas supportée sur ce navigateur.");
-    }
-  });
-</script>
