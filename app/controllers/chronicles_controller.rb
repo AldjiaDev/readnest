@@ -22,21 +22,16 @@ class ChroniclesController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
   def edit
-    @chronicle = Chronicle.find(params[:id])
-    redirect_to root_path, alert: "Non autorisé" unless @chronicle.user == current_user
+    # Rien à faire ici, tout est déjà géré par les before_actions
   end
 
   def update
-    @chronicle = Chronicle.find(params[:id])
-    if @chronicle.user == current_user
-      if @chronicle.update(chronicle_params)
-        redirect_to @chronicle, notice: "Chronique mise à jour avec succès."
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    if @chronicle.update(chronicle_params)
+      redirect_to @chronicle, notice: "Chronique mise à jour avec succès."
     else
-      redirect_to root_path, alert: "Non autorisé"
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -58,6 +53,10 @@ class ChroniclesController < ApplicationController
   end
 
   def chronicle_params
-    params.require(:chronicle).permit(:title, :content, :photo, :caption, :summary, :book_title, :author, :publisher, table_of_contents: [])
+    params.require(:chronicle).permit(
+      :title, :content, :photo, :caption,
+      :summary, :book_title, :author, :publisher,
+      table_of_contents: []
+    )
   end
 end
