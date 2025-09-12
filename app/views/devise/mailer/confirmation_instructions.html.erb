@@ -1,5 +1,31 @@
-<p>Welcome <%= @email %>!</p>
+<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f7f7f7; padding: 40px 20px;">
+  <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.05); text-align: center;">
 
-<p>You can confirm your account email through the link below:</p>
+    <!-- Logo Readnest -->
+    <div style="margin-bottom: 30px;">
+      <%= image_tag asset_url("logo.jpg"), alt: "Readnest", style: "max-height: 80px;" %>
+    </div>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+    <!-- Message principal -->
+    <h2 style="color: #333333; font-weight: bold;">Bienvenue sur Readnest, <%= @email %> !</h2>
+    <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-top: 20px;">
+      Merci de vous être inscrit sur notre plateforme littéraire.<br>
+      Avant de pouvoir explorer les chroniques et partager vos découvertes, veuillez confirmer votre adresse email en cliquant sur le bouton ci-dessous :
+    </p>
+
+    <!-- Bouton de confirmation -->
+    <div style="margin-top: 30px;">
+      <%= link_to 'Confirmer mon compte', user_confirmation_url(confirmation_token: @token),
+        style: "background-color: #000000; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 25px; font-weight: bold; display: inline-block;" %>
+    </div>
+
+    <!-- Footer -->
+    <p style="margin-top: 40px; font-size: 13px; color: #999999;">
+      Si vous n’avez pas créé de compte Readnest, vous pouvez ignorer ce message.
+    </p>
+
+    <p style="margin-top: 20px; font-size: 14px; color: #444444;">
+      — L’équipe Readnest 📚
+    </p>
+  </div>
+</div>

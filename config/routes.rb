@@ -58,4 +58,8 @@ Rails.application.routes.draw do
   end
   get "about", to: "pages#about"
   get "bookshops", to: "pages#bookshops"
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end

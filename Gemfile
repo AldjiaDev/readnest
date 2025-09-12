@@ -67,3 +67,8 @@ end
 gem "devise"
 gem "bootstrap", "~> 5.3"
 gem "sassc-rails"
+
+group :development do
+  #gem "letter_opener"
+  #gem "letter_opener_web"
+end
