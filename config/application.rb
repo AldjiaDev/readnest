@@ -25,5 +25,7 @@ module Readnest
     # config.eager_load_paths << Rails.root.join("extras")
     # config.exceptions_app = self.routes
     config.exceptions_app = self.routes
+    config.i18n.available_locales = [:en, :fr]
+    config.i18n.default_locale = :fr
   end
 end
