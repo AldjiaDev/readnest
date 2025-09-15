@@ -105,7 +105,7 @@ Rails.application.configure do
   #
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { host: "readnest-7b25107ffb5b.herokuapp.com", protocol: "https" }
-  config.action_mailer.default_options = { from: "boughias-aldjia@live.fr" }
+  config.action_mailer.default_options = { from: "boughias.aldjia@gmail.com" }
 
   config.action_mailer.smtp_settings = {
     user_name: "apikey",
