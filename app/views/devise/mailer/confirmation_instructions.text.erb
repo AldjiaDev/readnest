@@ -1,0 +1,8 @@
+Bonjour <%= @email %>,
+
+Merci de vous être inscrit sur Readnest 📚
+Vous pouvez confirmer votre adresse e-mail en cliquant sur le lien ci-dessous :
+
+<%= confirmation_url(@resource, confirmation_token: @token) %>
+
+À très bientôt sur Readnest !
