@@ -1,8 +1,8 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_conversation
 
   def create
-    @conversation = Conversation.find(params[:conversation_id])
     @message = @conversation.messages.build(message_params)
     @message.user = current_user
 
@@ -15,6 +15,10 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  def set_conversation
+    @conversation = Conversation.find(params[:conversation_id])
+  end
 
   def message_params
     params.require(:message).permit(:content)

@@ -78,7 +78,7 @@
 
   <!-- COMMENTAIRES -->
   <div class="mt-5">
-    <h4 class="mb-4 fw-bold border-bottom pb-2">💬 Commentaires</h4>
+    <h4 class="mb-4 fw-bold border-bottom pb-2">Commentaires</h4>
 
     <% @chronicle.comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
       <div class="mb-4 p-3 border rounded bg-light">
@@ -129,7 +129,7 @@
     <% end %>
 
     <% if user_signed_in? %>
-      <h5 class="mt-4">✍️ Ajouter un commentaire</h5>
+      <h5 class="mt-4">Ajouter un commentaire</h5>
       <%= form_with model: [@chronicle, Comment.new], local: true do |f| %>
         <div class="mb-2">
           <%= f.text_area :content, placeholder: "Votre commentaire...", rows: 3, class: "form-control" %>
@@ -156,4 +156,3 @@
     <% end %>
   </div>
 </div>
-

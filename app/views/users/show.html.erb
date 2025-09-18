@@ -4,6 +4,19 @@
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-10">
+
+        <!-- Bloc username + bouton message -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2><%= @user.username %></h2>
+
+          <% if user_signed_in? && current_user != @user %>
+            <%= button_to "Envoyer un message",
+                conversations_path(receiver_id: @user.id),
+                method: :post,
+                class: "btn btn-dark rounded-pill px-3" %>
+          <% end %>
+        </div>
+
         <div class="row align-items-center mb-5">
           <!-- Avatar à gauche -->
           <div class="col-md-3 text-center mb-4 mb-md-0">
@@ -47,7 +60,6 @@
                 <% else %>
                   <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-secondary btn-sm rounded-pill text-white" %>
                 <% end %>
-                <%= link_to "Envoyer un message", conversations_path(receiver_id: @user.id), method: :post, class: "btn btn-outline-dark btn-sm rounded-pill text-black" %>
               <% elsif user_signed_in? && current_user == @user %>
                 <%= link_to "Modifier mon profil", edit_user_path(@user), class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
               <% end %>
@@ -99,3 +111,4 @@
     </div>
   </div>
 </section>
+

@@ -8,17 +8,15 @@ class ConversationsController < ApplicationController
   def show
     @conversation = Conversation.find(params[:id])
     @messages = @conversation.messages.order(created_at: :asc)
-    @message = Message.new
+    @message = @conversation.messages.build
   end
 
   def create
-    receiver = User.find(params[:receiver_id])
-    conversation = Conversation.between(current_user.id, receiver.id).first
+    @conversation = Conversation.between(current_user.id, params[:receiver_id]).first_or_create!(
+      sender_id: current_user.id,
+      receiver_id: params[:receiver_id]
+    )
 
-    unless conversation
-      conversation = Conversation.create(sender: current_user, receiver: receiver)
-    end
-
-    redirect_to conversation_path(conversation)
+    redirect_to conversation_path(@conversation)
   end
 end

@@ -58,6 +58,17 @@
             <%= link_to "Mon profil", user_path(current_user), class: "nav-link custom-nav-link" %>
           </li>
         <% end %>
+            <% unread_count = Message.where(read: false).where.not(user: current_user).count %>
+          <li class="nav-item">
+            <%= link_to conversations_path, class: "nav-link position-relative" do %>
+              Messagerie
+              <% if unread_count.positive? %>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  <%= unread_count %>
+                </span>
+              <% end %>
+            <% end %>
+          </li>
       </ul>
 
       <!-- Partie droite -->

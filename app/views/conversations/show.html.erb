@@ -1,18 +1,58 @@
-<h2 class="mb-4">Conversation avec <%= @conversation.other_user(current_user).username %></h2>
+<div class="container py-5" style="margin-top: 80px; max-width: 800px;">
+  <h3 class="fw-bold mb-4 text-center">
+    Conversation avec <%= @conversation.other_user(current_user).username %>
+  </h3>
 
-<div class="border rounded p-3 mb-3 bg-white" style="max-height: 400px; overflow-y: auto;">
-  <% @messages.each do |message| %>
-    <div class="mb-2">
-      <strong><%= message.user.username %>:</strong>
-      <span><%= message.content %></span>
-      <div class="text-muted small"><%= l(message.created_at, format: :short) %></div>
-    </div>
-  <% end %>
-</div>
+  <!-- Zone des messages -->
+  <div id="messages" class="border rounded p-3 mb-4 bg-light"
+       style="max-height: 500px; overflow-y: auto;">
 
-<%= form_with(model: [@conversation, @message], local: true) do |form| %>
-  <div class="input-group">
-    <%= form.text_field :content, class: "form-control", placeholder: "Votre message..." %>
-    <button class="btn btn-primary" type="submit">Envoyer</button>
+    <% @messages.each do |message| %>
+      <div class="d-flex mb-3 <%= message.user == current_user ? 'justify-content-end' : 'justify-content-start' %>">
+
+        <!-- Avatar si ce n’est pas moi -->
+        <% if message.user != current_user %>
+          <% if message.user.avatar.attached? %>
+            <%= image_tag message.user.avatar, class: "rounded-circle me-2", style: "width: 35px; height: 35px; object-fit: cover;" %>
+          <% else %>
+            <%= image_tag "default_avatar.png", class: "rounded-circle me-2", style: "width: 35px; height: 35px; object-fit: cover;" %>
+          <% end %>
+        <% end %>
+
+        <!-- Bulle -->
+        <div class="p-2 rounded-3 shadow-sm
+          <%= message.user == current_user ? 'bg-dark text-white' : 'bg-white border' %>"
+          style="max-width: 70%;">
+          <p class="mb-1"><%= message.content %></p>
+          <small class="text-muted"><%= time_ago_in_words(message.created_at) %> ago</small>
+        </div>
+
+        <!-- Avatar si c’est moi -->
+        <% if message.user == current_user %>
+          <% if message.user.avatar.attached? %>
+            <%= image_tag message.user.avatar, class: "rounded-circle ms-2", style: "width: 35px; height: 35px; object-fit: cover;" %>
+          <% else %>
+            <%= image_tag "default_avatar.png", class: "rounded-circle ms-2", style: "width: 35px; height: 35px; object-fit: cover;" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+
+  <!-- Formulaire en bas -->
+    <%= form_with(model: [@conversation, @message], local: true) do |f| %>
+      <div class="mb-3">
+        <%= f.text_area :content, class: "form-control", placeholder: "Écrire un message...", rows: 2 %>
+      </div>
+      <%= f.submit "Envoyer", class: "btn btn-dark rounded-pill px-4" %>
+    <% end %>
+
+<script>
+  // Auto-scroll vers le bas à chaque chargement
+  document.addEventListener("turbo:load", () => {
+    const messagesDiv = document.getElementById("messages");
+    if (messagesDiv) {
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+  });
+</script>

@@ -1,14 +1,42 @@
-<h2 class="mb-4">Mes conversations</h2>
+<div class="container py-5" style="margin-top: 80px; max-width: 800px;">
+  <h3 class="fw-bold mb-4 text-center">Boîte de réception</h3>
 
-<% if @conversations.any? %>
-  <ul class="list-group">
-    <% @conversations.each do |conversation| %>
-      <% other = conversation.sender == current_user ? conversation.receiver : conversation.sender %>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <%= link_to other.username, conversation_path(conversation), class: "text-decoration-none" %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p class="text-muted">Aucune conversation pour le moment.</p>
-<% end %>
+  <% if @conversations.any? %>
+    <div class="list-group shadow-sm rounded-3">
+      <% @conversations.each do |conversation| %>
+        <% other_user = conversation.other_user(current_user) %>
+        <% last_message = conversation.messages.order(created_at: :desc).first %>
+
+        <%= link_to conversation_path(conversation),
+                    class: "list-group-item list-group-item-action d-flex align-items-center p-3" do %>
+
+          <!-- Avatar -->
+          <% if other_user.avatar.attached? %>
+            <%= image_tag other_user.avatar, class: "rounded-circle me-3", style: "width: 50px; height: 50px; object-fit: cover;" %>
+          <% else %>
+            <%= image_tag "default_avatar.png", class: "rounded-circle me-3", style: "width: 50px; height: 50px; object-fit: cover;" %>
+          <% end %>
+
+          <!-- Infos -->
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between">
+              <strong class="text-dark"><%= other_user.username %></strong>
+              <% if last_message %>
+                <small class="text-muted"><%= l(last_message.created_at, format: :short) %></small>
+              <% end %>
+            </div>
+            <p class="mb-0 text-muted small">
+              <% if last_message %>
+                <%= truncate(last_message.content, length: 50) %>
+              <% else %>
+                <em>Aucun message pour le moment</em>
+              <% end %>
+            </p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center text-muted">Aucune conversation pour le moment.</p>
+  <% end %>
+</div>
