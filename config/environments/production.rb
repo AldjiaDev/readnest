@@ -109,6 +109,13 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "readnest-7b25107ffb5b.herokuapp.com", protocol: "https" }
   config.action_mailer.default_options = { from: "boughias.aldjia@gmail.com" }
 
+  # Active Storage → Cloudinary en production
+  config.active_storage.service = :cloudinary
+
+  # (Optionnel mais conseillé si tu utilises des variants)
+  config.active_storage.variant_processor = :mini_magick
+
+
   config.action_mailer.smtp_settings = {
     user_name: "apikey",
     password: ENV["SENDGRID_API_KEY"],

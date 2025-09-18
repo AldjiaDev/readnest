@@ -72,3 +72,11 @@ group :development do
   #gem "letter_opener"
   #gem "letter_opener_web"
 end
+
+# Cloudinary + Active Storage
+gem "cloudinary", "~> 2.4"
+gem "activestorage-cloudinary-service", "~> 0.2.0"
+
+# Pour les variants (redimensionnement d'images)
+gem "image_processing", "~> 1.12"
+gem "mini_magick", "~> 4.12"
