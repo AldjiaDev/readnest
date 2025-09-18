@@ -4,10 +4,10 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:destroy, :report]
 
   def create
-    @chronicle = Chronicle.find(params[:chronicle_id])
     @comment = @chronicle.comments.build(comment_params.merge(user: current_user))
 
     if @comment.save
+      # Notification au propriétaire de la chronique
       Notification.create(
         recipient: @chronicle.user,
         actor: current_user,
@@ -15,7 +15,17 @@ class CommentsController < ApplicationController
         notifiable: @comment
       )
 
-      redirect_to @chronicle, notice: "Commentaire publié."
+      # Notification au parent si c'est une réponse
+      if @comment.parent && @comment.parent.user != current_user
+        Notification.create(
+          recipient: @comment.parent.user,
+          actor: current_user,
+          action: "replied",
+          notifiable: @comment
+        )
+      end
+
+      redirect_to @chronicle, notice: @comment.parent ? "Réponse publiée." : "Commentaire publié."
     else
       render "chronicles/show", status: :unprocessable_entity
     end

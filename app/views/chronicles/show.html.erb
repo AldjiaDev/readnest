@@ -79,30 +79,76 @@
     <span class="text-muted small"><%= pluralize(@chronicle.likes.count, "like") %></span>
   </div>
 
-  <!-- COMMENTAIRES -->
-  <div class="mt-5">
-    <h4 class="mb-4 fw-bold">Commentaires</h4>
+<!-- COMMENTAIRES -->
+<div class="mt-5">
+  <h4 class="mb-4 fw-bold">Commentaires</h4>
 
-    <% @chronicle.comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
-      <div class="mb-4 p-3 border rounded bg-light">
-        <strong><%= comment.user.username %></strong>
-        <small class="text-muted">· <%= time_ago_in_words(comment.created_at) %> ago</small>
-        <p class="mb-2"><%= comment.content %></p>
+  <% @chronicle.comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
+    <div class="mb-4 p-3 border rounded bg-light">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <strong><%= comment.user.username %></strong>
+          <small class="text-muted">· il y a <%= time_ago_in_words(comment.created_at) %></small>
+        </div>
+
+        <!-- Bouton Répondre à droite -->
+        <% if user_signed_in? %>
+          <button class="btn btn-outline-dark btn-sm rounded-pill px-3"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#reply-form-<%= comment.id %>">
+            Répondre
+          </button>
+        <% end %>
+      </div>
+
+      <p class="mt-2 mb-2"><%= comment.content %></p>
+
+      <!-- Formulaire de réponse -->
+      <div class="collapse mt-2" id="reply-form-<%= comment.id %>">
+        <%= form_with model: [@chronicle, Comment.new], local: true do |f| %>
+          <%= f.hidden_field :parent_id, value: comment.id %>
+          <div class="mb-2">
+            <%= f.text_area :content, placeholder: "Votre réponse...", rows: 2, class: "form-control" %>
+          </div>
+          <div class="text-end">
+            <%= f.submit "Répondre", class: "btn btn-dark btn-sm rounded-pill px-3" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Réponses imbriquées -->
+      <% if comment.replies.any? %>
+        <div class="mt-3 ms-4">
+          <% comment.replies.order(created_at: :asc).each do |reply| %>
+            <div class="mb-2 p-2 border rounded bg-white">
+              <strong><%= reply.user.username %></strong>
+              <small class="text-muted">· il y a <%= time_ago_in_words(reply.created_at) %></small>
+              <p class="mb-1"><%= reply.content %></p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if user_signed_in? %>
+    <h5 class="mt-4">Ajouter un commentaire</h5>
+    <%= form_with model: [@chronicle, Comment.new], local: true do |f| %>
+      <div class="mb-2">
+        <%= f.text_area :content, placeholder: "Votre commentaire...", rows: 3, class: "form-control" %>
+      </div>
+      <div class="text-end">
+        <%= f.submit "Commenter", class: "btn btn-dark rounded-pill px-3" %>
       </div>
     <% end %>
+  <% else %>
+    <p class="text-muted">Connectez-vous pour commenter cette chronique.</p>
+  <% end %>
+</div>
 
-    <% if user_signed_in? %>
-      <h5 class="mt-4">Ajouter un commentaire</h5>
-      <%= form_with model: [@chronicle, Comment.new], local: true do |f| %>
-        <div class="mb-2">
-          <%= f.text_area :content, placeholder: "Votre commentaire...", rows: 3, class: "form-control" %>
-        </div>
-        <%= f.submit "Commenter", class: "btn btn-dark" %>
-      <% end %>
-    <% else %>
-      <p class="text-muted">Connectez-vous pour commenter cette chronique.</p>
-    <% end %>
-  </div>
+
+
 
   <!-- RETOUR ET SUPPRESSION -->
   <div class="text-center mt-5">
