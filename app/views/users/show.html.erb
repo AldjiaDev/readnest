@@ -9,16 +9,18 @@
           <!-- Avatar -->
           <div class="col-md-3 text-center mb-4 mb-md-0">
             <% if @user.avatar.attached? %>
-              <%= image_tag url_for(@user.avatar), class: "rounded-circle shadow border border-2",
+              <%= image_tag url_for(@user.avatar),
+                  class: "rounded-circle shadow border border-2",
                   style: "width: 160px; height: 160px; object-fit: cover;" %>
             <% else %>
-              <div class="rounded-circle bg-secondary" style="width: 160px; height: 160px;"></div>
+              <div class="rounded-circle bg-secondary"
+                   style="width: 160px; height: 160px;"></div>
             <% end %>
           </div>
 
           <!-- Infos utilisateur -->
           <div class="col-md-9">
-            <h2 class="fw-bold text-black mb-1"><%= @user.username %></h2>
+            <h2 class="fw-bold text-black mb-3"><%= @user.username %></h2>
 
             <% if @user.bio.present? %>
               <p class="small text-black mb-2"><%= @user.bio %></p>
@@ -31,15 +33,25 @@
             <!-- Réseaux sociaux -->
             <div class="d-flex gap-3 mt-2">
               <% if @user.website.present? %>
-                <a href="<%= @user.website %>" target="_blank" class="text-dark fs-4"><i class="bi bi-globe"></i></a>
+                <a href="<%= @user.website %>" target="_blank" class="text-dark fs-4">
+                  <i class="bi bi-globe"></i>
+                </a>
               <% end %>
               <% if @user.twitter.present? %>
-                <% twitter_url = @user.twitter.match?(/^http/) ? @user.twitter : "https://twitter.com/#{@user.twitter.delete_prefix('@')}" %>
-                <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4"><i class="bi bi-twitter-x"></i></a>
+                <% twitter_url = @user.twitter.match?(/^http/) ?
+                    @user.twitter :
+                    "https://twitter.com/#{@user.twitter.delete_prefix('@')}" %>
+                <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4">
+                  <i class="bi bi-twitter-x"></i>
+                </a>
               <% end %>
               <% if @user.instagram.present? %>
-                <% insta_url = @user.instagram.match?(/^http/) ? @user.instagram : "https://instagram.com/#{@user.instagram.delete_prefix('@')}" %>
-                <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4"><i class="bi bi-instagram"></i></a>
+                <% insta_url = @user.instagram.match?(/^http/) ?
+                    @user.instagram :
+                    "https://instagram.com/#{@user.instagram.delete_prefix('@')}" %>
+                <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4">
+                  <i class="bi bi-instagram"></i>
+                </a>
               <% end %>
             </div>
 
@@ -48,22 +60,20 @@
               <% if user_signed_in? && current_user != @user %>
                 <% if current_user.followed_users.include?(@user) %>
                   <%= button_to "Se désabonner",
-                      follow_path(type: "User", id: @user.id),
+                      follow_path(followable_type: "User", followable_id: @user.id),
                       method: :delete,
                       class: "btn btn-outline-dark btn-sm rounded-pill" %>
                 <% else %>
                   <%= button_to "S’abonner",
-                      follows_path(type: "User", id: @user.id),
+                      follows_path(followable_type: "User", followable_id: @user.id),
                       method: :post,
                       class: "btn btn-secondary btn-sm rounded-pill text-white" %>
                 <% end %>
 
-                <!-- Bouton message à côté -->
                 <%= button_to "Envoyer un message",
                     conversations_path(receiver_id: @user.id),
                     method: :post,
-                    class: "btn btn-dark btn-sm rounded-pill" %>
-
+                    class: "btn btn-dark rounded-pill px-3 ms-2" %>
               <% elsif user_signed_in? && current_user == @user %>
                 <%= link_to "Modifier mon profil",
                     edit_user_path(@user),
@@ -87,24 +97,33 @@
               <% @user.chronicles.each do |chronicle| %>
                 <div class="col">
                   <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
-                    <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
+                    <div class="position-relative overflow-hidden shadow-sm"
+                         style="border-radius: 1.25rem; height: 400px;">
                       <% if chronicle.photo.attached? %>
-                        <%= image_tag chronicle.photo, class: "w-100 h-100",
+                        <%= image_tag chronicle.photo,
+                            class: "w-100 h-100",
                             style: "object-fit: cover; border-radius: 1.25rem;" %>
                       <% else %>
-                        <%= image_tag "livre.jpeg", class: "w-100 h-100",
+                        <%= image_tag "livre.jpeg",
+                            class: "w-100 h-100",
                             style: "object-fit: cover; border-radius: 1.25rem;" %>
                       <% end %>
 
                       <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
-                           style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
-                        <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                           style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+                                  border-radius: 1.25rem;">
+                        <h5 class="fw-bold text-white mb-2"
+                            style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
                           <%= truncate(chronicle.title, length: 55) %>
                         </h5>
                         <p class="text-white mb-0 small fw-medium">
-                          <%= @user.is_publishing_house? && @user.publishing_house.present? ? @user.publishing_house.name : @user.username %>
+                          <%= @user.is_publishing_house? && @user.publishing_house.present? ?
+                              @user.publishing_house.name :
+                              @user.username %>
                         </p>
-                        <p class="text-white-50 small mb-0"><%= chronicle.created_at.strftime("%b %d, %Y") %></p>
+                        <p class="text-white-50 small mb-0">
+                          <%= chronicle.created_at.strftime("%b %d, %Y") %>
+                        </p>
                       </div>
                     </div>
                   <% end %>
