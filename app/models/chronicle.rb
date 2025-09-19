@@ -14,4 +14,11 @@ class Chronicle < ApplicationRecord
       tsearch: { prefix: true }, # "liv" => "livre"
       trigram: {} # tolérance aux fautes
     }
+
+  extend FriendlyId
+  friendly_id :title, use: :slugged
+
+  def should_generate_new_friendly_id?
+    slug.blank? || will_save_change_to_title?
+  end
 end

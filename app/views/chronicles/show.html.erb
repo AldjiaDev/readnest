@@ -1,4 +1,5 @@
 <% content_for :title, @chronicle.title %>
+<% content_for :meta_description, @chronicle.summary.presence || @chronicle.content.to_s.truncate(160) %>
 
 <div class="container py-5" style="margin-top: 100px; max-width: 800px;">
 

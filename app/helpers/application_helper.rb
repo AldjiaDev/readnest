@@ -8,4 +8,12 @@ module ApplicationHelper
     else flash_type.to_s
     end
   end
+
+  def page_title(default: "Readnest", title: nil)
+    [title, default].compact.join(" · ")
+  end
+
+  def meta_description(text = nil)
+    truncate(strip_tags(text.presence || "Chroniques littéraires, maisons d’édition et librairies — Readnest."), length: 160)
+  end
 end

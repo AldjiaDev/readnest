@@ -82,3 +82,6 @@ gem "image_processing", "~> 1.12"
 gem "mini_magick", "~> 4.12"
 
 gem "pg_search"
+
+gem "friendly_id", "~> 5.5"
+gem "sitemap_generator"

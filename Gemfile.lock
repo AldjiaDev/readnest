@@ -136,6 +136,8 @@ GEM
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi (1.17.2-x86_64-linux-musl)
+    friendly_id (5.5.1)
+      activerecord (>= 4.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.7)
@@ -321,6 +323,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sitemap_generator (6.3.0)
+      builder (~> 3.0)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -390,6 +394,7 @@ DEPENDENCIES
   cloudinary (~> 2.4)
   debug
   devise
+  friendly_id (~> 5.5)
   image_processing (~> 1.12)
   importmap-rails
   jbuilder
@@ -401,6 +406,7 @@ DEPENDENCIES
   rubocop-rails-omakase
   sassc-rails
   selenium-webdriver
+  sitemap_generator
   sprockets-rails
   sqlite3
   stimulus-rails

@@ -23,10 +23,6 @@ class ChroniclesController < ApplicationController
     end
   end
 
-  def edit
-    # Rien à faire ici, tout est déjà géré par les before_actions
-  end
-
   def update
     if @chronicle.update(chronicle_params)
       redirect_to @chronicle, notice: "Chronique mise à jour avec succès."
@@ -38,6 +34,10 @@ class ChroniclesController < ApplicationController
   def destroy
     @chronicle.destroy
     redirect_to chronicles_path, status: :see_other, notice: "Chronique supprimée."
+  end
+
+  def set_chronicle
+    @chronicle = Chronicle.friendly.find(params[:id])
   end
 
   private
