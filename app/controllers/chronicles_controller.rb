@@ -1,19 +1,13 @@
 class ChroniclesController < ApplicationController
   before_action :set_chronicle, only: %i[show edit update destroy]
-  before_action :authorize_owner!, only: %i[edit update destroy]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :authorize_user!, only: %i[edit update destroy]
 
   def index
-    @chronicles = Chronicle.all
+    @chronicles = Chronicle.all.order(created_at: :desc)
   end
 
   def show
-    @chronicle = Chronicle.friendly.find(params[:id])
-
-    prepare_meta_tags(
-      title: @chronicle.title,
-      description: @chronicle.summary.presence || @chronicle.content.truncate(160),
-      image: @chronicle.photo.attached? ? url_for(@chronicle.photo) : view_context.asset_url("logo.jpg")
-    )
   end
 
   def new
@@ -22,12 +16,14 @@ class ChroniclesController < ApplicationController
 
   def create
     @chronicle = current_user.chronicles.build(chronicle_params)
-
     if @chronicle.save
-      redirect_to @chronicle, notice: "Chronique publiée avec succès."
+      redirect_to @chronicle, notice: "Chronique créée avec succès."
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
   end
 
   def update
@@ -43,27 +39,21 @@ class ChroniclesController < ApplicationController
     redirect_to chronicles_path, status: :see_other, notice: "Chronique supprimée."
   end
 
-  def set_chronicle
-    @chronicle = Chronicle.friendly.find(params[:id])
-  end
-
   private
 
   def set_chronicle
-    @chronicle = Chronicle.find(params[:id])
+    @chronicle = Chronicle.friendly.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to chronicles_path, alert: "Chronique introuvable."
   end
 
-  def authorize_owner!
+  def authorize_user!
     unless @chronicle.user == current_user
-      redirect_to chronicles_path, alert: "Vous n’êtes pas autorisé à effectuer cette action."
+      redirect_to chronicles_path, alert: "Accès refusé."
     end
   end
 
   def chronicle_params
-    params.require(:chronicle).permit(
-      :title, :content, :photo, :caption,
-      :summary, :book_title, :author, :publisher,
-      table_of_contents: []
-    )
+    params.require(:chronicle).permit(:title, :summary, :content, :photo, :caption, table_of_contents: [])
   end
 end

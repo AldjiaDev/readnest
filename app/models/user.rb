@@ -46,4 +46,11 @@ class User < ApplicationRecord
       tsearch: { prefix: true },
       trigram: {}
     }
+
+    extend FriendlyId
+  friendly_id :username, use: :slugged
+
+  def should_generate_new_friendly_id?
+    slug.blank? || will_save_change_to_username?
+  end
 end

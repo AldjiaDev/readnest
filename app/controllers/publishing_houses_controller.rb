@@ -3,28 +3,18 @@ class PublishingHousesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :authorize_user!, only: %i[edit update destroy]
 
-  # GET /publishing_houses
   def index
-    @publishing_houses = PublishingHouse.all
+    @publishing_houses = PublishingHouse.all.order(created_at: :desc)
   end
-
-  # GET /publishing_houses/1
   def show
   end
 
-  # GET /publishing_houses/new
   def new
     @publishing_house = PublishingHouse.new
   end
 
-  # GET /publishing_houses/1/edit
-  def edit
-  end
-
-  # POST /publishing_houses
   def create
-    @publishing_house = PublishingHouse.new(publishing_house_params)
-    @publishing_house.user = current_user
+    @publishing_house = current_user.build_publishing_house(publishing_house_params)
 
     if @publishing_house.save
       redirect_to @publishing_house, notice: "Maison d’édition créée avec succès."
@@ -33,7 +23,9 @@ class PublishingHousesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /publishing_houses/1
+  def edit
+  end
+
   def update
     if @publishing_house.update(publishing_house_params)
       redirect_to @publishing_house, notice: "Maison d’édition mise à jour avec succès."
@@ -42,7 +34,6 @@ class PublishingHousesController < ApplicationController
     end
   end
 
-  # DELETE /publishing_houses/1
   def destroy
     @publishing_house.destroy
     redirect_to publishing_houses_path, status: :see_other, notice: "Maison d’édition supprimée."
@@ -51,7 +42,9 @@ class PublishingHousesController < ApplicationController
   private
 
   def set_publishing_house
-    @publishing_house = PublishingHouse.find(params[:id])
+    @publishing_house = PublishingHouse.friendly.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to publishing_houses_path, alert: "Maison d’édition introuvable."
   end
 
   def authorize_user!

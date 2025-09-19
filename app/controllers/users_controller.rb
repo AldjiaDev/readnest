@@ -1,14 +1,8 @@
 class UsersController < ApplicationController
   def show
-    unless valid_integer_id?(params[:id])
-      redirect_to root_path and return
-    end
-
-    @user = User.find_by(id: params[:id])
-
-    unless @user
-      redirect_to root_path, alert: "Utilisateur introuvable."
-    end
+    @user = User.friendly.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: "Utilisateur introuvable."
   end
 
   def edit
@@ -25,10 +19,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def valid_integer_id?(value)
-    value.to_i.to_s == value
-  end
 
   def user_params
     params.require(:user).permit(
