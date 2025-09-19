@@ -37,4 +37,13 @@ class User < ApplicationRecord
   def following?(record)
     follows.exists?(followable: record)
   end
+
+  include PgSearch::Model
+
+  pg_search_scope :search_by_username_and_bio,
+    against: [:username, :bio],
+    using: {
+      tsearch: { prefix: true },
+      trigram: {}
+    }
 end

@@ -5,4 +5,13 @@ class Chronicle < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_by_users, through: :likes, source: :user
   attribute :table_of_contents, :string, array: true, default: []
+
+  include PgSearch::Model
+
+  pg_search_scope :search_by_title_and_content,
+    against: [:title, :content, :summary],
+    using: {
+      tsearch: { prefix: true }, # "liv" => "livre"
+      trigram: {} # tolérance aux fautes
+    }
 end

@@ -1,0 +1,47 @@
+<div class="container py-5" style="margin-top: 100px; max-width: 900px;">
+  <!-- Titre -->
+  <h2 class="fw-bold mb-4 text-uppercase text-center text-black">
+    Résultats pour « <%= params[:query] %> »
+  </h2>
+
+  <% if @results.blank? %>
+    <p class="text-muted text-center">Aucun résultat trouvé.</p>
+  <% else %>
+    <!-- Résultats -->
+    <div class="list-group shadow-sm rounded">
+      <% @results.each do |result| %>
+        <%= link_to polymorphic_path(result), class: "list-group-item list-group-item-action d-flex align-items-center" do %>
+
+          <!-- Avatar ou Image -->
+          <% if result.is_a?(User) %>
+            <% if result.avatar.attached? %>
+              <%= image_tag result.avatar, class: "rounded-circle me-3", style: "width: 50px; height: 50px; object-fit: cover;" %>
+            <% else %>
+              <%= image_tag "default_avatar.png", class: "rounded-circle me-3", style: "width: 50px; height: 50px; object-fit: cover;" %>
+            <% end %>
+          <% elsif result.is_a?(Chronicle) && result.photo.attached? %>
+            <%= image_tag result.photo, class: "rounded me-3", style: "width: 60px; height: 60px; object-fit: cover;" %>
+          <% elsif result.is_a?(PublishingHouse) && result.logo.attached? %>
+            <%= image_tag result.logo, class: "rounded me-3", style: "width: 60px; height: 60px; object-fit: cover;" %>
+          <% else %>
+            <div class="bg-secondary rounded me-3" style="width: 60px; height: 60px;"></div>
+          <% end %>
+
+          <!-- Texte -->
+          <div>
+            <% if result.is_a?(User) %>
+              <h6 class="mb-1 fw-bold text-dark"><%= result.username %></h6>
+              <small class="text-muted">Utilisateur</small>
+            <% elsif result.is_a?(Chronicle) %>
+              <h6 class="mb-1 fw-bold text-dark"><%= truncate(result.title, length: 60) %></h6>
+              <small class="text-muted">Chronique par <%= result.user.username %></small>
+            <% elsif result.is_a?(PublishingHouse) %>
+              <h6 class="mb-1 fw-bold text-dark"><%= result.name %></h6>
+              <small class="text-muted">Maison d’édition</small>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "search", to: "search#index"
   get "errors/not_found"
   get "errors/internal_server_error"
   get "pages/about"

@@ -15,10 +15,12 @@
     </p>
 
 
-    <!-- Formulaire de recherche -->
+  <!-- Formulaire de recherche -->
     <div class="d-flex justify-content-center mt-4">
-      <%= form_with url: root_path, method: :get, local: true, class: "d-flex w-75 w-md-50" do |form| %>
-        <%= form.text_field :query, value: params[:query], placeholder: "Rechercher une chronique...", class: "form-control form-control-lg rounded-start-pill shadow-sm border-dark" %>
+      <%= form_with url: search_path, method: :get, local: true, class: "d-flex w-75 w-md-50" do |form| %>
+        <%= form.text_field :query, value: params[:query],
+              placeholder: "Rechercher une chronique, un utilisateur, une maison d’édition...",
+              class: "form-control form-control-lg rounded-start-pill shadow-sm border-dark" %>
         <%= form.submit "Rechercher", class: "btn btn-outline-dark btn-lg rounded-end-pill px-4 shadow-sm" %>
       <% end %>
     </div>

@@ -80,3 +80,5 @@ gem "activestorage-cloudinary-service", "~> 0.2.0"
 # Pour les variants (redimensionnement d'images)
 gem "image_processing", "~> 1.12"
 gem "mini_magick", "~> 4.12"
+
+gem "pg_search"
