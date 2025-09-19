@@ -8,7 +8,10 @@ class FollowsController < ApplicationController
   end
 
   def destroy
-    follow = current_user.follows.find_by(followable_type: params[:type], followable_id: params[:id])
+    follow = current_user.follows.find_by(
+      followable_type: params[:followable_type],
+      followable_id: params[:followable_id]
+    )
     follow&.destroy
     redirect_back fallback_location: root_path, notice: "Abonnement annulé."
   end
