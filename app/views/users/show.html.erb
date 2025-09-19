@@ -5,61 +5,46 @@
     <div class="row justify-content-center">
       <div class="col-md-10">
 
-        <div class="row align-items-center mb-5">
-          <!-- Avatar à gauche -->
-          <div class="col-md-3 text-center mb-4 mb-md-0">
-            <% if @user.avatar.attached? %>
-              <%= image_tag url_for(@user.avatar), class: "rounded-circle shadow border border-2", style: "width: 160px; height: 160px; object-fit: cover;" %>
-            <% else %>
-              <div class="rounded-circle bg-secondary" style="width: 160px; height: 160px;"></div>
+      <div class="row align-items-center mb-5">
+        <!-- Avatar à gauche -->
+        <div class="col-md-3 text-center mb-4 mb-md-0 d-flex justify-content-center">
+          <% if @user.avatar.attached? %>
+            <%= image_tag url_for(@user.avatar),
+                class: "rounded-circle shadow border border-2",
+                style: "width: 160px; height: 160px; object-fit: cover;" %>
+          <% else %>
+            <div class="rounded-circle bg-secondary" style="width: 160px; height: 160px;"></div>
+          <% end %>
+        </div>
+
+        <!-- Infos utilisateur -->
+        <div class="col-md-9 d-flex flex-column justify-content-center">
+          <h2 class="fw-bold text-black mb-2"><%= @user.username %></h2>
+
+          <% if @user.bio.present? %>
+            <p class="small text-black mb-2"><%= @user.bio %></p>
+          <% end %>
+
+          <p class="small text-black mb-2">
+            <%= mail_to @user.email, nil, class: "text-decoration-none text-black" %>
+          </p>
+
+          <!-- Réseaux sociaux -->
+          <div class="d-flex gap-3 mt-2">
+            <% if @user.website.present? %>
+              <a href="<%= @user.website %>" target="_blank" class="text-dark fs-4"><i class="bi bi-globe"></i></a>
+            <% end %>
+            <% if @user.twitter.present? %>
+              <% twitter_url = @user.twitter.match?(/^http/) ? @user.twitter : "https://twitter.com/#{@user.twitter.delete_prefix('@')}" %>
+              <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4"><i class="bi bi-twitter-x"></i></a>
+            <% end %>
+            <% if @user.instagram.present? %>
+              <% insta_url = @user.instagram.match?(/^http/) ? @user.instagram : "https://instagram.com/#{@user.instagram.delete_prefix('@')}" %>
+              <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4"><i class="bi bi-instagram"></i></a>
             <% end %>
           </div>
-
-          <!-- Infos utilisateur -->
-          <div class="col-md-9">
-            <h2 class="fw-bold text-black mb-1"><%= @user.username %></h2>
-
-            <% if @user.bio.present? %>
-              <p class="small text-black mb-2"><%= @user.bio %></p>
-            <% end %>
-
-            <p class="small text-black mb-2"><%= mail_to @user.email, nil, class: "text-decoration-none text-black" %></p>
-
-            <!-- Réseaux sociaux -->
-            <div class="d-flex gap-3 mt-2 mb-3">
-              <% if @user.website.present? %>
-                <a href="<%= @user.website %>" target="_blank" class="text-dark fs-4"><i class="bi bi-globe"></i></a>
-              <% end %>
-              <% if @user.twitter.present? %>
-                <% twitter_url = @user.twitter.match?(/^http/) ? @user.twitter : "https://twitter.com/#{@user.twitter.delete_prefix('@')}" %>
-                <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4"><i class="bi bi-twitter-x"></i></a>
-              <% end %>
-              <% if @user.instagram.present? %>
-                <% insta_url = @user.instagram.match?(/^http/) ? @user.instagram : "https://instagram.com/#{@user.instagram.delete_prefix('@')}" %>
-                <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4"><i class="bi bi-instagram"></i></a>
-              <% end %>
-            </div>
-
-          <!-- Actions -->
-          <div class="mt-4 d-flex flex-wrap gap-2">
-            <% if user_signed_in? && current_user != @user %>
-              <% if current_user.follows.exists?(followable: @user) %>
-                <%= button_to "Se désabonner",
-                    follow_path(followable_type: "User", followable_id: @user.id),
-                    method: :delete,
-                    class: "btn btn-outline-dark btn-sm rounded-pill" %>
-              <% else %>
-                <%= button_to "S’abonner",
-                    follows_path(followable_type: "User", followable_id: @user.id),
-                    method: :post,
-                    class: "btn btn-secondary btn-sm rounded-pill text-white" %>
-              <% end %>
-            <% elsif user_signed_in? && current_user == @user %>
-              <%= link_to "Modifier mon profil",
-                  edit_user_path(@user),
-                  class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
-            <% end %>
-          </div>
+        </div>
+      </div>
 
         <hr class="my-5">
 
