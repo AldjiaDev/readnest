@@ -5,18 +5,6 @@
     <div class="row justify-content-center">
       <div class="col-md-10">
 
-        <!-- Bloc username + bouton message -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2><%= @user.username %></h2>
-
-          <% if user_signed_in? && current_user != @user %>
-            <%= button_to "Envoyer un message",
-                conversations_path(receiver_id: @user.id),
-                method: :post,
-                class: "btn btn-dark rounded-pill px-3" %>
-          <% end %>
-        </div>
-
         <div class="row align-items-center mb-5">
           <!-- Avatar à gauche -->
           <div class="col-md-3 text-center mb-4 mb-md-0">
@@ -38,7 +26,7 @@
             <p class="small text-black mb-2"><%= mail_to @user.email, nil, class: "text-decoration-none text-black" %></p>
 
             <!-- Réseaux sociaux -->
-            <div class="d-flex gap-3 mt-2">
+            <div class="d-flex gap-3 mt-2 mb-3">
               <% if @user.website.present? %>
                 <a href="<%= @user.website %>" target="_blank" class="text-dark fs-4"><i class="bi bi-globe"></i></a>
               <% end %>
@@ -53,13 +41,19 @@
             </div>
 
             <!-- Actions -->
-            <div class="mt-4 d-flex flex-wrap gap-2">
+            <div class="mt-3 d-flex flex-wrap gap-2">
               <% if user_signed_in? && current_user != @user %>
                 <% if current_user.followed_users.include?(@user) %>
                   <%= button_to "Se désabonner", follow_path(type: "User", id: @user.id), method: :delete, class: "btn btn-outline-dark btn-sm rounded-pill" %>
                 <% else %>
                   <%= button_to "S’abonner", follows_path(type: "User", id: @user.id), method: :post, class: "btn btn-secondary btn-sm rounded-pill text-white" %>
                 <% end %>
+
+                <!-- Bouton message déplacé ici -->
+                <%= button_to "Envoyer un message",
+                    conversations_path(receiver_id: @user.id),
+                    method: :post,
+                    class: "btn btn-dark btn-sm rounded-pill px-3" %>
               <% elsif user_signed_in? && current_user == @user %>
                 <%= link_to "Modifier mon profil", edit_user_path(@user), class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
               <% end %>
@@ -111,4 +105,3 @@
     </div>
   </div>
 </section>
-
