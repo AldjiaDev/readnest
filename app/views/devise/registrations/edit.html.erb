@@ -1,46 +1,84 @@
 <% content_for :title, "Modifier mon profil" %>
 
-<div class="container py-5">
-  <h1 class="text-center mb-4 fw-bold" style="color: #5e4636;">Modifier mon profil</h1>
+<section class="bg-light py-5" style="margin-top: 100px;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
 
-  <div class="row justify-content-center">
-    <div class="col-md-8">
+        <div class="card shadow-sm rounded-4 border-0">
+          <div class="card-body p-5">
+            <h2 class="fw-bold text-center mb-4">Modifier mon profil</h2>
 
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true }) do |f| %>
-        <div class="mb-3">
-          <%= f.label :username, "Nom d'utilisateur", class: "form-label" %>
-          <%= f.text_field :username, class: "form-control" %>
-        </div>
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+              <%= render "devise/shared/error_messages", resource: resource %>
 
-        <div class="mb-3">
-          <%= f.label :email, "Adresse email", class: "form-label" %>
-          <%= f.email_field :email, class: "form-control" %>
-        </div>
+              <!-- Username -->
+              <div class="mb-3">
+                <%= f.label :username, "Nom d’utilisateur", class: "form-label fw-semibold" %>
+                <%= f.text_field :username, class: "form-control rounded-pill shadow-sm" %>
+              </div>
 
-        <div class="mb-3">
-          <%= f.label :bio, "À propos de moi", class: "form-label" %>
-          <%= f.text_area :bio, rows: 4, class: "form-control", placeholder: "Parlez-nous un peu de vous..." %>
-        </div>
+              <!-- Email -->
+              <div class="mb-3">
+                <%= f.label :email, "Email", class: "form-label fw-semibold" %>
+                <%= f.email_field :email, autocomplete: "email", class: "form-control rounded-pill shadow-sm" %>
+              </div>
 
-        <% if resource.respond_to?(:avatar) %>
-          <div class="mb-3">
-            <%= f.label :avatar, "Photo de profil", class: "form-label" %>
-            <%= f.file_field :avatar, class: "form-control" %>
+              <!-- Avatar -->
+              <div class="mb-3">
+                <%= f.label :avatar, "Photo de profil", class: "form-label fw-semibold" %>
+                <%= f.file_field :avatar, class: "form-control shadow-sm" %>
+                <% if resource.avatar.attached? %>
+                  <div class="mt-2">
+                    <%= image_tag resource.avatar, class: "rounded-circle border shadow-sm", style: "width: 100px; height: 100px; object-fit: cover;" %>
+                  </div>
+                <% end %>
+              </div>
+
+              <!-- Maison d’édition -->
+              <div class="form-check mb-4">
+                <%= f.check_box :is_publishing_house, class: "form-check-input" %>
+                <%= f.label :is_publishing_house, "Je suis une maison d’édition", class: "form-check-label fw-semibold" %>
+              </div>
+
+              <!-- Nouveau mot de passe -->
+              <div class="mb-3">
+                <%= f.label :password, "Nouveau mot de passe", class: "form-label fw-semibold" %>
+                <small class="text-muted">(laisser vide si vous ne souhaitez pas le changer)</small>
+                <%= f.password_field :password, autocomplete: "new-password", class: "form-control rounded-pill shadow-sm" %>
+              </div>
+
+              <!-- Confirmation mot de passe -->
+              <div class="mb-3">
+                <%= f.label :password_confirmation, "Confirmer le mot de passe", class: "form-label fw-semibold" %>
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control rounded-pill shadow-sm" %>
+              </div>
+
+              <!-- Mot de passe actuel -->
+              <div class="mb-4">
+                <%= f.label :current_password, "Mot de passe actuel", class: "form-label fw-semibold" %>
+                <small class="text-muted">(nécessaire pour confirmer les changements)</small>
+                <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control rounded-pill shadow-sm" %>
+              </div>
+
+              <!-- Bouton -->
+              <div class="d-grid">
+                <%= f.submit "Mettre à jour", class: "btn btn-dark rounded-pill py-2 fw-bold shadow-sm" %>
+              </div>
+            <% end %>
+
+            <hr class="my-4">
+
+            <!-- Suppression du compte -->
+            <h5 class="fw-bold text-danger mb-3">Supprimer mon compte</h5>
+            <%= button_to "Supprimer mon compte", registration_path(resource_name),
+                method: :delete,
+                data: { confirm: "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible." },
+                class: "btn btn-outline-danger rounded-pill px-4 py-2 fw-semibold" %>
           </div>
-        <% end %>
-
-        <hr class="my-4">
-
-        <div class="mb-3">
-          <%= f.label :current_password, "Mot de passe actuel (obligatoire pour enregistrer les modifications)", class: "form-label" %>
-          <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control" %>
         </div>
 
-        <div class="text-center">
-          <%= f.submit "Mettre à jour le profil", class: "btn btn-primary px-4" %>
-        </div>
-      <% end %>
-
+      </div>
     </div>
   </div>
-</div>
+</section>
