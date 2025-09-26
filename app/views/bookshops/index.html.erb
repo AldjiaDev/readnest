@@ -1,0 +1,46 @@
+<% content_for :title, "Librairies" %>
+
+<section class="container py-5" style="margin-top: 100px;">
+  <!-- Titre + ligne -->
+  <div class="d-flex align-items-center mb-5">
+    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Librairies</h2>
+    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+  </div>
+
+  <% if @bookshops.empty? %>
+    <p class="text-muted text-center">Aucune librairie inscrite pour le moment.</p>
+  <% else %>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+      <% @bookshops.each do |bookshop| %>
+        <div class="col">
+          <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 300px;">
+
+            <!-- Image -->
+            <% if bookshop.logo.attached? %>
+              <%= image_tag bookshop.logo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+            <% else %>
+              <%= image_tag "librairie.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+            <% end %>
+
+            <!-- Overlay -->
+            <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
+                 style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
+              <h5 class="fw-bold text-white mb-1" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                <%= bookshop.name %>
+              </h5>
+
+              <% if bookshop.description.present? %>
+                <p class="text-white-50 small mb-0">
+                  <%= truncate(bookshop.description, length: 90) %>
+                </p>
+              <% end %>
+            </div>
+
+            <!-- Lien cliquable -->
+            <%= link_to bookshop_path(bookshop), class: "stretched-link" do %><% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</section>

@@ -44,50 +44,40 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom py-2">
   <div class="container d-flex align-items-center justify-content-between">
 
-   <!-- Logo -->
-   <%= link_to root_path, class: "navbar-brand" do %>
+    <!-- Logo -->
+    <%= link_to root_path, class: "navbar-brand" do %>
       <%= image_tag "logo.jpg", alt: "Readnest", style: "height: 70px;" %>
     <% end %>
-
 
     <!-- Burger mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Liens principaux -->
+    <!-- Liens -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
+
+        <!-- Lien vers chroniques -->
         <li class="nav-item">
-          <%= link_to "Toutes les chroniques", chronicles_path, class: "nav-link custom-nav-link" %>
+          <%= link_to "Chroniques", chronicles_path, class: "nav-link custom-nav-link" %>
         </li>
+
+        <!-- Maisons d’édition -->
         <li class="nav-item">
           <%= link_to "Maisons d’édition", publishing_houses_path, class: "nav-link custom-nav-link" %>
         </li>
-        <li class="nav-item">
-          <%= link_to "Librairies", bookshops_path, class: "nav-link custom-nav-link" %>
+
+        <!-- Librairies -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle custom-nav-link" href="#" id="bookshopsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Librairies
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="bookshopsDropdown">
+            <li><%= link_to "Toutes les librairies", bookshops_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Autour de moi", bookshops_path(anchor: "map"), class: "dropdown-item" %></li>
+          </ul>
         </li>
-
-
-        <% if user_signed_in? %>
-          <li class="nav-item">
-            <%= link_to "Nouvelle chronique", new_chronicle_path, class: "nav-link custom-nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Mon profil", user_path(current_user), class: "nav-link custom-nav-link" %>
-          </li>
-        <% end %>
-            <% unread_count = Message.where(read: false).where.not(user: current_user).count %>
-          <li class="nav-item">
-            <%= link_to conversations_path, class: "nav-link position-relative" do %>
-              Messagerie
-              <% if unread_count.positive? %>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  <%= unread_count %>
-                </span>
-              <% end %>
-            <% end %>
-          </li>
       </ul>
 
       <!-- Partie droite -->
@@ -95,7 +85,7 @@
 
         <% if user_signed_in? %>
           <!-- Notifications -->
-          <%= link_to notifications_path, class: "position-relative text-dark" do %>
+          <%= link_to notifications_path, class: "position-relative text-dark me-3" do %>
             <i class="bi bi-bell fs-5"></i>
             <% unread_count = current_user.received_notifications.unread.count %>
             <% if unread_count.positive? %>
@@ -105,11 +95,37 @@
             <% end %>
           <% end %>
 
-          <!-- Déconnexion -->
-          <%= button_to "Se déconnecter", destroy_user_session_path,
-                method: :delete,
-                class: "btn btn-outline-dark rounded-pill px-3 fw-bold text-uppercase",
-                form: { data: { turbo: false } } %>
+          <!-- Dropdown utilisateur -->
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <% if current_user.avatar.attached? %>
+                <%= image_tag current_user.avatar, class: "rounded-circle me-2", style: "width: 32px; height: 32px; object-fit: cover;" %>
+              <% else %>
+                <i class="bi bi-person-circle fs-4 me-1"></i>
+              <% end %>
+              <span><%= current_user.username %></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><%= link_to "Mon profil", user_path(current_user), class: "dropdown-item" %></li>
+              <li><%= link_to "Nouvelle chronique", new_chronicle_path, class: "dropdown-item" %></li>
+              <li>
+                <%= link_to conversations_path, class: "dropdown-item position-relative" do %>
+                  Messagerie
+                  <% unread_count = Message.where(read: false).where.not(user: current_user).count %>
+                  <% if unread_count.positive? %>
+                    <span class="badge rounded-pill bg-danger ms-2"><%= unread_count %></span>
+                  <% end %>
+                <% end %>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <%= button_to "Se déconnecter", destroy_user_session_path,
+                      method: :delete,
+                      class: "dropdown-item text-danger",
+                      form: { data: { turbo: false } } %>
+              </li>
+            </ul>
+          </div>
 
         <% else %>
           <!-- Connexion / Inscription -->
@@ -120,6 +136,7 @@
     </div>
   </div>
 </nav>
+
 
   <!-- Flash messages -->
   <div class="container" style="margin-top: 120px; max-width: 800px;">

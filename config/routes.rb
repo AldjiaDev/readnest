@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get "bookshops/index"
+  get "bookshops/show"
+  get "bookshops/new"
+  get "bookshops/create"
+  get "bookshops/edit"
+  get "bookshops/update"
+  get "bookshops/destroy"
   get "search", to: "search#index"
   get "errors/not_found"
   get "errors/internal_server_error"
@@ -8,6 +15,13 @@ Rails.application.routes.draw do
   get "conversations/show"
   get "conversations/create"
   resources :publishing_houses
+  resources :bookshops do
+    member do
+      post :follow
+      delete :unfollow
+    end
+  end
+
   # Devise (authentification)
   devise_for :users, controllers: {
     registrations: "users/registrations"

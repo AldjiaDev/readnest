@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_many :follows, foreign_key: :follower_id, dependent: :destroy
   has_many :followed_users, through: :follows, source: :followable, source_type: "User"
   has_many :followed_publishers, through: :follows, source: :followable, source_type: "PublishingHouse"
+  has_many :followed_bookshops, through: :follows, source: :followable, source_type: "Bookshop"
 
   has_many :reverse_follows, as: :followable, class_name: "Follow", dependent: :destroy
   has_many :followers, through: :reverse_follows, source: :follower
@@ -36,8 +37,12 @@ class User < ApplicationRecord
   # Maison d’édition
   has_one :publishing_house, dependent: :destroy
 
-  # Création automatique d’une maison si la case est cochée
+  # Librairie
+  has_one :bookshop, dependent: :destroy
+
+  # Création automatique si case cochée
   after_commit :create_publishing_house_if_needed, on: :create
+  after_commit :create_bookshop_if_needed, on: :create
 
   def create_publishing_house_if_needed
     return unless is_publishing_house?
@@ -48,9 +53,22 @@ class User < ApplicationRecord
     )
   end
 
-  # Vérifie la colonne boolean directement
+  def create_bookshop_if_needed
+    return unless is_bookshop?
+
+    create_bookshop!(
+      name: username,
+      description: "Librairie #{username}"
+    )
+  end
+
+  # Vérifie les colonnes booleans directement
   def is_publishing_house?
     self[:is_publishing_house]
+  end
+
+  def is_bookshop?
+    self[:is_bookshop]
   end
 
   # Vérifie si l’utilisateur suit déjà un enregistrement
