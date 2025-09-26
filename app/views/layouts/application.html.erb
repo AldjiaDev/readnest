@@ -155,39 +155,64 @@
     </main>
 
 <!-- Footer -->
-<footer class="bg-black text-white py-5">
+<footer class="bg-black text-white py-5 mt-5">
   <div class="container">
-    <div class="row text-center text-md-start justify-content-center align-items-start">
+    <div class="row align-items-center">
 
-      <!-- Logo + Description -->
-      <div class="col-md-5 mb-4 mb-md-0">
-        <%= image_tag "logo.jpg", alt: "Readnest", style: "max-height: 70px;" %>
-        <p class="small mt-3 mb-0">
-          Une bibliothèque numérique où chaque chronique est une aventure littéraire.<br>
-          Écrivez, découvrez, partagez.
+      <!-- Colonne gauche : Logo -->
+      <div class="col-md-6 text-center text-md-start mb-4 mb-md-0">
+        <%= image_tag "logo.jpg", alt: "Readnest", style: "max-height: 80px;" %>
+        <p class="text-white-50 small mt-3 mb-0 fst-italic">
+          « Une bibliothèque numérique où chaque chronique est une aventure littéraire. »
         </p>
       </div>
 
-      <!-- Navigation -->
-      <div class="col-md-5">
-        <h6 class="text-uppercase fw-bold mb-3">Navigation</h6>
-        <ul class="list-unstyled small">
-          <li class="mb-1"><%= link_to "Accueil", root_path, class: "text-white text-decoration-none" %></li>
-          <li class="mb-1"><%= link_to "Toutes les chroniques", chronicles_path, class: "text-white text-decoration-none" %></li>
-          <li class="mb-1"><%= link_to "Maisons d’édition", publishing_houses_path, class: "text-white text-decoration-none" %></li>
-          <li class="mb-1"><%= link_to "Nouvelle chronique", new_chronicle_path, class: "text-white text-decoration-none" %></li>
-          <li class="mb-1"><%= link_to "À propos", about_path, class: "text-white text-decoration-none" %></li>
-        </ul>
+      <!-- Colonne droite : Navigation + Copyright -->
+      <div class="col-md-6 text-center text-md-end">
+        <!-- Navigation -->
+        <nav class="mb-3">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item mx-2">
+              <%= link_to "Accueil", root_path, class: "text-white text-decoration-none fw-semibold footer-link" %>
+            </li>
+            <li class="list-inline-item mx-2">
+              <%= link_to "Chroniques", chronicles_path, class: "text-white text-decoration-none fw-semibold footer-link" %>
+            </li>
+            <li class="list-inline-item mx-2">
+              <%= link_to "Maisons d’édition", publishing_houses_path, class: "text-white text-decoration-none fw-semibold footer-link" %>
+            </li>
+            <li class="list-inline-item mx-2">
+              <%= link_to "Librairies", bookshops_path, class: "text-white text-decoration-none fw-semibold footer-link" %>
+            </li>
+            <li class="list-inline-item mx-2">
+              <%= link_to "À propos", about_path, class: "text-white text-decoration-none fw-semibold footer-link" %>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Copyright -->
+        <p class="small text-white-50 mb-0">
+          &copy; <%= Time.current.year %> <strong>Readnest</strong> — Tous droits réservés.
+        </p>
       </div>
-
     </div>
-
-    <hr class="border-light mt-4" />
-    <p class="text-center small mb-0">&copy; <%= Time.current.year %> Readnest — Tous droits réservés.</p>
   </div>
 </footer>
 
+<style>
+  .footer-link:hover {
+    color: #f8d210 !important; /* doré au hover */
+    transition: color 0.3s ease-in-out;
+  }
+</style>
 
+
+<style>
+  .footer-link:hover {
+    color: #f8d210 !important; /* jaune doré élégant au hover */
+    transition: color 0.3s ease-in-out;
+  }
+</style>
 
     <!-- JS -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
