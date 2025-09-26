@@ -50,13 +50,4 @@ class ApplicationController < ActionController::Base
       user_path(resource)
     end
   end
-
-  # Redirection après mise à jour du profil
-  def after_update_path_for(resource)
-    if resource.is_publishing_house? && resource.publishing_house.present?
-      publishing_house_path(resource.publishing_house)
-    else
-      user_path(resource)
-    end
-  end
 end

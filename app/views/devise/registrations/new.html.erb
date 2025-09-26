@@ -41,7 +41,7 @@
 
               <!-- Maison d’édition -->
               <div class="form-check mb-4">
-                <%= f.check_box :is_publishing_house, class: "form-check-input" %>
+                <%= f.check_box :is_publishing_house, { class: "form-check-input" }, true, false %>
                 <%= f.label :is_publishing_house, "Je suis une maison d’édition", class: "form-check-label fw-semibold" %>
               </div>
 
