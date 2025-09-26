@@ -36,6 +36,13 @@
 
       <%# Canonical URL pour SEO %>
     <%= tag(:link, rel: "canonical", href: request.original_url) if request.present? %>
+
+      <title><%= content_for?(:title) ? yield(:title) : "Readnest" %></title>
+      <%= display_meta_tags %>
+      <%= csrf_meta_tags %>
+      <%= csp_meta_tag %>
+      <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+      <%= javascript_importmap_tags %>
   </head>
 
   <body class="d-flex flex-column min-vh-100 bg-light">

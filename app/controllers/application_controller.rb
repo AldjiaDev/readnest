@@ -5,16 +5,16 @@ class ApplicationController < ActionController::Base
   def prepare_meta_tags(options = {})
     site_name   = "Readnest"
     title       = options[:title] || "Readnest — Découvrez, partagez, célébrez la lecture"
-    description = options[:description] || "Readnest connecte lecteurs et maisons d’édition à travers des chroniques littéraires."
-    image       = options[:image] || view_context.asset_url("logo.jpg")
+    description = options[:description] || "Rejoignez Readnest : la plateforme qui connecte lecteurs, auteurs, librairies et maisons d’édition à travers des chroniques littéraires inspirantes."
+    image       = options[:image] || view_context.asset_url("logo.jpg") # ⚡ ton logo
     current_url = request.url
 
     defaults = {
-      site: site_name,
-      title: title,
+      site:        site_name,
+      title:       title,
       description: description,
-      image: image,
-      keywords: %w[littérature livres chroniques auteurs maisons d’édition lecture],
+      image:       image,
+      keywords:    %w[littérature livres chroniques auteurs maisons d’édition librairies lecture communauté],
       twitter: {
         card: "summary_large_image",
         site: "@Readnest",
@@ -51,3 +51,4 @@ class ApplicationController < ActionController::Base
     end
   end
 end
+
