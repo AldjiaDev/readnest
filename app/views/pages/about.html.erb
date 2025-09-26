@@ -1,40 +1,48 @@
 <% content_for :title, "À propos de Readnest" %>
 
-<div class="container pt-5" style="margin-top: 100px; max-width: 800px;">
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
 
-  <!-- Titre -->
-  <h1 class="fw-bold mb-3">À propos de Readnest</h1>
-
-  <!-- Texte d'intro -->
-  <p class="text-muted">
-    Readnest est une plateforme indépendante, sans publicité, centrée sur la communauté. Votre confiance est précieuse, et nous travaillons chaque jour à la mériter. Que ce soit à travers des chroniques littéraires, des recommandations ou des récits d’éditeurs, nous nous efforçons de connecter les amoureux du livre avec ce qui compte vraiment.
-  </p>
-
-  <!-- Image principale -->
-  <div class="my-4">
-    <%= image_tag "about.jpeg", alt: "À propos de Readnest", class: "img-fluid rounded-4 shadow-sm w-100", style: "object-fit: cover;" %>
-    <p class="text-muted small mt-2">Des récits qui comptent, livrés avant qu’ils ne deviennent des tendances.</p>
+  <!-- Titre principal -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold display-5 text-dark text-uppercase">À propos de Readnest</h1>
+    <p class="text-muted mt-3" style="max-width: 700px; margin: 0 auto;">
+      Readnest est une plateforme indépendante où les lecteurs, écrivains, maisons d’édition et librairies se rencontrent pour partager leur passion.
+    </p>
   </div>
 
-  <!-- Bloc de texte -->
-  <p>
-    Ce projet est né d’un profond engagement pour l’imagination, la créativité et la communauté. Readnest rassemble lecteurs, écrivains et maisons d’édition autour d’une conviction commune : les histoires façonnent notre monde.
-  </p>
+  <!-- Image principale -->
+  <div class="my-5 text-center">
+    <%= image_tag "about.jpeg", alt: "À propos de Readnest",
+        class: "img-fluid rounded-4 shadow-lg mb-3",
+        style: "max-height: 650px; width: 100%; object-fit: cover;" %>
+    <p class="text-muted small fst-italic">Chaque chronique est une porte vers un nouvel univers.</p>
+  </div>
 
-  <p>
-    Notre mission est de construire un espace où la littérature s’épanouit, où la technologie met en lumière des œuvres inspirantes et où les idées prennent vie à travers des chroniques accessibles, ouvertes et engageantes.
-  </p>
+  <!-- Texte descriptif -->
+  <div class="mb-5">
+    <p class="mb-4">
+      Readnest est né d’un engagement profond : <strong>donner la parole à la littérature</strong> sous toutes ses formes.
+      Ici, chaque membre peut écrire, découvrir et partager.
+    </p>
+
+    <p class="mb-4">
+      Notre mission est claire : <strong>connecter les lecteurs</strong> aux histoires, aux auteurs, aux maisons d’édition et aux librairies locales qui les inspirent.
+      Nous croyons que les mots ont le pouvoir de rassembler et de transformer.
+    </p>
+  </div>
 
   <!-- Citation mise en avant -->
-  <blockquote class="my-5 text-center">
-    <p class="fs-4 fw-bold">
-      « Les histoires façonnent notre regard sur le monde — et Readnest vous aide à garder une longueur d’avance. »
+  <div class="bg-dark text-white text-center rounded-4 shadow-sm py-5 px-4 mb-5">
+    <p class="fs-4 fw-bold mb-0">
+      « Les histoires façonnent notre regard sur le monde et Readnest vous aide à en écrire la suite. »
     </p>
-  </blockquote>
+  </div>
 
   <!-- Dernier paragraphe -->
-  <p>
-    Nous croyons que les grandes idées naissent de la collaboration. Chaque membre de notre équipe, chaque chronique publiée et chaque lecteur contribuent à enrichir un espace vivant et curieux. Ensemble, nous lisons, écrivons et partageons avec passion.
-  </p>
-
+  <div class="mb-4">
+    <p>
+      Chaque chronique publiée, chaque lecteur impliqué et chaque maison d’édition ou librairie partenaire contribue à enrichir un espace vivant, collaboratif et curieux.
+      <strong>Readnest, c’est votre bibliothèque numérique construite par vous, pour vous.</strong>
+    </p>
+  </div>
 </div>
