@@ -4,8 +4,8 @@
   </h3>
 
   <!-- Zone des messages -->
-  <div id="messages" class="border rounded p-3 mb-4 bg-light"
-       style="max-height: 500px; overflow-y: auto;">
+  <div id="messages" class="border rounded p-3 mb-4"
+       style="max-height: 500px; overflow-y: auto; background-color: #f5f5f5;">
 
     <% @messages.each do |message| %>
       <div class="d-flex mb-3 <%= message.user == current_user ? 'justify-content-end' : 'justify-content-start' %>">
@@ -19,12 +19,19 @@
           <% end %>
         <% end %>
 
-        <!-- Bulle -->
-        <div class="p-2 rounded-3 shadow-sm
-          <%= message.user == current_user ? 'bg-dark text-white' : 'bg-white border' %>"
-          style="max-width: 70%;">
+        <!-- Bulle style iPhone mais noire -->
+        <div class="p-3 shadow-sm"
+          style="
+            max-width: 70%;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            <%= message.user == current_user ? 'background-color: #000; color: white; border-bottom-right-radius: 5px;' : 'background-color: #fff; color: black; border-bottom-left-radius: 5px;' %>
+          ">
           <p class="mb-1"><%= message.content %></p>
-          <small class="text-muted"><%= time_ago_in_words(message.created_at) %> ago</small>
+          <small class="text-muted d-block text-end" style="font-size: 0.75rem;">
+            <%= time_ago_in_words(message.created_at) %> ago
+          </small>
         </div>
 
         <!-- Avatar si c’est moi -->
@@ -40,12 +47,13 @@
   </div>
 
   <!-- Formulaire en bas -->
-    <%= form_with(model: [@conversation, @message], local: true) do |f| %>
-      <div class="mb-3">
-        <%= f.text_area :content, class: "form-control", placeholder: "Écrire un message...", rows: 2 %>
-      </div>
-      <%= f.submit "Envoyer", class: "btn btn-dark rounded-pill px-4" %>
-    <% end %>
+  <%= form_with(model: [@conversation, @message], local: true) do |f| %>
+    <div class="input-group">
+      <%= f.text_area :content, class: "form-control rounded-start-pill shadow-sm", placeholder: "Écrire un message...", rows: 1, style: "resize:none;" %>
+      <button class="btn btn-dark rounded-end-pill px-4" type="submit">Envoyer</button>
+    </div>
+  <% end %>
+</div>
 
 <script>
   // Auto-scroll vers le bas à chaque chargement
@@ -56,3 +64,4 @@
     }
   });
 </script>
+
