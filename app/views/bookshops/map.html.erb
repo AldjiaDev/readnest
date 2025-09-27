@@ -1,0 +1,59 @@
+<% content_for :title, "Librairies autour de moi" %>
+
+<section class="container py-5" style="margin-top: 100px;">
+  <h1 class="fw-bold mb-4 text-center">Librairies autour de moi</h1>
+
+  <div id="map" style="height: 500px; border-radius: 1rem; overflow: hidden;"></div>
+
+  <p class="text-muted small mt-3 text-center">
+    Activez votre géolocalisation pour voir les librairies près de chez vous 📍
+  </p>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialisation de la carte
+    var map = L.map('map').setView([48.8566, 2.3522], 12); // Paris par défaut
+
+    // Fond de carte OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Géolocalisation utilisateur
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var userLat = position.coords.latitude;
+        var userLng = position.coords.longitude;
+
+        // Marker utilisateur
+        L.marker([userLat, userLng], { icon: L.icon({
+          iconUrl: 'https://cdn-icons-png.flaticon.com/512/64/64113.png',
+          iconSize: [30, 30]
+        }) }).addTo(map).bindPopup("Vous êtes ici").openPopup();
+
+        map.setView([userLat, userLng], 14);
+
+        // Requête Overpass API : librairies à 5km autour
+        var query = `
+          [out:json];
+          node["shop"="books"](around:5000,${userLat},${userLng});
+          out;
+        `;
+
+        fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query))
+          .then(response => response.json())
+          .then(data => {
+            data.elements.forEach(function (el) {
+              if (el.lat && el.lon) {
+                var name = el.tags && el.tags.name ? el.tags.name : "Librairie inconnue";
+                L.marker([el.lat, el.lon]).addTo(map)
+                  .bindPopup("<strong>" + name + "</strong>");
+              }
+            });
+          });
+      });
+    }
+  });
+</script>
+

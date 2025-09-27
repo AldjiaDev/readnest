@@ -20,6 +20,10 @@ Rails.application.routes.draw do
       post :follow
       delete :unfollow
     end
+
+    collection do
+      get :map
+    end
   end
 
   # Devise (authentification)
@@ -72,5 +76,4 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
   get "about", to: "pages#about"
-  get "bookshops", to: "pages#bookshops"
 end

@@ -3,6 +3,12 @@ class UsersController < ApplicationController
     @user = User.friendly.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path, alert: "Utilisateur introuvable."
+
+     prepare_meta_tags(
+      title: @user.username,
+      description: @user.bio.presence || "Découvrez le profil de #{@user.username} sur Readnest",
+      image: @user.avatar.attached? ? url_for(@user.avatar) : view_context.asset_url("logo.jpg")
+    )
   end
 
   def edit

@@ -8,6 +8,13 @@ class ChroniclesController < ApplicationController
   end
 
   def show
+    @chronicle = Chronicle.friendly.find(params[:id])
+
+    prepare_meta_tags(
+      title: @chronicle.title,
+      description: @chronicle.summary.presence || @chronicle.content.truncate(150),
+      image: @chronicle.photo.attached? ? url_for(@chronicle.photo) : view_context.asset_url("logo.jpg")
+    )
   end
 
   def new

@@ -1,20 +1,30 @@
 class BookshopsController < ApplicationController
   before_action :set_bookshop, only: %i[show edit update destroy]
-  before_action :authenticate_user!, except: %i[index show]
+  before_action :authenticate_user!, except: %i[index show map]
   before_action :authorize_user!, only: %i[edit update destroy]
 
+  # Toutes les librairies inscrites sur Readnest
   def index
     @bookshops = Bookshop.all.order(created_at: :desc)
   end
-  def show
+
+  # Librairies autour de moi (affichées sur la carte)
+  def map
+    if params[:latitude].present? && params[:longitude].present?
+      @bookshops = Bookshop.near([params[:latitude], params[:longitude]], 50)
+    else
+      @bookshops = Bookshop.all
+    end
   end
+
+  def show; end
+
   def new
     @bookshop = Bookshop.new
   end
 
   def create
     @bookshop = current_user.build_bookshop(bookshop_params)
-
     if @bookshop.save
       redirect_to edit_bookshop_path(@bookshop), notice: "Librairie créée avec succès. Complétez vos informations !"
     else
@@ -22,8 +32,7 @@ class BookshopsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @bookshop.update(bookshop_params)
@@ -38,18 +47,6 @@ class BookshopsController < ApplicationController
     redirect_to bookshops_path, status: :see_other, notice: "Librairie supprimée."
   end
 
-  def follow
-    @bookshop = Bookshop.friendly.find(params[:id])
-    current_user.follows.create(followable: @bookshop)
-    redirect_to @bookshop, notice: "Vous suivez maintenant cette librairie."
-  end
-
-  def unfollow
-    @bookshop = Bookshop.friendly.find(params[:id])
-    current_user.follows.find_by(followable: @bookshop)&.destroy
-    redirect_to @bookshop, notice: "Vous ne suivez plus cette librairie."
-  end
-
   private
 
   def set_bookshop
@@ -59,12 +56,10 @@ class BookshopsController < ApplicationController
   end
 
   def authorize_user!
-    unless @bookshop.user == current_user
-      redirect_to bookshops_path, alert: "Accès refusé."
-    end
+    redirect_to bookshops_path, alert: "Accès refusé." unless @bookshop.user == current_user
   end
 
   def bookshop_params
-    params.require(:bookshop).permit(:name, :description, :logo)
+    params.require(:bookshop).permit(:name, :description, :logo, :address, :latitude, :longitude)
   end
 end

@@ -87,4 +87,4 @@ gem "friendly_id", "~> 5.5"
 gem "sitemap_generator"
 
 gem "meta-tags"
-
+gem "geocoder"

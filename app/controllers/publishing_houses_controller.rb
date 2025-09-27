@@ -6,7 +6,15 @@ class PublishingHousesController < ApplicationController
   def index
     @publishing_houses = PublishingHouse.all.order(created_at: :desc)
   end
+
   def show
+    @publishing_house = PublishingHouse.friendly.find(params[:id])
+
+    prepare_meta_tags(
+      title: @publishing_house.name,
+      description: @publishing_house.description.presence || "Maison d’édition sur Readnest",
+      image: @publishing_house.logo.attached? ? url_for(@publishing_house.logo) : view_context.asset_url("logo.jpg")
+    )
   end
 
   def new
