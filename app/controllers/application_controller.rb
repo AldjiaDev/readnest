@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
       title:       title,
       description: description,
       image:       image,
-      keywords:    %w[littérature livres chroniques auteurs maisons d’édition lecture],
+      keywords:    %w[littérature livres chroniques auteurs maisons d’édition librairies lecture],
       twitter: {
         card: "summary_large_image",
         site: "@Readnest",
@@ -38,8 +38,13 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :is_publishing_house, :avatar])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :is_publishing_house, :avatar])
+    devise_parameter_sanitizer.permit(
+      :sign_up,
+      keys: [:username, :is_publishing_house, :is_bookshop, :avatar]
+    )
+    devise_parameter_sanitizer.permit(
+      :account_update,
+      keys: [:username, :is_publishing_house, :is_bookshop, :avatar]
+    )
   end
 end
-

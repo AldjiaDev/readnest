@@ -40,9 +40,15 @@
               </div>
 
               <!-- Maison d’édition -->
-              <div class="form-check mb-4">
+              <div class="form-check mb-3">
                 <%= f.check_box :is_publishing_house, { class: "form-check-input" }, true, false %>
                 <%= f.label :is_publishing_house, "Je suis une maison d’édition", class: "form-check-label fw-semibold" %>
+              </div>
+
+              <!-- Librairie -->
+              <div class="form-check mb-4">
+                <%= f.check_box :is_bookshop, { class: "form-check-input" }, true, false %>
+                <%= f.label :is_bookshop, "Je suis une librairie", class: "form-check-label fw-semibold" %>
               </div>
 
               <!-- Bouton -->
