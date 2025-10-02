@@ -8,6 +8,10 @@
   A nest for readers and writers, discover, share, and celebrate literature together.
 </p>
 
+<p align="center">
+  Live website: <a href="https://www.readnest.fr/" target="_blank"><b>www.readnest.fr</b></a>
+</p>
+
 
 # Readnest
 
@@ -66,11 +70,13 @@ rails test
 
 ## Deployment
 
-Heroku
+Deployed on Heroku
 
 ## Contributing
 
 Contributions are welcome! Open an issue.
+
+[https://github.com/AldjiaDev/readnest/issues](https://github.com/AldjiaDev/readnest/issues)
 
 ---
 
