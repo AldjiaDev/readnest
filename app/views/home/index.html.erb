@@ -1,70 +1,107 @@
-<!-- HERO SECTION WITH SEARCH (Noir sur fond clair) -->
+<style>
+  .card-img-responsive {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    display: block;
+  }
+  .homepage-title {
+    font-size: 3rem;
+    line-height: 1.3;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #212529;
+    margin-bottom: 1rem;
+    word-break: break-word;
+  }
+  @media (max-width: 991px) {
+    .row-cols-md-3 > .col {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .position-relative[style*="height: 400px"] {
+      height: 260px !important;
+    }
+  }
+  @media (max-width: 600px) {
+    .homepage-title {
+      font-size: 1.5rem !important;
+      line-height: 1.2 !important;
+      word-break: break-word;
+    }
+    .position-relative[style*="height: 400px"] {
+      height: 160px !important;
+    }
+    .container.py-5 {
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+    }
+    .btn-lg, .btn {
+      font-size: 1rem !important;
+      padding: 0.7rem 1.2rem !important;
+    }
+    .lead {
+      font-size: 1rem !important;
+    }
+    .form-control-lg {
+      font-size: 1rem !important;
+      padding: 0.6rem 1rem !important;
+    }
+    section.container {
+      margin-bottom: 2rem;
+    }
+  }
+</style>
+
+<!-- HERO SECTION WITH SEARCH -->
 <section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
   <div class="container py-5">
-
-   <!-- Slogan principal tout en noir, plus grand et gras -->
-    <h1 class="display-3 fw-bold mb-3 text-uppercase text-dark" style="letter-spacing: 2px; line-height: 1.3;">
+    <h1 class="homepage-title">
       DÉCOUVREZ&nbsp;PARTAGEZ <br>
       CÉLÉBREZ&nbsp;LA&nbsp;LECTURE
     </h1>
-
-
-    <!-- Sous-texte en plus petit -->
     <p class="text-muted mb-4" style="max-width: 720px; margin: 0 auto; font-size: 1rem;">
       Readnest connecte les lecteurs et les maisons d’édition à travers des chroniques littéraires inspirantes, des recommandations et bien plus encore
     </p>
-
-
-  <!-- Formulaire de recherche -->
     <div class="d-flex justify-content-center mt-4">
-      <%= form_with url: search_path, method: :get, local: true, class: "d-flex w-75 w-md-50" do |form| %>
+      <%= form_with url: search_path, method: :get, local: true, class: "d-flex w-100 w-md-75 w-lg-50" do |form| %>
         <%= form.text_field :query, value: params[:query],
               placeholder: "Rechercher une chronique, un utilisateur, une maison d’édition...",
               class: "form-control form-control-lg rounded-start-pill shadow-sm border-dark" %>
         <%= form.submit "Rechercher", class: "btn btn-outline-dark btn-lg rounded-end-pill px-4 shadow-sm" %>
       <% end %>
     </div>
-
-    <!-- Bouton CTA noir -->
     <div class="mt-4">
       <%= link_to "Commencer à écrire", new_chronicle_path, class: "btn btn-dark btn-lg rounded-pill px-4 shadow-sm text-uppercase" %>
     </div>
-
   </div>
 </section>
 
-
 <!-- Dernières chroniques -->
 <section class="container py-5">
-  <!-- Titre de section -->
   <div class="d-flex align-items-center mb-4">
     <h2 class="text-black fw-bold text-uppercase mb-0 me-3">Dernières chroniques</h2>
     <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
   </div>
-
   <% if @chronicles.empty? %>
     <p class="text-muted text-center">Aucune chronique trouvée.</p>
   <% else %>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
       <% @chronicles.each do |chronicle| %>
         <div class="col">
           <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
             <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
-
-              <!-- Image de couverture -->
               <% if chronicle.photo.attached? %>
-                <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+                <%= image_tag chronicle.photo, class: "card-img-responsive" %>
               <% else %>
-                <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+                <%= image_tag "livre.jpeg", class: "card-img-responsive" %>
               <% end %>
-
-              <!-- Overlay avec titre et auteur -->
               <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
                 <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
                   <%= truncate(chronicle.title, length: 55) %>
                 </h5>
-
-                <!-- Auteur ou maison d'édition -->
                 <p class="text-white mb-0 small fw-medium">
                   <% if chronicle.user.respond_to?(:is_publishing_house?) && chronicle.user.is_publishing_house? && chronicle.user.publishing_house.present? %>
                     <%= chronicle.user.publishing_house.name %>
@@ -72,8 +109,6 @@
                     <%= chronicle.user.username %>
                   <% end %>
                 </p>
-
-                <!-- Date -->
                 <p class="text-white-50 small mb-0">
                   <%= chronicle.created_at.strftime("%d %b %Y") %>
                 </p>
@@ -83,59 +118,43 @@
         </div>
       <% end %>
     </div>
-
-    <!-- Bouton Voir toutes -->
     <div class="text-center">
       <%= link_to "Voir toutes les chroniques", chronicles_path, class: "btn btn-dark rounded-pill px-4" %>
     </div>
   <% end %>
 </section>
 
-
-
 <!-- MAISONS D'ÉDITION À DÉCOUVRIR -->
 <section class="container py-5">
-  <!-- Titre avec trait -->
   <div class="d-flex align-items-center mb-5">
     <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">MAISONS D’ÉDITION À DÉCOUVRIR</h2>
     <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
   </div>
-
   <% if @publishing_houses.empty? %>
     <p class="text-muted text-center">Aucune maison d’édition à afficher pour le moment.</p>
   <% else %>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
       <% @publishing_houses.each do |house| %>
         <div class="col">
           <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
-
-            <!-- Image -->
             <% if house.logo.attached? %>
-              <%= image_tag house.logo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+              <%= image_tag house.logo, class: "card-img-responsive" %>
             <% else %>
-              <%= image_tag "maison.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+              <%= image_tag "maison.jpeg", class: "card-img-responsive" %>
             <% end %>
-
-            <!-- Overlay -->
             <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
               <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
                 <%= house.name %>
               </h5>
-
               <p class="text-white-50 small mb-0">
                 <%= truncate(house.description, length: 90) %>
               </p>
             </div>
-
-            <!-- Lien toute la carte -->
             <%= link_to publishing_house_path(house), class: "stretched-link" do %><% end %>
-
           </div>
         </div>
       <% end %>
     </div>
-
-    <!-- Bouton -->
     <div class="text-center">
       <%= link_to "Voir toutes les maisons", publishing_houses_path, class: "btn btn-dark rounded-pill px-4 py-2" %>
     </div>
@@ -144,28 +163,22 @@
 
 <!-- TOUTES LES LIBRAIRIES -->
 <section class="container py-5">
-  <!-- Titre avec trait -->
   <div class="d-flex align-items-center mb-5">
     <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Toutes les librairies</h2>
     <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
   </div>
-
   <% if @bookshops.empty? %>
     <p class="text-muted text-center">Aucune librairie à afficher pour le moment.</p>
   <% else %>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
       <% @bookshops.each do |bookshop| %>
         <div class="col">
           <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
-
-            <!-- Image -->
             <% if bookshop.logo.attached? %>
-              <%= image_tag bookshop.logo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+              <%= image_tag bookshop.logo, class: "card-img-responsive" %>
             <% else %>
-              <%= image_tag "librairie.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
+              <%= image_tag "librairie.jpeg", class: "card-img-responsive" %>
             <% end %>
-
-            <!-- Overlay -->
             <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
               <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
                 <%= bookshop.name %>
@@ -176,16 +189,11 @@
                 </p>
               <% end %>
             </div>
-
-            <!-- Lien toute la carte -->
             <%= link_to bookshop_path(bookshop), class: "stretched-link" do %><% end %>
-
           </div>
         </div>
       <% end %>
     </div>
-
-    <!-- Bouton -->
     <div class="text-center">
       <%= link_to "Voir toutes les librairies", bookshops_path, class: "btn btn-dark rounded-pill px-4 py-2" %>
     </div>
@@ -194,13 +202,10 @@
 
 <!-- LIBRAIRIES À PROXIMITÉ -->
 <section class="container py-5" style="margin-top: 80px;">
-  <!-- Titre + ligne -->
   <div class="d-flex align-items-center mb-4">
     <h2 class="fw-bold text-uppercase mb-0 me-3 text-dark">Librairies à proximité</h2>
     <div class="flex-grow-1" style="height: 1px; background-color: #000;"></div>
   </div>
-
-  <!-- Texte d’accroche + bouton -->
   <div class="row align-items-center mb-4">
     <div class="col-md-8">
       <p class="lead text-muted mb-3">
