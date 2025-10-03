@@ -1,55 +1,87 @@
 <% content_for :title, "Toutes les chroniques" %>
 
+<style>
+  .card-img-responsive {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    display: block;
+  }
+  @media (max-width: 991px) {
+    .row-cols-md-3 > .col {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .position-relative[style*="height: 400px"] {
+      height: 260px !important;
+    }
+  }
+  @media (max-width: 600px) {
+    h2 {
+      font-size: 1.3rem !important;
+      line-height: 1.2 !important;
+      word-break: break-word;
+    }
+    .position-relative[style*="height: 400px"] {
+      height: 160px !important;
+    }
+    .container.py-5 {
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+    }
+    .lead {
+      font-size: 1rem !important;
+    }
+    section.container {
+      margin-bottom: 2rem;
+    }
+  }
+</style>
+
 <section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
-
-<div class="container py-5 mt-5">
-  <!-- Titre avec ligne -->
-  <div class="d-flex align-items-center mb-4">
-    <h2 class="text-black fw-bold text-uppercase mb-0 me-3">Toutes les chroniques</h2>
-    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-  </div>
-
-  <% if @chronicles.empty? %>
-    <p class="text-muted text-center">Aucune chronique disponible pour le moment.</p>
-  <% else %>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      <% @chronicles.each do |chronicle| %>
-        <div class="col">
-          <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
-
-            <!-- Image de couverture -->
-            <% if chronicle.photo.attached? %>
-              <%= link_to chronicle_path(chronicle) do %>
-                <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-              <% end %>
-            <% else %>
-              <%= link_to chronicle_path(chronicle) do %>
-                <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-              <% end %>
-            <% end %>
-
-            <!-- Contenu texte -->
-            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
-              <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
-                <%= truncate(chronicle.title, length: 55) %>
-              </h5>
-
-              <p class="text-white mb-0 small fw-medium">
-                <% if chronicle.user.respond_to?(:is_publishing_house?) && chronicle.user.is_publishing_house? && chronicle.user.publishing_house.present? %>
-                  <%= chronicle.user.publishing_house.name %>
-                <% else %>
-                  <%= chronicle.user.username %>
-                <% end %>
-              </p>
-
-              <p class="text-white-50 small mb-0">
-                <%= chronicle.created_at.strftime("%d %B %Y") %> | Fiction, Littérature
-              </p>
-            </div>
-
-          </div>
-        </div>
-      <% end %>
+  <div class="container py-5 mt-5">
+    <!-- Titre avec ligne -->
+    <div class="d-flex align-items-center mb-4">
+      <h2 class="text-black fw-bold text-uppercase mb-0 me-3">Toutes les chroniques</h2>
+      <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
     </div>
-  <% end %>
-</div>
+
+    <% if @chronicles.empty? %>
+      <p class="text-muted text-center">Aucune chronique disponible pour le moment.</p>
+    <% else %>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <% @chronicles.each do |chronicle| %>
+          <div class="col">
+            <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
+              <!-- Image de couverture -->
+              <%= link_to chronicle_path(chronicle) do %>
+                <% if chronicle.photo.attached? %>
+                  <%= image_tag chronicle.photo, class: "card-img-responsive" %>
+                <% else %>
+                  <%= image_tag "livre.jpeg", class: "card-img-responsive" %>
+                <% end %>
+              <% end %>
+              <!-- Contenu texte -->
+              <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
+                <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                  <%= truncate(chronicle.title, length: 55) %>
+                </h5>
+                <p class="text-white mb-0 small fw-medium">
+                  <% if chronicle.user.respond_to?(:is_publishing_house?) && chronicle.user.is_publishing_house? && chronicle.user.publishing_house.present? %>
+                    <%= chronicle.user.publishing_house.name %>
+                  <% else %>
+                    <%= chronicle.user.username %>
+                  <% end %>
+                </p>
+                <p class="text-white-50 small mb-0">
+                  <%= chronicle.created_at.strftime("%d %B %Y") %> | Fiction, Littérature
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>
