@@ -73,5 +73,24 @@ Rails.application.routes.draw do
   get "up", to: "rails/health#show", as: :rails_health_check
   get "service-worker", to: "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest", to: "rails/pwa#manifest", as: :pwa_manifest
-end
 
+  # ============================================================
+  # Redirections 301 (anciennes URL anglaises → nouvelles URL françaises)
+  # ============================================================
+  get "/bookshops", to: redirect("/librairies"), status: 301
+  get "/bookshops/map", to: redirect("/librairies/autour-de-moi"), status: 301
+  get "/bookshops/:id", to: redirect { |params, _| "/librairies/#{params[:id]}" }, status: 301
+
+  get "/publishing_houses", to: redirect("/maisons-dedition"), status: 301
+  get "/publishing_houses/:id", to: redirect { |params, _| "/maisons-dedition/#{params[:id]}" }, status: 301
+
+  get "/chronicles", to: redirect("/chroniques"), status: 301
+  get "/chronicles/:id", to: redirect { |params, _| "/chroniques/#{params[:id]}" }, status: 301
+
+  get "/about", to: redirect("/a-propos"), status: 301
+
+  get "/users/sign_in",  to: redirect("/connexion"), status: 301
+  get "/users/sign_up",  to: redirect("/inscription"), status: 301
+  get "/users/sign_out", to: redirect("/deconnexion"), status: 301
+  get "/users/:id", to: redirect { |params, _| "/utilisateurs/#{params[:id]}" }, status: 301
+end
