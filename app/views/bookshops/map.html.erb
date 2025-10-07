@@ -11,60 +11,112 @@
 </section>
 
 <script>
-  document.addEventListener("turbo:load", function () {
-    const mapElement = document.getElementById("map");
-    if (!mapElement) return;
+document.addEventListener("turbo:load", initMap);
+document.addEventListener("DOMContentLoaded", initMap);
 
-    // Empêche de recréer la carte si elle existe déjà
-    if (window.mapInstance) {
-      window.mapInstance.remove();
-    }
+function initMap() {
+  const mapElement = document.getElementById("map");
+  if (!mapElement) return;
 
-    // Initialisation de la carte
-    const map = L.map("map").setView([48.8566, 2.3522], 12); // Paris par défaut
-    window.mapInstance = map;
+  if (window.mapInstance) window.mapInstance.remove();
 
-    // Fond de carte OpenStreetMap
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "&copy; OpenStreetMap contributors"
-    }).addTo(map);
+  // Initialisation de la carte
+  const map = L.map("map").setView([48.8566, 2.3522], 12);
+  window.mapInstance = map;
 
-    // Géolocalisation utilisateur
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const userLat = position.coords.latitude;
-        const userLng = position.coords.longitude;
+  // Fond de carte
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors"
+  }).addTo(map);
 
-        // Marker utilisateur
-        L.marker([userLat, userLng], {
-          icon: L.icon({
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/64/64113.png",
-            iconSize: [30, 30]
-          })
-        }).addTo(map).bindPopup("Vous êtes ici").openPopup();
+  // Géolocalisation utilisateur
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const userLat = position.coords.latitude;
+      const userLng = position.coords.longitude;
 
-        map.setView([userLat, userLng], 14);
+      // Marqueur utilisateur
+      L.marker([userLat, userLng], {
+        icon: L.icon({
+          iconUrl: "https://cdn-icons-png.flaticon.com/512/64/64113.png",
+          iconSize: [30, 30]
+        })
+      }).addTo(map).bindPopup("📍 Vous êtes ici").openPopup();
 
-        // Requête Overpass API : librairies à 5km autour
-        const query = `
-          [out:json];
-          node["shop"="books"](around:5000,${userLat},${userLng});
-          out;
-        `;
+      map.setView([userLat, userLng], 14);
 
-        fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query))
-          .then(response => response.json())
-          .then(data => {
-            data.elements.forEach(function (el) {
-              if (el.lat && el.lon) {
-                const name = el.tags?.name || "Librairie inconnue";
-                L.marker([el.lat, el.lon]).addTo(map)
-                  .bindPopup("<strong>" + name + "</strong>");
-              }
-            });
+      // Requête Overpass API
+      const query = `
+        [out:json];
+        node["shop"="books"](around:5000,${userLat},${userLng});
+        out;
+      `;
+
+      fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query))
+        .then(response => response.json())
+        .then(data => {
+          data.elements.forEach(function (el) {
+            if (el.lat && el.lon) {
+              const tags = el.tags || {};
+              const name = tags.name || "Librairie inconnue";
+
+              // Construction de l’adresse
+              const addressParts = [
+                tags["addr:housenumber"],
+                tags["addr:street"],
+                tags["addr:city"]
+              ].filter(Boolean);
+              const address = addressParts.length > 0
+                ? addressParts.join(", ")
+                : "Adresse non disponible";
+
+              // Formatage des horaires
+              const hours = tags.opening_hours
+                ? formatOpeningHours(tags.opening_hours)
+                : "Horaires non renseignés";
+
+              // Popup HTML
+              const popupContent = `
+                <div style="min-width:180px">
+                  <strong>${name}</strong><br>
+                  🏠 ${address}<br>
+                  ⏰ ${hours}
+                </div>
+              `;
+
+              L.marker([el.lat, el.lon]).addTo(map).bindPopup(popupContent);
+            }
           });
-      });
-    }
-  });
+        });
+    });
+  }
+}
+
+/**
+ * Convertit les horaires OSM (ex: "Mo-Fr 09:00-18:00") en français lisible.
+ */
+function formatOpeningHours(osmHours) {
+  const daysMap = {
+    Mo: "Lun",
+    Tu: "Mar",
+    We: "Mer",
+    Th: "Jeu",
+    Fr: "Ven",
+    Sa: "Sam",
+    Su: "Dim"
+  };
+
+  // Exemple : "Mo-Fr 10:00-19:00; Sa 10:00-18:00"
+  return osmHours
+    .split(";")
+    .map(part => {
+      part = part.trim();
+      for (const [en, fr] of Object.entries(daysMap)) {
+        part = part.replace(new RegExp(`\\b${en}\\b`, "g"), fr);
+      }
+      return part;
+    })
+    .join("; ");
+}
 </script>
 
