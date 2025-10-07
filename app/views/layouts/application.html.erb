@@ -213,5 +213,15 @@
 </style>
 
      <%= javascript_importmap_tags %>
+
+     <script type="module">
+        import * as bootstrap from "bootstrap"
+
+        // Réactive les dropdowns après chaque chargement Turbo
+        document.addEventListener("turbo:load", () => {
+          const dropdownTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'))
+          dropdownTriggerList.map(el => new bootstrap.Dropdown(el))
+        })
+      </script>
   </body>
 </html>
