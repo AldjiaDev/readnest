@@ -86,3 +86,12 @@ footer {
   color: black !important;
   background-color: transparent !important;
 }
+
+.autocomplete-suggestions {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.autocomplete-suggestions .suggestion-item:hover {
+  background-color: #f8f9fa;
+}

@@ -78,3 +78,63 @@
   </div>
 
 </div>
+
+<script>
+  function setupBookAutocomplete() {
+    const inputTitle = document.querySelector('input[name="chronicle[book_title]"]');
+    const inputAuthor = document.querySelector('input[name="chronicle[author]"]');
+
+    if (!inputTitle) return;
+    console.log("✅ Autocomplétion initialisée");
+
+    // Crée la liste de suggestions si elle n’existe pas
+    let suggestions = document.getElementById("book_suggestions");
+    if (!suggestions) {
+      suggestions = document.createElement("ul");
+      suggestions.id = "book_suggestions";
+      suggestions.className = "list-group position-absolute w-100 shadow-sm";
+      suggestions.style = "z-index: 1000; display: none; max-height: 220px; overflow-y: auto;";
+      inputTitle.parentNode.appendChild(suggestions);
+    }
+
+    inputTitle.addEventListener("input", async function () {
+      const query = inputTitle.value.trim();
+      if (query.length < 3) {
+        suggestions.style.display = "none";
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://openlibrary.org/search.json?title=${encodeURIComponent(query)}`);
+        const data = await response.json();
+
+        suggestions.innerHTML = "";
+        data.docs.slice(0, 8).forEach(book => {
+          const li = document.createElement("li");
+          li.className = "list-group-item list-group-item-action";
+          const author = book.author_name ? book.author_name[0] : "Auteur inconnu";
+          li.textContent = `${book.title} — ${author}`;
+          li.addEventListener("click", function () {
+            inputTitle.value = book.title;
+            inputAuthor.value = author;
+            suggestions.style.display = "none";
+          });
+          suggestions.appendChild(li);
+        });
+
+        suggestions.style.display = data.docs.length ? "block" : "none";
+      } catch (error) {
+        console.error("❌ Erreur API :", error);
+      }
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!suggestions.contains(e.target) && e.target !== inputTitle) {
+        suggestions.style.display = "none";
+      }
+    });
+  }
+
+  document.addEventListener("turbo:load", setupBookAutocomplete);
+  document.addEventListener("DOMContentLoaded", setupBookAutocomplete);
+</script>

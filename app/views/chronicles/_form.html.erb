@@ -25,13 +25,16 @@
   <!-- Auteur du livre -->
   <div class="mb-4">
     <%= form.label :author, "Auteur·e du livre", class: "form-label fw-bold" %>
-    <%= form.text_field :author, class: "form-control rounded-pill px-4 py-2" %>
+    <%= form.text_field :author, class: "form-control rounded-pill px-4 py-2", id: "book_author_input" %>
   </div>
 
-  <!-- Titre du livre -->
-  <div class="mb-4">
+  <!-- Titre du livre (avec autocomplétion Open Library) -->
+  <div class="mb-4 position-relative">
     <%= form.label :book_title, "Titre du livre", class: "form-label fw-bold" %>
-    <%= form.text_field :book_title, class: "form-control rounded-pill px-4 py-2" %>
+    <%= form.text_field :book_title, class: "form-control rounded-pill px-4 py-2", id: "book_title_input", autocomplete: "off" %>
+
+    <!-- Liste des suggestions -->
+    <ul id="book_suggestions" class="list-group position-absolute w-100 shadow-sm" style="z-index: 1000; display: none; max-height: 220px; overflow-y: auto;"></ul>
   </div>
 
   <!-- Maison d’édition -->
