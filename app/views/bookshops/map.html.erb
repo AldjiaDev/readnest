@@ -11,31 +11,42 @@
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("turbo:load", function () {
+    const mapElement = document.getElementById("map");
+    if (!mapElement) return;
+
+    // Empêche de recréer la carte si elle existe déjà
+    if (window.mapInstance) {
+      window.mapInstance.remove();
+    }
+
     // Initialisation de la carte
-    var map = L.map('map').setView([48.8566, 2.3522], 12); // Paris par défaut
+    const map = L.map("map").setView([48.8566, 2.3522], 12); // Paris par défaut
+    window.mapInstance = map;
 
     // Fond de carte OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap contributors"
     }).addTo(map);
 
     // Géolocalisation utilisateur
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        var userLat = position.coords.latitude;
-        var userLng = position.coords.longitude;
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
 
         // Marker utilisateur
-        L.marker([userLat, userLng], { icon: L.icon({
-          iconUrl: 'https://cdn-icons-png.flaticon.com/512/64/64113.png',
-          iconSize: [30, 30]
-        }) }).addTo(map).bindPopup("Vous êtes ici").openPopup();
+        L.marker([userLat, userLng], {
+          icon: L.icon({
+            iconUrl: "https://cdn-icons-png.flaticon.com/512/64/64113.png",
+            iconSize: [30, 30]
+          })
+        }).addTo(map).bindPopup("Vous êtes ici").openPopup();
 
         map.setView([userLat, userLng], 14);
 
         // Requête Overpass API : librairies à 5km autour
-        var query = `
+        const query = `
           [out:json];
           node["shop"="books"](around:5000,${userLat},${userLng});
           out;
@@ -46,7 +57,7 @@
           .then(data => {
             data.elements.forEach(function (el) {
               if (el.lat && el.lon) {
-                var name = el.tags && el.tags.name ? el.tags.name : "Librairie inconnue";
+                const name = el.tags?.name || "Librairie inconnue";
                 L.marker([el.lat, el.lon]).addTo(map)
                   .bindPopup("<strong>" + name + "</strong>");
               }
@@ -56,3 +67,4 @@
     }
   });
 </script>
+
