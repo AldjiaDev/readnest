@@ -58,26 +58,42 @@
 <!-- HERO SECTION WITH SEARCH -->
 <section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
   <div class="container py-5">
+
+    <!-- TITLE -->
     <h1 class="homepage-title">
       DÉCOUVREZ&nbsp;PARTAGEZ <br>
-      CÉLÉBREZ&nbsp;LA&nbsp;LECTURE
+      CÉLÉBREZ&nbsp;LA&nbsp;LITTÉRATURE
     </h1>
-    <p class="text-muted mb-4" style="max-width: 720px; margin: 0 auto; font-size: 1rem;">
-      Readnest connecte les lecteurs et les maisons d’édition à travers des chroniques littéraires inspirantes, des recommandations et bien plus encore
+
+    <!-- SUBTITLE (Responsive) -->
+    <p class="text-muted fw-normal mb-4"
+       style="max-width: 780px; margin: 0 auto; font-size: clamp(1rem, 2.5vw, 1.35rem); line-height: 1.8; color: #4a4a4a;">
+      <strong>Readnest</strong> est le lieu où les <strong>lecteur·ice·s</strong>,
+      les <strong>libraires</strong> et les <strong>maisons d’édition</strong> se retrouvent pour
+      partager leurs découvertes, publier des chroniques inspirantes et célébrer ensemble la passion du livre.
     </p>
+
+    <!-- SEARCH BAR -->
     <div class="d-flex justify-content-center mt-4">
       <%= form_with url: search_path, method: :get, local: true, class: "d-flex w-100 w-md-75 w-lg-50" do |form| %>
         <%= form.text_field :query, value: params[:query],
-              placeholder: "Rechercher une chronique, un utilisateur, une maison d’édition...",
-              class: "form-control form-control-lg rounded-start-pill shadow-sm border-dark" %>
+              placeholder: "Rechercher une chronique, un·e lecteur·ice, une librairie ou une maison d’édition...",
+              class: "form-control form-control-lg rounded-start-pill shadow-sm border-dark",
+              aria: { label: "Rechercher sur Readnest" } %>
         <%= form.submit "Rechercher", class: "btn btn-outline-dark btn-lg rounded-end-pill px-4 shadow-sm" %>
       <% end %>
     </div>
+
+    <!-- CTA -->
     <div class="mt-4">
-      <%= link_to "Commencer à écrire", new_chronicle_path, class: "btn btn-dark btn-lg rounded-pill px-4 shadow-sm text-uppercase" %>
+      <%= link_to "Commencer à écrire", new_chronicle_path,
+          class: "btn btn-dark btn-lg rounded-pill px-4 shadow-sm text-uppercase" %>
     </div>
+
   </div>
 </section>
+
+
 
 <!-- Dernières chroniques -->
 <section class="container py-5">

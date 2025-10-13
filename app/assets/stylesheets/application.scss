@@ -7,6 +7,15 @@ body {
   font-family: 'Georgia', serif;
 }
 
+@media (min-width: 1600px) {
+  .homepage-title {
+    font-size: 3.2rem;
+  }
+  .homepage-subtitle {
+    font-size: 1.5rem;
+  }
+}
+
 // TITRES
 h1, h2, h3, h4 {
   color: var(--primary);
