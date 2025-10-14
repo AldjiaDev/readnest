@@ -36,6 +36,12 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
+  # Turbo Stream dans les réponses HTTP
+  config.action_dispatch.default_headers.merge!({
+    'X-Frame-Options' => 'ALLOWALL',
+    'Content-Type' => 'text/html; charset=utf-8'
+  })
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
