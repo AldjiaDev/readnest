@@ -23,7 +23,11 @@ class LikesController < ApplicationController
   private
 
   def set_chronicle
+    Rails.logger.info "=== DEBUG params in LikesController ==="
+    Rails.logger.info params.to_unsafe_h
     @chronicle = Chronicle.find(params[:chronicle_id])
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.error "=== CHRONICLE NOT FOUND: #{params[:chronicle_id].inspect} ==="
+    head :not_found
   end
 end
-
