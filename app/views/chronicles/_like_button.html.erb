@@ -1,0 +1,21 @@
+<div id="<%= dom_id(chronicle, :likes) %>" class="d-flex align-items-center gap-2">
+  <% if user_signed_in? %>
+    <% liked = chronicle.likes.exists?(user: current_user) %>
+
+    <%= button_to chronicle_like_path(chronicle),
+        method: (liked ? :delete : :post),
+        data: { turbo_stream: true },
+        class: "btn btn-sm rounded-circle d-flex align-items-center justify-content-center shadow-sm",
+        style: "width: 42px; height: 42px; #{liked ? 'background-color: #dc3545; color: white;' : 'border: 1px solid #dc3545; color: #dc3545;'}" do %>
+      <i class="bi <%= liked ? 'bi-heart-fill' : 'bi-heart' %>"></i>
+    <% end %>
+  <% else %>
+    <%= link_to new_user_session_path,
+        class: "btn btn-sm btn-outline-dark rounded-circle d-flex align-items-center justify-content-center",
+        style: "width: 42px; height: 42px;" do %>
+      <i class="bi bi-heart"></i>
+    <% end %>
+  <% end %>
+
+  <span class="text-muted small"><%= pluralize(chronicle.likes.count, "like") %></span>
+</div>

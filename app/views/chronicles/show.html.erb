@@ -65,20 +65,7 @@
   <div class="d-flex justify-content-between align-items-center mb-5">
 
     <!-- J'AIME -->
-    <div class="d-flex align-items-center gap-2">
-      <% if user_signed_in? %>
-        <% if @chronicle.likes.exists?(user: current_user) %>
-          <%= button_to chronicle_like_path(@chronicle), method: :delete, class: "btn btn-sm btn-dark rounded-circle d-flex align-items-center justify-content-center", style: "width: 38px; height: 38px;" do %>
-            ❤️
-          <% end %>
-        <% else %>
-          <%= button_to chronicle_like_path(@chronicle), method: :post, class: "btn btn-sm btn-outline-dark rounded-circle d-flex align-items-center justify-content-center", style: "width: 38px; height: 38px;" do %>
-            🤍
-          <% end %>
-        <% end %>
-      <% end %>
-      <span class="text-muted small"><%= pluralize(@chronicle.likes.count, "like") %></span>
-    </div>
+    <%= render "chronicles/like_button", chronicle: @chronicle %>
 
     <!-- PARTAGE SOCIAL -->
     <div class="d-flex gap-2">
