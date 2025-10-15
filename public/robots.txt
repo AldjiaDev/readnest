@@ -1,6 +1,14 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# Readnest - robots.txt
+# Documentation : https://www.robotstxt.org/robotstxt.html
 
 User-agent: *
 Allow: /
 
-Sitemap: https://readnest-7b25107ffb5b.herokuapp.com/sitemap.xml.gz
+# Bloquer les routes non utiles au SEO
+Disallow: /connexion
+Disallow: /inscription
+Disallow: /deconnexion
+Disallow: /rails
+
+# Sitemap officiel
+Sitemap: https://www.readnest.fr/sitemap.xml

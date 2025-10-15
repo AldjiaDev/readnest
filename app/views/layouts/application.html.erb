@@ -1,47 +1,65 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for?(:title) ? yield(:title) : "Readnest" %></title>
-    <%= display_meta_tags %>
+    <!-- Title -->
+    <title><%= content_for?(:title) ? yield(:title) : "Readnest – Chroniques littéraires, maisons d’édition et librairies" %></title>
+
+    <!-- Description -->
+    <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Readnest est une plateforme littéraire où les lecteurs découvrent, partagent et aiment des chroniques, maisons d’édition et librairies autour d’eux.' %>">
+
+    <!-- Keywords (SEO support) -->
+    <meta name="keywords" content="Readnest, chroniques littéraires, livres, lecture, maisons d’édition, librairies, auteurs, littérature" />
+
+    <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Security -->
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <!-- Styles -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-
-    <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
-
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <%= favicon_link_tag 'logo.jpg' %>
 
-    <title><%= page_title(title: content_for?(:title) ? yield(:title) : nil) %></title>
-      <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : meta_description %>">
-
-      <!-- OpenGraph -->
-      <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Readnest' %>">
-      <meta property="og:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : meta_description %>">
-      <meta property="og:type" content="website">
-      <meta property="og:url" content="<%= request.original_url %>">
-      <meta property="og:image" content="<%= image_url('logo.jpg') %>">
-
-      <!-- Twitter -->
-      <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:title" content="<%= content_for?(:title) ? yield(:title) : 'Readnest' %>">
-      <meta name="twitter:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : meta_description %>">
-      <meta name="twitter:image" content="<%= image_url('logo.jpg') %>">
-
-      <%# Canonical URL pour SEO %>
+    <!-- Canonical URL -->
     <%= tag(:link, rel: "canonical", href: request.original_url) if request.present? %>
 
-      <title><%= content_for?(:title) ? yield(:title) : "Readnest" %></title>
-      <%= display_meta_tags %>
-      <%= csrf_meta_tags %>
-      <%= csp_meta_tag %>
-      <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <!-- OpenGraph -->
+    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Readnest – Chroniques littéraires, maisons d’édition et librairies' %>">
+    <meta property="og:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Découvrez et partagez vos lectures sur Readnest.' %>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:image" content="<%= image_url('logo.jpg') %>">
+    <meta property="og:site_name" content="Readnest">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= content_for?(:title) ? yield(:title) : 'Readnest' %>">
+    <meta name="twitter:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Readnest est une plateforme littéraire de chroniques et de découvertes de librairies.' %>">
+    <meta name="twitter:image" content="<%= image_url('logo.jpg') %>">
+
+    <!-- Organization JSON-LD (helps Google link your brand to your domain) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Readnest",
+      "url": "https://www.readnest.fr",
+      "logo": "https://www.readnest.fr/logo.jpg",
+      "sameAs": [
+        "https://www.instagram.com/readnest",
+        "https://www.linkedin.com/company/readnest",
+        "https://twitter.com/readnest"
+      ],
+      "description": "Readnest est une plateforme littéraire pour découvrir, partager et aimer des chroniques, maisons d’édition et librairies autour de soi."
+    }
+    </script>
+
+    <!-- Meta tags from display_meta_tags gem (if used elsewhere) -->
+    <%= display_meta_tags %>
   </head>
 
   <body class="d-flex flex-column min-vh-100 bg-light">
