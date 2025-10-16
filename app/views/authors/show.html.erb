@@ -1,0 +1,65 @@
+<% content_for :title, @author.username %>
+<% content_for :meta_description, @author.bio.to_s.truncate(160) %>
+
+<section class="bg-light py-5" style="margin-top: 100px;">
+  <div class="container py-5" style="max-width: 900px;">
+
+    <!-- Profil auteur·rice -->
+    <div class="text-center mb-5">
+      <% if @author.avatar.attached? %>
+        <%= image_tag author.avatar, class: "rounded-circle shadow-sm mb-3", style: "width: 120px; height: 120px; object-fit: cover;" %>
+      <% else %>
+        <%= image_tag "default_avatar.png", class: "rounded-circle shadow-sm mb-3", style: "width: 120px; height: 120px; object-fit: cover;" %>
+      <% end %>
+
+      <h1 class="fw-bold text-dark"><%= @author.username %></h1>
+      <p class="text-muted fst-italic mb-0">
+        Auteur·rice sur Readnest
+      </p>
+    </div>
+
+    <!-- Biographie -->
+    <% if @author.bio.present? %>
+      <div class="bg-white border rounded-4 shadow-sm p-4 mb-5">
+        <h5 class="fw-bold text-uppercase mb-3 text-black">Biographie</h5>
+        <p class="text-secondary mb-0" style="line-height: 1.7; text-align: justify;">
+          <%= simple_format(@author.bio) %>
+        </p>
+      </div>
+    <% end %>
+
+    <!-- Chroniques de l’auteur·rice -->
+    <div class="d-flex align-items-center mb-4">
+      <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Ses chroniques</h2>
+      <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+    </div>
+
+    <% if @chronicles.any? %>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        <% @chronicles.each do |chronicle| %>
+          <div class="col">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+              <% if chronicle.photo.attached? %>
+                <%= link_to image_tag(chronicle.photo, class: "card-img-top rounded-top-4", style: "height: 220px; object-fit: cover;"), chronicle_path(chronicle) %>
+              <% else %>
+                <%= link_to image_tag("livre.jpeg", class: "card-img-top rounded-top-4", style: "height: 220px; object-fit: cover;"), chronicle_path(chronicle) %>
+              <% end %>
+
+              <div class="card-body">
+                <h5 class="fw-bold text-dark mb-2"><%= truncate(chronicle.title, length: 60) %></h5>
+                <p class="text-muted small mb-3"><%= chronicle.created_at.strftime("%d %B %Y") %></p>
+                <%= link_to "Lire la chronique", chronicle_path(chronicle), class: "btn btn-outline-dark rounded-pill px-3 py-1 fw-semibold" %>
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-center text-muted">Aucune chronique publiée pour le moment.</p>
+    <% end %>
+
+  </div>
+</section>
+

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "authors/index"
+  get "authors/show"
   # Pages principales
   root "home#index"
   get "a-propos", to: "pages#about", as: :about
@@ -62,7 +64,9 @@ Rails.application.routes.draw do
   }, controllers: {
     registrations: "users/registrations"
   }
-
+  # Auteur.ice.s
+  resources :authors, only: [:index, :show], path: "auteurices"
+  
   # Gestion des erreurs
   get "erreur/404", to: "errors#not_found", as: :not_found
   get "erreur/500", to: "errors#internal_server_error", as: :internal_server_error
