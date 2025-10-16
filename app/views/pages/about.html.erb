@@ -1,48 +1,79 @@
-<% content_for :title, "À propos de Readnest" %>
+<% content_for :title, "À propos de Readnest – Découvrez la plateforme littéraire collaborative" %>
+<% content_for :meta_description, "Découvrez Readnest, la plateforme littéraire où lecteurs, auteurs, maisons d’édition et librairies partagent leurs passions et chroniques." %>
 
 <div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
 
   <!-- Titre principal -->
-  <div class="text-center mb-5">
+  <header class="text-center mb-5">
     <h1 class="fw-bold display-5 text-dark text-uppercase">À propos de Readnest</h1>
     <p class="text-muted mt-3" style="max-width: 700px; margin: 0 auto;">
-      Readnest est une plateforme indépendante où les lecteurs, écrivains, maisons d’édition et librairies se rencontrent pour partager leur passion.
+      <strong>Readnest</strong> est une plateforme littéraire indépendante où lecteurs, écrivains, maisons d’édition et librairies se rencontrent pour partager leur passion commune pour les livres.
     </p>
-  </div>
+  </header>
 
   <!-- Image principale -->
-  <div class="my-5 text-center">
-    <%= image_tag "about.jpeg", alt: "À propos de Readnest",
+  <section class="my-5 text-center">
+    <%= image_tag "about.jpeg",
+        alt: "Communauté littéraire Readnest : lecteurs et auteurs partageant leurs chroniques",
+        title: "À propos de Readnest - Plateforme littéraire collaborative",
         class: "img-fluid rounded-4 shadow-lg mb-3",
         style: "max-height: 650px; width: 100%; object-fit: cover;" %>
-    <p class="text-muted small fst-italic">Chaque chronique est une porte vers un nouvel univers.</p>
-  </div>
+    <p class="text-muted small fst-italic">Chaque chronique est une porte vers un nouvel univers de lecture.</p>
+  </section>
 
   <!-- Texte descriptif -->
-  <div class="mb-5">
+  <section class="mb-5">
+    <h2 class="h4 fw-bold mb-3 text-dark">Notre mission</h2>
     <p class="mb-4">
       Readnest est né d’un engagement profond : <strong>donner la parole à la littérature</strong> sous toutes ses formes.
-      Ici, chaque membre peut écrire, découvrir et partager.
+      Ici, chaque membre peut écrire, découvrir et partager librement des chroniques et des histoires.
     </p>
 
+    <h2 class="h4 fw-bold mb-3 text-dark">Notre vision</h2>
     <p class="mb-4">
       Notre mission est claire : <strong>connecter les lecteurs</strong> aux histoires, aux auteurs, aux maisons d’édition et aux librairies locales qui les inspirent.
       Nous croyons que les mots ont le pouvoir de rassembler et de transformer.
     </p>
-  </div>
+  </section>
 
   <!-- Citation mise en avant -->
-  <div class="bg-dark text-white text-center rounded-4 shadow-sm py-5 px-4 mb-5">
+  <blockquote class="bg-dark text-white text-center rounded-4 shadow-sm py-5 px-4 mb-5">
     <p class="fs-4 fw-bold mb-0">
       « Les histoires façonnent notre regard sur le monde et Readnest vous aide à en écrire la suite. »
     </p>
-  </div>
+  </blockquote>
 
   <!-- Dernier paragraphe -->
-  <div class="mb-4">
+  <section class="mb-4">
+    <h2 class="h4 fw-bold mb-3 text-dark">Une communauté littéraire vivante</h2>
     <p>
       Chaque chronique publiée, chaque lecteur impliqué et chaque maison d’édition ou librairie partenaire contribue à enrichir un espace vivant, collaboratif et curieux.
       <strong>Readnest, c’est votre bibliothèque numérique construite par vous, pour vous.</strong>
     </p>
-  </div>
+  </section>
 </div>
+
+<!-- JSON-LD : aide Google à reconnaître cette page comme “À propos” officielle -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.readnest.fr/a-propos"
+  },
+  "name": "À propos de Readnest",
+  "url": "https://www.readnest.fr/a-propos",
+  "description": "Readnest est une plateforme littéraire collaborative qui rassemble lecteurs, auteurs, maisons d’édition et librairies pour partager des chroniques et des découvertes.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Readnest",
+    "url": "https://www.readnest.fr",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.readnest.fr/logo.jpg"
+    }
+  }
+}
+</script>
+
