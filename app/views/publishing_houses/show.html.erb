@@ -1,42 +1,83 @@
-<% content_for :title, "Maison d’édition : #{@publishing_house.name}" %>
+<% content_for :title, @publishing_house.name %>
 
 <section class="bg-light pt-5 pb-5" style="margin-top: 100px;">
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-10">
+
+        <!-- EN-TÊTE DU PROFIL -->
         <div class="row align-items-center mb-5">
-          <!-- Logo à gauche -->
+          <!-- Avatar -->
           <div class="col-md-3 text-center mb-4 mb-md-0">
-            <% if @publishing_house.logo.attached? %>
-              <%= image_tag @publishing_house.logo, class: "rounded-circle shadow border border-2", style: "width: 160px; height: 160px; object-fit: cover;" %>
+            <% if @publishing_house.user&.avatar&.attached? %>
+              <%= image_tag url_for(@publishing_house.user.avatar),
+                  class: "rounded-circle shadow border border-2",
+                  style: "width: 160px; height: 160px; object-fit: cover;" %>
             <% else %>
-              <%= image_tag "maison.jpeg", class: "rounded-circle shadow border border-2", style: "width: 160px; height: 160px; object-fit: cover;" %>
+              <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
+                   style="width: 160px; height: 160px;">
+                <%= @publishing_house.name.first.upcase %>
+              </div>
             <% end %>
           </div>
 
-          <!-- Infos de la maison -->
+          <!-- Infos -->
           <div class="col-md-9">
-            <h2 class="fw-bold text-black mb-1"><%= @publishing_house.name %></h2>
+            <h2 class="fw-bold text-black mb-2"><%= @publishing_house.name %></h2>
+            <span class="badge bg-dark rounded-pill mb-3 px-3 py-2">Maison d’édition</span>
 
             <% if @publishing_house.description.present? %>
               <p class="small text-black mb-3"><%= simple_format(@publishing_house.description) %></p>
             <% end %>
 
-            <p class="small text-muted">
-              Ajoutée par
-              <%= link_to @publishing_house.user.username, user_path(@publishing_house.user), class: "text-decoration-none text-dark fw-semibold" %>
-            </p>
+            <!-- Réseaux / Site -->
+            <% if @publishing_house.user&.website.present? || @publishing_house.user&.twitter.present? || @publishing_house.user&.instagram.present? %>
+              <div class="d-flex gap-3 mt-3">
+                <% if @publishing_house.user&.website.present? %>
+                  <% url = @publishing_house.user.website.match?(/^http/) ? @publishing_house.user.website : "https://#{@publishing_house.user.website}" %>
+                  <a href="<%= url %>" target="_blank" class="text-dark fs-4" aria-label="Site web">
+                    <i class="bi bi-globe"></i>
+                  </a>
+                <% end %>
 
-            <!-- Suivre -->
-            <div class="mt-4">
+                <% if @publishing_house.user&.twitter.present? %>
+                  <% twitter_url = @publishing_house.user.twitter.match?(/^http/) ?
+                      @publishing_house.user.twitter :
+                      "https://twitter.com/#{@publishing_house.user.twitter.delete_prefix('@')}" %>
+                  <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4" aria-label="Twitter">
+                    <i class="bi bi-twitter-x"></i>
+                  </a>
+                <% end %>
+
+                <% if @publishing_house.user&.instagram.present? %>
+                  <% insta_url = @publishing_house.user.instagram.match?(/^http/) ?
+                      @publishing_house.user.instagram :
+                      "https://instagram.com/#{@publishing_house.user.instagram.delete_prefix('@')}" %>
+                  <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4" aria-label="Instagram">
+                    <i class="bi bi-instagram"></i>
+                  </a>
+                <% end %>
+              </div>
+            <% end %>
+
+            <!-- Actions -->
+            <div class="mt-4 d-flex flex-wrap gap-2">
               <% if user_signed_in? && current_user != @publishing_house.user %>
                 <% if current_user.following?(@publishing_house) %>
-                  <%= button_to "Ne plus suivre", follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id),
-                      method: :delete, class: "btn btn-outline-dark btn-sm rounded-pill px-4" %>
+                  <%= button_to "Ne plus suivre",
+                      follow_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id),
+                      method: :delete,
+                      class: "btn btn-outline-dark btn-sm rounded-pill" %>
                 <% else %>
-                  <%= button_to "Suivre cette maison d’édition", follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id),
-                      method: :post, class: "btn btn-secondary btn-sm rounded-pill text-white px-4" %>
+                  <%= button_to "Suivre",
+                      follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id),
+                      method: :post,
+                      class: "btn btn-secondary btn-sm rounded-pill text-white" %>
                 <% end %>
+              <% elsif user_signed_in? && current_user == @publishing_house.user %>
+                <%= link_to "Modifier le profil",
+                    edit_user_path(current_user),
+                    class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
               <% end %>
             </div>
           </div>
@@ -51,24 +92,28 @@
             <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
           </div>
 
-          <% if @publishing_house.user.chronicles.any? %>
+          <% if @publishing_house.user&.chronicles&.any? %>
             <div class="row row-cols-1 row-cols-md-2 g-4">
               <% @publishing_house.user.chronicles.each do |chronicle| %>
                 <div class="col">
                   <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
-                    <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
-                      <% if chronicle.photo.attached? %>
-                        <%= image_tag chronicle.photo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-                      <% else %>
-                        <%= image_tag "livre.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-                      <% end %>
+                    <div class="position-relative overflow-hidden shadow-sm"
+                         style="border-radius: 1.25rem; height: 400px;">
+                      <%= image_tag(chronicle.photo.attached? ? chronicle.photo : "livre.jpeg",
+                          class: "w-100 h-100",
+                          style: "object-fit: cover; border-radius: 1.25rem;") %>
 
                       <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
-                           style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
-                        <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                           style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+                                  border-radius: 1.25rem;">
+                        <h5 class="fw-bold text-white mb-2"
+                            style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
                           <%= truncate(chronicle.title, length: 55) %>
                         </h5>
-                        <p class="text-white-50 small mb-0"><%= chronicle.created_at.strftime("%d %B %Y") %></p>
+                        <p class="text-white small mb-1">Maison d’édition · <%= @publishing_house.name %></p>
+                        <p class="text-white-50 small mb-0">
+                          <%= chronicle.created_at.strftime("%d %b %Y") %>
+                        </p>
                       </div>
                     </div>
                   <% end %>
@@ -76,10 +121,9 @@
               <% end %>
             </div>
           <% else %>
-            <p class="text-muted text-center">Cette maison n’a pas encore publié de chronique.</p>
+            <p class="text-muted text-center">Aucune chronique publiée pour le moment.</p>
           <% end %>
         </div>
-
       </div>
     </div>
   </div>

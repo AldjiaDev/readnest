@@ -1,22 +1,23 @@
 class User < ApplicationRecord
-  # Devise
+  # === Authentification ===
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  # === Fichiers attachés ===
   has_one_attached :avatar
 
-  # Relations principales
+  # === Relations principales ===
   has_many :chronicles, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_chronicles, through: :likes, source: :chronicle
 
-  # Notifications
+  # === Notifications ===
   has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
   has_many :received_notifications, class_name: "Notification", foreign_key: :recipient_id, dependent: :destroy
   has_many :sent_notifications, class_name: "Notification", foreign_key: :actor_id, dependent: :nullify
 
-  # Follows
+  # === Follows ===
   has_many :follows, foreign_key: :follower_id, dependent: :destroy
   has_many :followed_users, through: :follows, source: :followable, source_type: "User"
   has_many :followed_publishers, through: :follows, source: :followable, source_type: "PublishingHouse"
@@ -25,44 +26,34 @@ class User < ApplicationRecord
   has_many :reverse_follows, as: :followable, class_name: "Follow", dependent: :destroy
   has_many :followers, through: :reverse_follows, source: :follower
 
-  # Messagerie
+  # === Messagerie ===
   has_many :sent_conversations, class_name: "Conversation", foreign_key: "sender_id", dependent: :destroy
   has_many :received_conversations, class_name: "Conversation", foreign_key: "receiver_id", dependent: :destroy
   has_many :messages, dependent: :destroy
 
-  # Comment likes
+  # === Comment Likes ===
   has_many :comment_likes, dependent: :destroy
   has_many :liked_by_users, through: :comment_likes, source: :user
 
-  # Maison d’édition
+  # === Entités spéciales ===
   has_one :publishing_house, dependent: :destroy
-
-  # Librairie
   has_one :bookshop, dependent: :destroy
 
-  # Création automatique si case cochée
+  # === Création automatique ===
   after_commit :create_publishing_house_if_needed, on: :create
   after_commit :create_bookshop_if_needed, on: :create
 
   def create_publishing_house_if_needed
     return unless is_publishing_house?
-
-    create_publishing_house!(
-      name: username,
-      description: "Maison d’édition de #{username}"
-    )
+    create_publishing_house!(name: username, description: "Maison d’édition de #{username}")
   end
 
   def create_bookshop_if_needed
     return unless is_bookshop?
-
-    create_bookshop!(
-      name: username,
-      description: "Librairie #{username}"
-    )
+    create_bookshop!(name: username, description: "Librairie #{username}")
   end
 
-  # Vérifie les colonnes booleans directement
+  # === États de compte ===
   def is_publishing_house?
     self[:is_publishing_house]
   end
@@ -71,25 +62,54 @@ class User < ApplicationRecord
     self[:is_bookshop]
   end
 
-  # Vérifie si l’utilisateur suit déjà un enregistrement
-  def following?(record)
-    follows.exists?(followable: record)
+  def is_author?
+    self[:is_author]
   end
 
-  # Recherche (pg_search)
-  include PgSearch::Model
-  pg_search_scope :search_by_username_and_bio,
-                  against: [:username, :bio],
-                  using: {
-                    tsearch: { prefix: true },
-                    trigram: {}
-                  }
-
-  # FriendlyId
-  extend FriendlyId
-  friendly_id :username, use: :slugged
-
-  def should_generate_new_friendly_id?
-    slug.blank? || will_save_change_to_username?
+  # === Rôles & affichage ===
+  def role_name
+    if is_author?
+      "Auteur·ice"
+    elsif is_publishing_house?
+      "Maison d’édition"
+    elsif is_bookshop?
+      "Librairie"
+    else
+      "Lecteur·rice"
+    end
   end
+
+  def can_publish_chronicles?
+    is_author? || is_publishing_house?
+  end
+
+    def avatar_url
+      if avatar.attached?
+        Rails.application.routes.url_helpers.url_for(avatar)
+      else
+        ActionController::Base.helpers.asset_path("default_avatar.png")
+      end
+    end
+
+    # === Follows utilitaires ===
+    def following?(record)
+      follows.exists?(followable: record)
+    end
+
+    # === Recherche (pg_search) ===
+    include PgSearch::Model
+    pg_search_scope :search_by_username_and_bio,
+                    against: [:username, :bio],
+                    using: {
+                      tsearch: { prefix: true },
+                      trigram: {}
+                    }
+
+    # === FriendlyId ===
+    extend FriendlyId
+    friendly_id :username, use: :slugged
+
+    def should_generate_new_friendly_id?
+      slug.blank? || will_save_change_to_username?
+    end
 end
