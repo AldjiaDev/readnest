@@ -1,11 +1,34 @@
+<style>
+.homepage-title {
+  font-size: clamp(2rem, 7vw, 3.5rem);
+  line-height: 1.15;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1.2rem;
+  color: #111;
+  text-align: center;
+  word-break: keep-all;     
+  overflow-wrap: break-word;
+  white-space: normal;
+  hyphens: manual;
+  padding: 0 1rem;
+}
+@media (max-width: 600px) {
+  .homepage-title {
+    font-size: clamp(1.2rem, 8vw, 2rem);
+    line-height: 1.1;
+    padding: 0 0.5rem;
+  }
+}
+</style>
 <!-- HERO SECTION WITH SEARCH -->
 <section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
   <div class="container py-5">
     <h1 class="homepage-title">
-      DÉCOUVREZ&nbsp;PARTAGEZ <br>
-      CÉLÉBREZ&nbsp;LA&nbsp;LITTÉRATURE
+      DÉCOUVREZ PARTAGEZ<br>
+      CÉLÉBREZ LA LITTÉRATURE
     </h1>
-
     <p class="text-muted fw-normal mb-4"
        style="max-width: 780px; margin: 0 auto; font-size: clamp(1rem, 2.5vw, 1.35rem); line-height: 1.8; color: #4a4a4a;">
       <strong>Readnest</strong> est le lieu où les <strong>lecteur·ice·s</strong>,
