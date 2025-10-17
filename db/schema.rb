@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_16_104446) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_16_130129) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -50,6 +50,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_16_104446) do
     t.float "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.text "description"
+    t.string "slug"
+    t.index ["slug"], name: "index_bookshops_on_slug", unique: true
+    t.index ["user_id"], name: "index_bookshops_on_user_id"
   end
 
   create_table "chronicles", force: :cascade do |t|
@@ -204,6 +209,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_16_104446) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bookshops", "users"
   add_foreign_key "chronicles", "users"
   add_foreign_key "comment_likes", "comments"
   add_foreign_key "comment_likes", "users"

@@ -131,4 +131,7 @@ Rails.application.configure do
     authentication: :plain,
     enable_starttls_auto: true
   }
+
+  # Host par défaut pour générer des URLs complètes dans les modèles (url_for, etc.)
+  Rails.application.routes.default_url_options[:host] = "https://www.readnest.fr"
 end

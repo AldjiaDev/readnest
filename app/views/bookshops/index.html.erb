@@ -13,19 +13,20 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
       <% @bookshops.each do |bookshop| %>
         <div class="col">
-          <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 300px;">
+          <div class="position-relative overflow-hidden shadow-sm"
+               style="border-radius: 1.25rem; height: 300px;">
 
-            <!-- Image -->
-            <% if bookshop.logo.attached? %>
-              <%= image_tag bookshop.logo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-            <% else %>
-              <%= image_tag "librairie.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-            <% end %>
+            <!-- Image avec fallback (Active Storage / Asset local / Cloudinary) -->
+            <%= image_tag(bookshop.logo_url,
+                          class: "w-100 h-100",
+                          style: "object-fit: cover; border-radius: 1.25rem;") %>
 
             <!-- Overlay -->
             <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
-                 style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
-              <h5 class="fw-bold text-white mb-1" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                 style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+                        border-radius: 1.25rem;">
+              <h5 class="fw-bold text-white mb-1"
+                  style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
                 <%= bookshop.name %>
               </h5>
 

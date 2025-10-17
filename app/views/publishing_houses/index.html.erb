@@ -1,54 +1,48 @@
 <% content_for :title, "Maisons d’édition" %>
 
-<div class="container py-5" style="margin-top: 100px;">
-
-  <% if notice %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <%= notice %>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
-    </div>
-  <% end %>
-
-  <!-- Titre + bouton -->
+<section class="container py-5" style="margin-top: 100px;">
+  <!-- Titre + ligne -->
   <div class="d-flex align-items-center mb-5">
-    <h2 class="text-black fw-bold text-uppercase mb-0 me-3">Maisons d’édition</h2>
+    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Maisons d’édition</h2>
     <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-    <%= link_to "Ajouter une maison", new_publishing_house_path, class: "btn btn-dark rounded-pill px-4 py-2 ms-3 fw-semibold" %>
   </div>
 
-  <% if @publishing_houses.any? %>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+  <% if @publishing_houses.empty? %>
+    <p class="text-muted text-center">Aucune maison d’édition inscrite pour le moment.</p>
+  <% else %>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
       <% @publishing_houses.each do |house| %>
         <div class="col">
-          <%= link_to publishing_house_path(house), class: "text-decoration-none" do %>
-            <div class="position-relative overflow-hidden shadow-sm h-100" style="border-radius: 1.25rem; height: 380px;">
+          <div class="position-relative overflow-hidden shadow-sm"
+               style="border-radius: 1.25rem; height: 300px;">
 
-              <!-- Image -->
-              <% if house.logo.attached? %>
-                <%= image_tag house.logo, class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-              <% else %>
-                <%= image_tag "maison.jpeg", class: "w-100 h-100", style: "object-fit: cover; border-radius: 1.25rem;" %>
-              <% end %>
+            <!-- Image avec fallback -->
+            <%= image_tag house.logo_url,
+                          class: "w-100 h-100",
+                          style: "object-fit: cover; border-radius: 1.25rem;" %>
 
-              <!-- Overlay avec nom + description -->
-              <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
-                <h5 class="fw-bold text-white mb-2" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
-                  <%= house.name %>
-                </h5>
+            <!-- Overlay -->
+            <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
+                 style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+                        border-radius: 1.25rem;">
+              <h5 class="fw-bold text-white mb-1"
+                  style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                <%= house.name %>
+              </h5>
+
+              <% if house.description.present? %>
                 <p class="text-white-50 small mb-0">
                   <%= truncate(house.description, length: 90) %>
                 </p>
-                <p class="text-white-50 small mt-1">
-                  👤 <%= house.user.username %>
-                </p>
-              </div>
-
+              <% end %>
             </div>
-          <% end %>
+
+            <!-- Lien cliquable -->
+            <%= link_to publishing_house_path(house), class: "stretched-link" do %><% end %>
+          </div>
         </div>
       <% end %>
     </div>
-  <% else %>
-    <p class="text-muted fst-italic">Aucune maison d’édition n’a encore été ajoutée.</p>
   <% end %>
-</div>
+</section>
+

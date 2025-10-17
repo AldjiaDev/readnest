@@ -36,26 +36,24 @@
             <% end %>
 
             <!-- Réseaux / Site -->
-            <% if @bookshop.website.present? || @bookshop.user&.twitter.present? || @bookshop.user&.instagram.present? %>
+            <% if @bookshop.user&.website.present? || @bookshop.user&.twitter.present? || @bookshop.user&.instagram.present? %>
               <div class="d-flex gap-3 mt-3">
-                <% if @bookshop.website.present? %>
-                  <% url = @bookshop.website.match?(/^http/) ? @bookshop.website : "https://#{@bookshop.website}" %>
+                <% if @bookshop.user&.website.present? %>
+                  <% url = @bookshop.user.website.match?(/^http/) ? @bookshop.user.website : "https://#{@bookshop.user.website}" %>
                   <a href="<%= url %>" target="_blank" class="text-dark fs-4" aria-label="Site web">
                     <i class="bi bi-globe"></i>
                   </a>
                 <% end %>
+
                 <% if @bookshop.user&.twitter.present? %>
-                  <% twitter_url = @bookshop.user.twitter.match?(/^http/) ?
-                      @bookshop.user.twitter :
-                      "https://twitter.com/#{@bookshop.user.twitter.delete_prefix('@')}" %>
+                  <% twitter_url = @bookshop.user.twitter.match?(/^http/) ? @bookshop.user.twitter : "https://twitter.com/#{@bookshop.user.twitter.delete_prefix('@')}" %>
                   <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4" aria-label="Twitter">
                     <i class="bi bi-twitter-x"></i>
                   </a>
                 <% end %>
+
                 <% if @bookshop.user&.instagram.present? %>
-                  <% insta_url = @bookshop.user.instagram.match?(/^http/) ?
-                      @bookshop.user.instagram :
-                      "https://instagram.com/#{@bookshop.user.instagram.delete_prefix('@')}" %>
+                  <% insta_url = @bookshop.user.instagram.match?(/^http/) ? @bookshop.user.instagram : "https://instagram.com/#{@bookshop.user.instagram.delete_prefix('@')}" %>
                   <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4" aria-label="Instagram">
                     <i class="bi bi-instagram"></i>
                   </a>
@@ -131,4 +129,3 @@
     </div>
   </div>
 </section>
-

@@ -39,18 +39,32 @@ class User < ApplicationRecord
   has_one :publishing_house, dependent: :destroy
   has_one :bookshop, dependent: :destroy
 
-  # === Création automatique ===
-  after_commit :create_publishing_house_if_needed, on: :create
-  after_commit :create_bookshop_if_needed, on: :create
+  # === Création automatique après inscription (corrigée pour Devise/Heroku) ===
+  after_create :create_special_entities
+
+  def create_special_entities
+    create_publishing_house_if_needed
+    create_bookshop_if_needed
+  end
 
   def create_publishing_house_if_needed
-    return unless is_publishing_house?
-    create_publishing_house!(name: username, description: "Maison d’édition de #{username}")
+    return unless is_publishing_house? && publishing_house.blank?
+
+    PublishingHouse.create!(
+      user: self,
+      name: username,
+      description: "Maison d’édition de #{username}"
+    )
   end
 
   def create_bookshop_if_needed
-    return unless is_bookshop?
-    create_bookshop!(name: username, description: "Librairie #{username}")
+    return unless is_bookshop? && bookshop.blank?
+
+    Bookshop.create!(
+      user: self,
+      name: username,
+      description: "Librairie #{username}"
+    )
   end
 
   # === États de compte ===
@@ -83,33 +97,35 @@ class User < ApplicationRecord
     is_author? || is_publishing_house?
   end
 
-    def avatar_url
-      if avatar.attached?
-        Rails.application.routes.url_helpers.url_for(avatar)
-      else
-        ActionController::Base.helpers.asset_path("default_avatar.png")
-      end
+  # === Avatar par défaut ===
+  def avatar_url
+    if avatar.attached?
+      Rails.application.routes.url_helpers.url_for(avatar)
+    else
+      ActionController::Base.helpers.asset_path("default_avatar.png")
     end
+  end
 
-    # === Follows utilitaires ===
-    def following?(record)
-      follows.exists?(followable: record)
-    end
+  # === Follows utilitaires ===
+  def following?(record)
+    follows.exists?(followable: record)
+  end
 
-    # === Recherche (pg_search) ===
-    include PgSearch::Model
-    pg_search_scope :search_by_username_and_bio,
-                    against: [:username, :bio],
-                    using: {
-                      tsearch: { prefix: true },
-                      trigram: {}
-                    }
+  # === Recherche (pg_search) ===
+  include PgSearch::Model
+  pg_search_scope :search_by_username_and_bio,
+                  against: [:username, :bio],
+                  using: {
+                    tsearch: { prefix: true },
+                    trigram: {}
+                  }
 
-    # === FriendlyId ===
-    extend FriendlyId
-    friendly_id :username, use: :slugged
+  # === FriendlyId ===
+  extend FriendlyId
+  friendly_id :username, use: :slugged
 
-    def should_generate_new_friendly_id?
-      slug.blank? || will_save_change_to_username?
-    end
+  def should_generate_new_friendly_id?
+    slug.blank? || will_save_change_to_username?
+  end
 end
+
