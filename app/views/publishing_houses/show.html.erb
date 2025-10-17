@@ -85,35 +85,38 @@
 
         <hr class="my-5">
 
-        <!-- CHRONIQUES PUBLIÉES -->
-        <div>
+        <!-- CHRONIQUES PUBLIÉES PAR LA MAISON D’ÉDITION -->
+        <section class="container py-5" style="margin-top: 100px;">
           <div class="d-flex align-items-center mb-4">
-            <h4 class="text-black fw-bold text-uppercase mb-0 me-3">Chroniques publiées</h4>
+            <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">
+              Chroniques publiées par <%= @publishing_house.name %>
+            </h2>
             <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
           </div>
 
-          <% if @publishing_house.user&.chronicles&.any? %>
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-              <% @publishing_house.user.chronicles.each do |chronicle| %>
+          <% if @chronicles.present? %>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+              <% @chronicles.each do |chronicle| %>
                 <div class="col">
                   <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
-                    <div class="position-relative overflow-hidden shadow-sm"
-                         style="border-radius: 1.25rem; height: 400px;">
-                      <%= image_tag(chronicle.photo.attached? ? chronicle.photo : "livre.jpeg",
-                          class: "w-100 h-100",
-                          style: "object-fit: cover; border-radius: 1.25rem;") %>
+                    <div class="card-uniform">
+                      <%= image_tag(
+                            chronicle.photo.attached? ? chronicle.photo : "default_avatar.png",
+                            alt: chronicle.title
+                          ) %>
 
-                      <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
-                           style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-                                  border-radius: 1.25rem;">
-                        <h5 class="fw-bold text-white mb-2"
-                            style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                      <div class="card-overlay">
+                        <h5 class="fw-bold text-white mb-2">
                           <%= truncate(chronicle.title, length: 55) %>
                         </h5>
-                        <p class="text-white small mb-1">Maison d’édition · <%= @publishing_house.name %></p>
-                        <p class="text-white-50 small mb-0">
-                          <%= chronicle.created_at.strftime("%d %b %Y") %>
+                        <p class="text-white small mb-1">
+                          Publié le <%= chronicle.created_at.strftime("%d %b %Y") %>
                         </p>
+                        <% if chronicle.user.present? %>
+                          <p class="text-white-50 small mb-0">
+                            Par <%= chronicle.user.username %>
+                          </p>
+                        <% end %>
                       </div>
                     </div>
                   <% end %>
@@ -123,9 +126,4 @@
           <% else %>
             <p class="text-muted text-center">Aucune chronique publiée pour le moment.</p>
           <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+        </section>

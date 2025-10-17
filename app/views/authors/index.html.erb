@@ -1,45 +1,28 @@
 <% content_for :title, "Auteur·rice·s" %>
 
-<section class="bg-light py-5" style="margin-top: 100px;">
-  <div class="container py-5">
-
-    <!-- Titre principal -->
-    <div class="d-flex align-items-center mb-5">
-      <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Auteur·rice·s</h2>
-      <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-    </div>
-
-    <p class="text-muted mb-5">
-      Découvrez les auteur·rice·s de Readnest : celles et ceux qui partagent leurs chroniques, leurs lectures et leurs univers littéraires.
-    </p>
-
-    <% if @authors.empty? %>
-      <p class="text-center text-muted">Aucun·e auteur·rice n’est encore inscrit·e.</p>
-    <% else %>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
-        <% @authors.each do |author| %>
-          <div class="col">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-
-              <!-- Avatar -->
-              <% if author.avatar.attached? %>
-                <%= image_tag author.avatar, class: "card-img-top rounded-top-4", style: "height: 250px; object-fit: cover;" %>
-              <% else %>
-                <%= image_tag "default_avatar.png", class: "card-img-top rounded-top-4", style: "height: 250px; object-fit: cover;" %>
-              <% end %>
-
-              <!-- Contenu -->
-              <div class="card-body text-center">
-                <h5 class="fw-bold mb-1 text-dark"><%= author.username %></h5>
-                <p class="text-muted small mb-3"><%= truncate(author.bio, length: 90) %></p>
-                <%= link_to "Voir le profil", user_path(author), class: "btn btn-outline-dark rounded-pill px-3 py-1 fw-semibold" %>
-              </div>
-
-            </div>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+<section class="container py-5" style="margin-top: 100px;">
+  <div class="d-flex align-items-center mb-5">
+    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Auteur·rice·s</h2>
+    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
   </div>
+
+  <% if @authors.empty? %>
+    <p class="text-center text-muted">Aucun·e auteur·rice n’est encore inscrit·e.</p>
+  <% else %>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <% @authors.each do |author| %>
+        <div class="col">
+          <div class="card-uniform">
+            <%= image_tag(author.avatar.attached? ? author.avatar : "default_avatar.png") %>
+            <div class="card-overlay">
+              <h5 class="fw-bold text-white mb-1"><%= author.username %></h5>
+              <p class="text-white-50 small mb-0"><%= truncate(author.bio, length: 90) %></p>
+            </div>
+            <%= link_to user_path(author), class: "stretched-link", "aria-label": "Voir le profil de #{author.username}" do %><% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </section>
 

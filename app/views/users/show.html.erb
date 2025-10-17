@@ -103,35 +103,20 @@
           </div>
 
           <% if @user.chronicles.any? %>
-            <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
               <% @user.chronicles.each do |chronicle| %>
                 <div class="col">
                   <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
-                    <div class="position-relative overflow-hidden shadow-sm"
-                         style="border-radius: 1.25rem; height: 400px;">
-                      <% if chronicle.photo.attached? %>
-                        <%= image_tag chronicle.photo,
-                            class: "w-100 h-100",
-                            style: "object-fit: cover; border-radius: 1.25rem;" %>
-                      <% else %>
-                        <%= image_tag "livre.jpeg",
-                            class: "w-100 h-100",
-                            style: "object-fit: cover; border-radius: 1.25rem;" %>
-                      <% end %>
+                    <div class="card-uniform">
+                      <%= image_tag(
+                            chronicle.photo.attached? ? chronicle.photo : "default_avatar.png",
+                            alt: chronicle.title
+                          ) %>
 
-                      <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
-                           style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-                                  border-radius: 1.25rem;">
-                        <h5 class="fw-bold text-white mb-2"
-                            style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
-                          <%= truncate(chronicle.title, length: 55) %>
-                        </h5>
-                        <p class="text-white small mb-1">
-                          <%= @user.role_name %> · <%= @user.username %>
-                        </p>
-                        <p class="text-white-50 small mb-0">
-                          <%= chronicle.created_at.strftime("%d %b %Y") %>
-                        </p>
+                      <div class="card-overlay">
+                        <h5 class="fw-bold text-white mb-2"><%= truncate(chronicle.title, length: 55) %></h5>
+                        <p class="text-white small mb-1"><%= @user.role_name %> · <%= @user.username %></p>
+                        <p class="text-white-50 small mb-0"><%= chronicle.created_at.strftime("%d %b %Y") %></p>
                       </div>
                     </div>
                   <% end %>
@@ -146,4 +131,3 @@
     </div>
   </div>
 </section>
-

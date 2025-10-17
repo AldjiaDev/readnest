@@ -11,24 +11,20 @@
     <p class="text-muted text-center">Aucune maison d’édition inscrite pour le moment.</p>
   <% else %>
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+
       <% @publishing_houses.each do |house| %>
         <div class="col">
-          <div class="position-relative overflow-hidden shadow-sm"
-               style="border-radius: 1.25rem; height: 300px;">
+          <div class="card-uniform">
 
             <!-- Image avec fallback -->
-            <%= image_tag house.logo_url,
-                          class: "w-100 h-100",
-                          style: "object-fit: cover; border-radius: 1.25rem;" %>
+            <%= image_tag(
+                  house.logo.attached? ? house.logo : "maison.jpeg",
+                  alt: house.name
+                ) %>
 
             <!-- Overlay -->
-            <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
-                 style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-                        border-radius: 1.25rem;">
-              <h5 class="fw-bold text-white mb-1"
-                  style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
-                <%= house.name %>
-              </h5>
+            <div class="card-overlay">
+              <h5 class="fw-bold text-white mb-1"><%= house.name %></h5>
 
               <% if house.description.present? %>
                 <p class="text-white-50 small mb-0">
@@ -37,11 +33,14 @@
               <% end %>
             </div>
 
-            <!-- Lien cliquable -->
-            <%= link_to publishing_house_path(house), class: "stretched-link" do %><% end %>
+            <!-- Lien cliquable sur toute la carte -->
+            <%= link_to publishing_house_path(house),
+                        class: "stretched-link",
+                        "aria-label": "Voir #{house.name}" do %><% end %>
           </div>
         </div>
       <% end %>
+
     </div>
   <% end %>
 </section>
