@@ -140,6 +140,51 @@
   <% end %>
 </section>
 
+<!-- AUTEUR·RICE·S À DÉCOUVRIR -->
+<section class="container py-5">
+  <div class="d-flex align-items-center mb-5">
+    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Auteur·rice·s à découvrir</h2>
+    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+  </div>
+
+  <% if @authors &&
+        @authors.any? %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+      <% @authors.each do |author| %>
+          <div class="position-relative overflow-hidden shadow-sm" style="border-radius: 1.25rem; height: 400px;">
+
+            <% if author.avatar.attached? %>
+              <%= image_tag author.avatar, class: "card-img-responsive" %>
+            <% else %>
+              <%= image_tag "default_avatar.png", class: "card-img-responsive" %>
+            <% end %>
+
+            <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
+                 style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); border-radius: 1.25rem;">
+              <h5 class="fw-bold text-white mb-1" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                <%= author.username %>
+              </h5>
+
+              <% if author.bio.present? %>
+                <p class="text-white-50 small mb-0"><%= truncate(author.bio, length: 90) %></p>
+              <% end %>
+            </div>
+
+            <%= link_to user_path(author), class: "stretched-link" do %><% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="text-center">
+      <%= link_to "Voir tous les auteur·rice·s", authors_path, class: "btn btn-dark rounded-pill px-4 py-2" %>
+    </div>
+
+  <% else %>
+    <p class="text-muted text-center">Aucun·e auteur·rice à afficher pour le moment.</p>
+  <% end %>
+</section>
+
 <!-- MAISONS D'ÉDITION À DÉCOUVRIR -->
 <section class="container py-5">
   <div class="d-flex align-items-center mb-5">
