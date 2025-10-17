@@ -4,7 +4,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super do |resource|
       if resource.persisted?
-        flash[:notice] = "Merci #{resource.username} 🎉 Votre compte est créé ! Vous pouvez maintenant vous connecter, lire et écrire vos chroniques."
+        # Messages de bienvenue adaptés au type de compte
+        if resource.is_publishing_house?
+          flash[:notice] = "Votre maison d’édition « #{resource.username} » a bien été créée !"
+        elsif resource.is_bookshop?
+          flash[:notice] = "Votre librairie « #{resource.username} » a bien été créée !"
+        elsif resource.is_author?
+          flash[:notice] = "Votre profil auteur·rice est prêt !"
+        else
+          flash[:notice] = "Merci #{resource.username} 🎉 Votre compte est créé !"
+        end
+
         flash.keep(:notice)
       end
     end
@@ -13,7 +23,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :bio, :avatar, :is_author])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :bio, :avatar, :is_author])
+    devise_parameter_sanitizer.permit(
+      :sign_up,
+      keys: [:username, :bio, :avatar, :is_author, :is_publishing_house, :is_bookshop]
+    )
+
+    devise_parameter_sanitizer.permit(
+      :account_update,
+      keys: [:username, :bio, :avatar, :is_author, :is_publishing_house, :is_bookshop]
+    )
   end
 end

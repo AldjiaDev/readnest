@@ -40,11 +40,13 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(
       :sign_up,
-      keys: [:username, :is_publishing_house, :is_bookshop, :avatar]
+      keys: [:username, :is_author, :is_publishing_house, :is_bookshop, :avatar]
     )
+
     devise_parameter_sanitizer.permit(
       :account_update,
-      keys: [:username, :is_publishing_house, :is_bookshop, :avatar]
+      keys: [:username, :bio, :avatar, :website, :twitter, :instagram,
+            :is_author, :is_publishing_house, :is_bookshop]
     )
   end
 end

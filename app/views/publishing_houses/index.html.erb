@@ -18,7 +18,7 @@
 
             <!-- Image avec fallback -->
             <%= image_tag(
-                  house.logo.attached? ? house.logo : "maison.jpeg",
+                  house.logo.attached? ? house.logo : "default_avatar.png",
                   alt: house.name
                 ) %>
 
@@ -44,4 +44,3 @@
     </div>
   <% end %>
 </section>
-
