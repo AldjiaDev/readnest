@@ -1,6 +1,5 @@
 <% content_for :title, "Modifier mon profil" %>
 
-
 <div class="container py-5" style="margin-top: 120px; max-width: 720px;">
 
   <h1 class="text-center mb-5 fw-bold text-black">Modifier mon profil</h1>
@@ -76,4 +75,20 @@
   <div class="text-center mt-4">
     <%= link_to "← Retour au profil", user_path(@user), class: "btn btn-outline-secondary px-4 py-2 rounded-pill fw-semibold" %>
   </div>
+
+  <!-- Suppression du compte -->
+  <hr class="my-5">
+  <div class="text-center mt-4">
+    <h5 class="text-danger fw-bold mb-3">Supprimer mon compte</h5>
+    <p class="small text-muted mb-3">
+      Cette action est <strong>définitive</strong> et supprimera toutes vos données associées à votre compte.
+    </p>
+
+    <%= button_to "Supprimer mon compte",
+        registration_path(:user),
+        method: :delete,
+        data: { confirm: "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible." },
+        class: "btn btn-outline-danger rounded-pill px-4 py-2 fw-semibold" %>
+  </div>
 </div>
+
