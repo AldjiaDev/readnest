@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_16_130129) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_21_114312) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -101,6 +101,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_16_130129) do
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_conversations_on_receiver_id"
     t.index ["sender_id"], name: "index_conversations_on_sender_id"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "chronicle_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chronicle_id"], name: "index_favorites_on_chronicle_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "follows", force: :cascade do |t|
@@ -217,6 +226,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_16_130129) do
   add_foreign_key "comments", "users"
   add_foreign_key "conversations", "users", column: "receiver_id"
   add_foreign_key "conversations", "users", column: "sender_id"
+  add_foreign_key "favorites", "chronicles"
+  add_foreign_key "favorites", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "likes", "chronicles"
   add_foreign_key "likes", "users"

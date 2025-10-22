@@ -39,6 +39,10 @@ class User < ApplicationRecord
   has_one :publishing_house, dependent: :destroy
   has_one :bookshop, dependent: :destroy
 
+  # === Favoris ===
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_chronicles, through: :favorites, source: :chronicle
+
   # === Création automatique après inscription (corrigée pour Devise/Heroku) ===
   after_create :create_special_entities
 
@@ -128,4 +132,3 @@ class User < ApplicationRecord
     slug.blank? || will_save_change_to_username?
   end
 end
-

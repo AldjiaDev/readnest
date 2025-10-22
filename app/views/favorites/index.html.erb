@@ -1,0 +1,45 @@
+<% content_for :title, "Mes favoris" %>
+
+<section class="container py-5" style="margin-top: 100px;">
+  <!-- Titre + ligne -->
+  <div class="d-flex align-items-center mb-5">
+    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Mes chroniques favorites</h2>
+    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+  </div>
+
+  <% if @favorites.empty? %>
+    <div class="text-center py-5">
+      <p class="text-muted fs-5 mb-3">Vous n’avez encore ajouté aucune chronique à vos favoris.</p>
+      <%= link_to "Découvrir des chroniques", chronicles_path, class: "btn btn-dark rounded-pill px-4 py-2 fw-semibold" %>
+    </div>
+  <% else %>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+      <% @favorites.each do |favorite| %>
+        <% chronicle = favorite.chronicle %>
+        <div class="col">
+          <div class="card-uniform">
+            <!-- Image -->
+            <%= image_tag(chronicle.photo.attached? ? chronicle.photo : "livre.jpeg", alt: chronicle.title) %>
+
+            <!-- Overlay -->
+            <div class="card-overlay">
+              <h5 class="fw-bold text-white mb-2"><%= truncate(chronicle.title, length: 55) %></h5>
+              <p class="text-white-50 small mb-0">
+                <%= chronicle.user.username %>
+              </p>
+              <p class="text-white-50 small mb-0"><%= chronicle.created_at.strftime("%d %b %Y") %></p>
+            </div>
+
+            <!-- Lien vers la chronique -->
+            <%= link_to chronicle_path(chronicle), class: "stretched-link" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="text-center mt-4">
+      <%= link_to "Découvrir d’autres chroniques", chronicles_path, class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold" %>
+    </div>
+  <% end %>
+</section>
+
