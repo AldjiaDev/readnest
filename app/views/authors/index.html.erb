@@ -13,12 +13,22 @@
       <% @authors.each do |author| %>
         <div class="col">
           <div class="card-uniform">
-            <%= image_tag(author.avatar.attached? ? author.avatar : "default_avatar.png") %>
+
+            <!-- Image avec fallback (avatar user > image par défaut) -->
+            <% if author.avatar.attached? %>
+              <%= image_tag author.avatar, alt: author.username %>
+            <% else %>
+              <%= image_tag "default_avatar.png", alt: author.username %>
+            <% end %>
+
             <div class="card-overlay">
               <h5 class="fw-bold text-white mb-1"><%= author.username %></h5>
               <p class="text-white-50 small mb-0"><%= truncate(author.bio, length: 90) %></p>
             </div>
-            <%= link_to user_path(author), class: "stretched-link", "aria-label": "Voir le profil de #{author.username}" do %><% end %>
+
+            <%= link_to user_path(author),
+                        class: "stretched-link",
+                        "aria-label": "Voir le profil de #{author.username}" do %><% end %>
           </div>
         </div>
       <% end %>

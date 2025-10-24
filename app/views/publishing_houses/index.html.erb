@@ -16,11 +16,14 @@
         <div class="col">
           <div class="card-uniform">
 
-            <!-- Image avec fallback -->
-            <%= image_tag(
-                  house.logo.attached? ? house.logo : "default_avatar.png",
-                  alt: house.name
-                ) %>
+            <!-- Image avec fallback (avatar user > logo > image par défaut) -->
+            <% if house.user&.avatar&.attached? %>
+              <%= image_tag house.user.avatar, alt: house.name %>
+            <% elsif house.logo.attached? %>
+              <%= image_tag house.logo, alt: house.name %>
+            <% else %>
+              <%= image_tag "default_avatar.png", alt: house.name %>
+            <% end %>
 
             <!-- Overlay -->
             <div class="card-overlay">
@@ -44,3 +47,4 @@
     </div>
   <% end %>
 </section>
+

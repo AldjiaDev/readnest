@@ -22,6 +22,7 @@
   }
 }
 </style>
+
 <!-- HERO SECTION WITH SEARCH -->
 <section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
   <div class="container py-5">
@@ -103,7 +104,13 @@
       <% @authors.each do |author| %>
         <div class="col">
           <div class="card-uniform">
-            <%= image_tag(author.avatar.attached? ? author.avatar : "default_avatar.png") %>
+            <!-- Avatar ou image par défaut -->
+            <% if author.avatar.attached? %>
+              <%= image_tag author.avatar, alt: author.username %>
+            <% else %>
+              <%= image_tag "default_avatar.png", alt: author.username %>
+            <% end %>
+
             <div class="card-overlay">
               <h5 class="fw-bold text-white mb-1"><%= author.username %></h5>
               <% if author.bio.present? %>
@@ -137,7 +144,15 @@
       <% @publishing_houses.each do |house| %>
         <div class="col">
           <div class="card-uniform">
-            <%= image_tag(house.logo.attached? ? house.logo : "default_avatar.png") %>
+            <!-- Avatar user > logo > image par défaut -->
+            <% if house.user&.avatar&.attached? %>
+              <%= image_tag house.user.avatar, alt: house.name %>
+            <% elsif house.logo.attached? %>
+              <%= image_tag house.logo, alt: house.name %>
+            <% else %>
+              <%= image_tag "default_avatar.png", alt: house.name %>
+            <% end %>
+
             <div class="card-overlay">
               <h5 class="fw-bold text-white mb-2"><%= house.name %></h5>
               <p class="text-white-50 small mb-0"><%= truncate(house.description, length: 90) %></p>
@@ -167,7 +182,15 @@
       <% @bookshops.each do |bookshop| %>
         <div class="col">
           <div class="card-uniform">
-            <%= image_tag(bookshop.logo.attached? ? bookshop.logo : "default_avatar.png") %>
+            <!-- Avatar user > logo > image par défaut -->
+            <% if bookshop.user&.avatar&.attached? %>
+              <%= image_tag bookshop.user.avatar, alt: bookshop.name %>
+            <% elsif bookshop.logo.attached? %>
+              <%= image_tag bookshop.logo, alt: bookshop.name %>
+            <% else %>
+              <%= image_tag "default_avatar.png", alt: bookshop.name %>
+            <% end %>
+
             <div class="card-overlay">
               <h5 class="fw-bold text-white mb-2"><%= bookshop.name %></h5>
               <% if bookshop.description.present? %>
@@ -204,3 +227,4 @@
     </div>
   </div>
 </section>
+

@@ -16,11 +16,14 @@
         <div class="col">
           <div class="card-uniform">
 
-            <!-- Image avec fallback par défaut -->
-            <%= image_tag(
-                  bookshop.logo.attached? ? bookshop.logo : "default_avatar.png",
-                  alt: bookshop.name
-                ) %>
+            <!-- Image avec fallback (avatar user > logo > image par défaut) -->
+            <% if bookshop.user&.avatar&.attached? %>
+              <%= image_tag bookshop.user.avatar, alt: bookshop.name %>
+            <% elsif bookshop.logo.attached? %>
+              <%= image_tag bookshop.logo, alt: bookshop.name %>
+            <% else %>
+              <%= image_tag "default_avatar.png", alt: bookshop.name %>
+            <% end %>
 
             <!-- Overlay -->
             <div class="card-overlay">
