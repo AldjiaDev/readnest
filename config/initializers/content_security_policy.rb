@@ -23,3 +23,11 @@
 #   # Report violations without enforcing the policy.
 #   # config.content_security_policy_report_only = true
 # end
+Rails.application.config.content_security_policy do |policy|
+  policy.script_src :self, :https, "https://www.googletagmanager.com"
+  policy.connect_src :self, :https, "https://www.google-analytics.com"
+  policy.img_src     :self, :https, "https://www.google-analytics.com", "data:"
+  policy.frame_src   :self, :https, "https://www.googletagmanager.com"
+end
+
+Rails.application.config.content_security_policy_nonce_generator = ->(_request) { SecureRandom.base64(16) }
