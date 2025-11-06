@@ -63,7 +63,7 @@
 
     <% gtm_id = Rails.application.credentials.dig(:gtm, :container_id) || ENV['GTM_CONTAINER_ID'] %>
 
-    <%# Consent Mode v2: par défaut tout est refusé jusqu'au choix utilisateur (PLACÉ AVANT GTM) %>
+    <%# CONSENT MODE v2 — doit être AVANT GTM, refus par défaut jusqu’au choix utilisateur %>
     <% if gtm_id.present? && Rails.env.production? %>
       <script nonce="<%= content_security_policy_nonce %>">
         (function(){
@@ -337,62 +337,6 @@
           const dropdownTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'))
           dropdownTriggerList.map(el => new bootstrap.Dropdown(el))
         })
-      </script>
-
-      <%# AJOUT — Bandeau cookies simple %>
-      <div id="cookie-banner" class="position-fixed bottom-0 start-50 translate-middle-x mb-3 p-3 rounded shadow bg-white"
-          style="z-index:1080; display:none; max-width:640px;">
-        <p class="mb-2">Nous utilisons des cookies de mesure d’audience (Google Analytics). Acceptez-vous ?</p>
-        <div class="d-flex gap-2 justify-content-end">
-          <button id="cookie-decline" class="btn btn-outline-secondary btn-sm">Refuser</button>
-          <button id="cookie-accept"  class="btn btn-dark btn-sm">Accepter</button>
-        </div>
-      </div>
-
-      <%# AJOUT — Logique de consentement (stocke le choix et met à jour gtag) %>
-      <script nonce="<%= content_security_policy_nonce %>">
-      (function(){
-        const KEY = 'rn_consent_v1';
-        const saved = localStorage.getItem(KEY);
-
-        function hideBanner(){ const b = document.getElementById('cookie-banner'); if(b) b.style.display='none'; }
-        function showBanner(){ const b = document.getElementById('cookie-banner'); if(b) b.style.display='block'; }
-
-        // Rejoue le choix existant au chargement
-        function applyConsent(state){
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          const granted = (state === 'granted');
-          gtag('consent', 'update', {
-            ad_user_data: granted ? 'granted' : 'denied',
-            ad_personalization: granted ? 'granted' : 'denied',
-            ad_storage: granted ? 'granted' : 'denied',
-            analytics_storage: granted ? 'granted' : 'denied',
-            functionality_storage: granted ? 'granted' : 'denied',
-            personalization_storage: granted ? 'granted' : 'denied',
-            security_storage: 'granted'
-          });
-        }
-
-        if (saved === 'granted' || saved === 'denied') {
-          applyConsent(saved);
-          hideBanner();
-        } else {
-          showBanner();
-        }
-
-        document.getElementById('cookie-accept')?.addEventListener('click', () => {
-          localStorage.setItem(KEY, 'granted');
-          applyConsent('granted');
-          hideBanner();
-        });
-
-        document.getElementById('cookie-decline')?.addEventListener('click', () => {
-          localStorage.setItem(KEY, 'denied');
-          applyConsent('denied');
-          hideBanner();
-        });
-      })();
       </script>
   </body>
 </html>
