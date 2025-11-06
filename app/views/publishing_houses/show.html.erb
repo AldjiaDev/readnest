@@ -79,6 +79,14 @@
                     edit_user_path(current_user),
                     class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
               <% end %>
+
+              <%# --- Contacter la maison d’édition --- %>
+              <% if user_signed_in? && @publishing_house.user.present? && current_user != @publishing_house.user %>
+                <%= button_to "Envoyer un message",
+                    conversations_path(receiver_id: @publishing_house.user.id),
+                      method: :post,
+                     class: "btn btn-dark btn-sm rounded-pill" %>
+                <% end %>
             </div>
           </div>
         </div>
