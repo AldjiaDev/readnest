@@ -62,29 +62,9 @@
     <%= display_meta_tags %>
 
     <% gtm_id = Rails.application.credentials.dig(:gtm, :container_id) || ENV['GTM_CONTAINER_ID'] %>
-
-    <%# CONSENT MODE v2 — doit être AVANT GTM, refus par défaut jusqu’au choix utilisateur %>
-    <% if gtm_id.present? && Rails.env.production? %>
-      <script nonce="<%= content_security_policy_nonce %>">
-        (function(){
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('consent', 'default', {
-            ad_user_data: 'denied',
-            ad_personalization: 'denied',
-            ad_storage: 'denied',
-            analytics_storage: 'denied',
-            functionality_storage: 'denied',
-            personalization_storage: 'denied',
-            security_storage: 'granted'
-          });
-        })();
-      </script>
-    <% end %>
-
     <% if gtm_id.present? && Rails.env.production? %>
       <!-- Google Tag Manager -->
-      <script nonce="<%= content_security_policy_nonce %>">
+      <script>
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -307,7 +287,7 @@
 
      <%= javascript_importmap_tags %>
 
-     <script nonce="<%= content_security_policy_nonce %>">
+     <script>
         // Envoi d'un "page_view" dans la dataLayer au chargement et à chaque navigation Turbo
         function pushGtmPageView(){
           window.dataLayer = window.dataLayer || [];
