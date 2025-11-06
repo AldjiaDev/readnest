@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <% gtm_id = Rails.application.credentials.dig(:gtm, :container_id) || ENV['GTM_CONTAINER_ID'] %>
+    <% if gtm_id.present? && Rails.env.production? %>
+      <!-- Google Tag Manager -->
+      <script nonce="<%= content_security_policy_nonce %>">
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','<%= gtm_id %>');
+      </script>
+      <!-- End Google Tag Manager -->
+    <% end %>
+
+
     <!-- Title -->
     <title><%= content_for?(:title) ? yield(:title) : "Readnest – Chroniques littéraires, auteur.ice.s, maisons d’édition et librairies" %></title>
 
@@ -60,27 +74,15 @@
 
     <!-- Meta tags from display_meta_tags gem (if used elsewhere) -->
     <%= display_meta_tags %>
-
-    <% gtm_id = Rails.application.credentials.dig(:gtm, :container_id) || ENV['GTM_CONTAINER_ID'] %>
-    <% if gtm_id.present? && Rails.env.production? %>
-      <!-- Google Tag Manager -->
-      <script>
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','<%= gtm_id %>');
-      </script>
-      <!-- End Google Tag Manager -->
-    <% end %>
   </head>
 
   <body class="d-flex flex-column min-vh-100 bg-light">
-
     <% if gtm_id.present? && Rails.env.production? %>
       <!-- Google Tag Manager (noscript) -->
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= gtm_id %>"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=<%= gtm_id %>"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      </noscript>
       <!-- End Google Tag Manager (noscript) -->
     <% end %>
 
@@ -286,8 +288,17 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
      <%= javascript_importmap_tags %>
+     <script type="module" nonce="<%= content_security_policy_nonce %>">
+        import * as bootstrap from "bootstrap"
 
-     <script>
+        // Réactive les dropdowns après chaque navigation Turbo
+        document.addEventListener("turbo:load", () => {
+          const triggers = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'))
+          triggers.forEach(el => new bootstrap.Dropdown(el))
+        })
+      </script>
+
+      <script nonce="<%= content_security_policy_nonce %>">
         // Envoi d'un "page_view" dans la dataLayer au chargement et à chaque navigation Turbo
         function pushGtmPageView(){
           window.dataLayer = window.dataLayer || [];
@@ -308,16 +319,5 @@
         // 2) navigation Turbo
         document.addEventListener('turbo:load', pushGtmPageView);
       </script>
-
-     <script type="module">
-        import * as bootstrap from "bootstrap"
-
-        // Réactive les dropdowns après chaque chargement Turbo
-        document.addEventListener("turbo:load", () => {
-          const dropdownTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'))
-          dropdownTriggerList.map(el => new bootstrap.Dropdown(el))
-        })
-      </script>
   </body>
 </html>
-
