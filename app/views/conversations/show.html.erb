@@ -4,71 +4,169 @@
   </h3>
 
   <!-- Zone des messages -->
-  <div id="messages" class="border rounded p-3 mb-4"
-       style="max-height: 500px; overflow-y: auto; background-color: #f5f5f5;">
-
+  <div id="messages" class="chat-box border-0 rounded-4 p-3 mb-4 shadow-sm">
     <% @messages.each do |message| %>
       <div class="d-flex mb-3 <%= message.user == current_user ? 'justify-content-end' : 'justify-content-start' %>">
 
         <!-- Avatar si ce n’est pas moi -->
         <% if message.user != current_user %>
           <% if message.user.avatar.attached? %>
-            <%= image_tag message.user.avatar, class: "rounded-circle me-2", style: "width: 35px; height: 35px; object-fit: cover;" %>
+            <%= image_tag message.user.avatar, class: "rounded-circle me-2 shadow-sm", style: "width: 36px; height: 36px; object-fit: cover;" %>
           <% else %>
-            <%= image_tag "default_avatar.png", class: "rounded-circle me-2", style: "width: 35px; height: 35px; object-fit: cover;" %>
+            <%= image_tag "default_avatar.png", class: "rounded-circle me-2 shadow-sm", style: "width: 36px; height: 36px; object-fit: cover;" %>
           <% end %>
         <% end %>
 
-        <!-- Bulle style iPhone mais noire -->
-        <div class="p-3 shadow-sm"
-          style="
-            max-width: 70%;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            <%= message.user == current_user ? 'background-color: #000; color: white; border-bottom-right-radius: 5px;' : 'background-color: #fff; color: black; border-bottom-left-radius: 5px;' %>
-          ">
-          <!-- Affichage avec paragraphes/retours à la ligne -->
-          <div class="message-content mb-1"><%= simple_format(h(message.content)) %></div>
-
-          <small class="text-muted d-block text-end" style="font-size: 0.75rem;">
-            <%= time_ago_in_words(message.created_at) %> ago
-          </small>
+        <!-- Bulle -->
+        <div class="message-bubble <%= message.user == current_user ? 'bubble-me' : 'bubble-other' %>">
+          <div class="message-content"><%= simple_format(h(message.content)) %></div>
+          <div class="message-meta"><%= time_ago_in_words(message.created_at) %> ago</div>
         </div>
 
         <!-- Avatar si c’est moi -->
         <% if message.user == current_user %>
           <% if message.user.avatar.attached? %>
-            <%= image_tag message.user.avatar, class: "rounded-circle ms-2", style: "width: 35px; height: 35px; object-fit: cover;" %>
+            <%= image_tag message.user.avatar, class: "rounded-circle ms-2 shadow-sm", style: "width: 36px; height: 36px; object-fit: cover;" %>
           <% else %>
-            <%= image_tag "default_avatar.png", class: "rounded-circle ms-2", style: "width: 35px; height: 35px; object-fit: cover;" %>
+            <%= image_tag "default_avatar.png", class: "rounded-circle ms-2 shadow-sm", style: "width: 36px; height: 36px; object-fit: cover;" %>
           <% end %>
         <% end %>
       </div>
     <% end %>
   </div>
 
-  <!-- Formulaire en bas -->
-  <%= form_with(model: [@conversation, @message], local: true) do |f| %>
-    <div class="input-group">
-      <%= f.text_area :content, class: "form-control rounded-start-pill shadow-sm", placeholder: "Écrire un message...", rows: 1, style: "resize:none;" %>
-      <button class="btn btn-dark rounded-end-pill px-4" type="submit">Envoyer</button>
+  <!-- Formulaire -->
+  <%= form_with(model: [@conversation, @message], local: true, html: { id: "chat-form" }) do |f| %>
+    <div class="chat-input position-relative">
+      <%= f.text_area :content,
+        class: "chat-textarea js-autogrow",
+        placeholder: "Écrire un message…",
+        rows: 2,
+        oninput: "autoGrow(this)",
+        style: "min-height:48px; max-height:200px; height:48px; resize:none; overflow-y:auto; padding-right:56px; padding-bottom:14px;" %>
+
+      <!-- Bouton “Envoyer” circulaire à l’intérieur -->
+      <button class="send-btn" type="submit" aria-label="Envoyer">
+        <!-- Icône avion papier -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M15.854.146a.5.5 0 0 0-.533-.112l-15 6a.5.5 0 0 0 .036.948l6.89 1.84 1.84 6.89a.5.5 0 0 0 .948.036l6-15a.5.5 0 0 0-.181-.602zM6.832 8.854l-4.943-1.32 12.02-4.808-7.077 6.06zM7.146 9.168l6.06-7.077-4.808 12.02-1.252-4.943z"/>
+        </svg>
+      </button>
     </div>
   <% end %>
 </div>
 
-<!-- Petit réglage visuel des paragraphes -->
 <style>
-  .message-content p { margin-bottom: .5rem; line-height: 1.5; }
+  /* Zone messages */
+  .chat-box {
+    background: #f8f9fb;
+    max-height: 520px;
+    overflow-y: auto;
+    border: 1px solid #eceff3;
+  }
+
+  /* Bulles */
+  .message-bubble {
+    max-width: 70%;
+    border-radius: 18px;
+    padding: 10px 12px 8px;
+    line-height: 1.5;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  }
+  .bubble-me {
+    background: #111; color: #fff;
+    border-bottom-right-radius: 6px;
+  }
+  .bubble-other {
+    background: #fff; color: #111; border: 1px solid #eceff3;
+    border-bottom-left-radius: 6px;
+  }
+  .message-content p { margin: 0 0 .4rem 0; }
   .message-content p:last-child { margin-bottom: 0; }
+  .message-meta {
+    font-size: .75rem; opacity: .65; text-align: right; margin-top: 4px;
+  }
+
+  /* Zone d’écriture (sans border-radius) */
+  .chat-input {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0; /* plus de coins arrondis */
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    position: relative;
+    padding: 6px 10px;
+    transition: box-shadow .2s ease, border-color .2s ease;
+  }
+  .chat-input:focus-within {
+    border-color: #000;
+    box-shadow: 0 0 0 3px rgba(0,0,0,.08);
+  }
+
+  .chat-textarea {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 0.95rem;
+  }
+  .chat-textarea::placeholder { color: #999; }
+
+  /* Bouton “Envoyer” circulaire, collé en bas */
+  .send-btn {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #000;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(16,24,40,.08);
+    transition: background .2s ease, transform .1s ease;
+  }
+  .send-btn:hover { background: #333; transform: translateY(-1px); }
+  .send-btn:active { transform: translateY(0); }
+  .send-btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(17,17,17,.15); }
+
+  @media (max-width: 576px) {
+    .message-bubble { max-width: 85%; }
+  }
 </style>
 
 <script>
-  // Auto-scroll vers le bas à chaque chargement
-  document.addEventListener("turbo:load", () => {
+  // Auto-ajustement du textarea
+  function autoGrow(el) {
+    const maxHeight = 200;
+    el.style.height = 'auto';
+    const h = Math.min(el.scrollHeight, maxHeight);
+    el.style.height = h + 'px';
+    el.style.overflowY = (el.scrollHeight > maxHeight) ? 'auto' : 'hidden';
+  }
+
+  function initChatUI() {
     const messagesDiv = document.getElementById("messages");
-    if (messagesDiv) {
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    if (messagesDiv) messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+    const ta = document.querySelector(".js-autogrow");
+    if (ta) autoGrow(ta);
+
+    // Ctrl/Cmd + Enter pour envoyer
+    const form = document.getElementById("chat-form");
+    if (form && ta) {
+      ta.addEventListener("keydown", (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+          e.preventDefault();
+          form.submit();
+        }
+      });
     }
-  });
+  }
+
+  document.addEventListener("turbo:load", initChatUI);
+  document.addEventListener("DOMContentLoaded", initChatUI);
 </script>
+
