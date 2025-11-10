@@ -88,3 +88,4 @@ gem "sitemap_generator"
 
 gem "meta-tags"
 gem "geocoder"
+gem "rails_autolink"

@@ -19,7 +19,13 @@
 
         <!-- Bulle -->
         <div class="message-bubble <%= message.user == current_user ? 'bubble-me' : 'bubble-other' %>">
-          <div class="message-content"><%= simple_format(h(message.content)) %></div>
+          <div class="message-content">
+            <%= auto_link(
+                  simple_format(h(message.content)),
+                  :all,
+                  target: "_blank", rel: "nofollow noopener ugc"
+                ) %>
+          </div>
           <div class="message-meta"><%= time_ago_in_words(message.created_at) %> ago</div>
         </div>
 
@@ -83,6 +89,17 @@
   }
   .message-content p { margin: 0 0 .4rem 0; }
   .message-content p:last-child { margin-bottom: 0; }
+
+  /* Liens dans les messages */
+  .message-content a {
+    color: inherit;
+    text-decoration: underline;
+    word-break: break-word;
+  }
+  .message-content a:hover {
+    opacity: .85;
+  }
+
   .message-meta {
     font-size: .75rem; opacity: .65; text-align: right; margin-top: 4px;
   }
@@ -91,7 +108,7 @@
   .chat-input {
     background: #fff;
     border: 1px solid #dee2e6;
-    border-radius: 0; /* plus de coins arrondis */
+    border-radius: 0;
     box-shadow: 0 1px 2px rgba(0,0,0,.05);
     position: relative;
     padding: 6px 10px;
