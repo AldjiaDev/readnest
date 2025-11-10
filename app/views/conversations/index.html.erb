@@ -27,7 +27,7 @@
             </div>
             <p class="mb-0 text-muted small">
               <% if last_message %>
-                <%= truncate(last_message.content, length: 50) %>
+                <%= truncate(last_message.content.to_s.squish, length: 50) %>
               <% else %>
                 <em>Aucun message pour le moment</em>
               <% end %>
@@ -40,3 +40,4 @@
     <p class="text-center text-muted">Aucune conversation pour le moment.</p>
   <% end %>
 </div>
+

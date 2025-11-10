@@ -28,7 +28,9 @@
             line-height: 1.4;
             <%= message.user == current_user ? 'background-color: #000; color: white; border-bottom-right-radius: 5px;' : 'background-color: #fff; color: black; border-bottom-left-radius: 5px;' %>
           ">
-          <p class="mb-1"><%= message.content %></p>
+          <!-- Affichage avec paragraphes/retours à la ligne -->
+          <div class="message-content mb-1"><%= simple_format(h(message.content)) %></div>
+
           <small class="text-muted d-block text-end" style="font-size: 0.75rem;">
             <%= time_ago_in_words(message.created_at) %> ago
           </small>
@@ -55,6 +57,12 @@
   <% end %>
 </div>
 
+<!-- Petit réglage visuel des paragraphes -->
+<style>
+  .message-content p { margin-bottom: .5rem; line-height: 1.5; }
+  .message-content p:last-child { margin-bottom: 0; }
+</style>
+
 <script>
   // Auto-scroll vers le bas à chaque chargement
   document.addEventListener("turbo:load", () => {
@@ -64,4 +72,3 @@
     }
   });
 </script>
-
