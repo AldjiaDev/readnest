@@ -48,7 +48,9 @@
       <!-- IMAGE PRINCIPALE -->
       <% if @chronicle.photo.attached? %>
         <figure class="chronicle-hero-image mb-0">
-          <%= image_tag @chronicle.photo, class: "img-fluid w-100", style: "border-radius: 18px; object-fit: cover; max-height: 480px;" %>
+          <%= image_tag @chronicle.photo,
+            class: "img-fluid w-100",
+            style: "border-radius: 18px; object-fit: contain;" %>
           <figcaption class="text-muted small mt-2">
             <%= @chronicle.caption.presence || "Image fournie par l’auteur" %>
           </figcaption>
@@ -165,20 +167,20 @@
                   <% if current_user.favorites.exists?(chronicle: @chronicle) %>
                     <%= button_to favorite_path(current_user.favorites.find_by(chronicle: @chronicle)),
                                   method: :delete,
-                                  class: "btn btn-outline-warning btn-sm rounded-pill px-3 fw-semibold w-100 text-start" do %>
-                      ★ Retirer des favoris
+                                  class: "btn btn-outline-warning btn-sm rounded-pill px-3 fw-semibold w-100 text-start action-btn d-flex justify-content-between align-items-center" do %>
+                      <span>★ Retirer des favoris</span>
+                      <i class="bi bi-star-fill"></i>
                     <% end %>
                   <% else %>
                     <%= button_to favorites_path(chronicle_id: @chronicle.id),
                                   method: :post,
-                                  class: "btn btn-outline-dark btn-sm rounded-pill px-3 fw-semibold w-100 text-start" do %>
-                      ☆ Ajouter aux favoris
+                                  class: "btn btn-outline-dark btn-sm rounded-pill px-3 fw-semibold w-100 text-start action-btn d-flex justify-content-between align-items-center" do %>
+                      <span>☆ Ajouter aux favoris</span>
+                      <i class="bi bi-star"></i>
                     <% end %>
                   <% end %>
                 </div>
               <% end %>
-            </div>
-          </div>
 
           <!-- PARTAGE SOCIAL -->
           <div class="p-3 mb-4 border rounded-3 bg-white shadow-sm-sm">
@@ -211,16 +213,25 @@
           <% if current_user == @chronicle.user %>
             <div class="p-3 mb-4 border rounded-3 bg-white shadow-sm-sm">
               <h6 class="text-uppercase small text-muted mb-3">Actions</h6>
-              <div class="d-flex flex-column gap-2">
-                <%= link_to "Modifier",
-                    edit_chronicle_path(@chronicle),
-                    class: "btn btn-secondary btn-sm rounded-pill px-3 fw-semibold text-white text-start" %>
 
-                <%= button_to "Supprimer",
-                    chronicle_path(@chronicle),
+              <div class="d-flex flex-column gap-2">
+
+                <!-- Modifier -->
+                <%= link_to edit_chronicle_path(@chronicle),
+                    class: "btn btn-dark btn-sm rounded-pill px-4 py-2 fw-semibold d-flex align-items-center justify-content-between w-100 action-btn" do %>
+                  <span>Modifier la chronique</span>
+                  <i class="bi bi-pencil-square"></i>
+                <% end %>
+
+                <!-- Supprimer -->
+                <%= button_to chronicle_path(@chronicle),
                     method: :delete,
                     data: { confirm: "Supprimer définitivement cette chronique ?" },
-                    class: "btn btn-danger btn-sm rounded-pill px-3 fw-semibold text-white text-start" %>
+                    class: "btn btn-outline-danger btn-sm rounded-pill px-4 py-2 fw-semibold d-flex align-items-center justify-content-between w-100 action-btn" do %>
+                  <span>Supprimer la chronique</span>
+                  <i class="bi bi-trash"></i>
+                <% end %>
+
               </div>
             </div>
           <% end %>
@@ -318,39 +329,46 @@
   }
 
   .chronicle-article blockquote {
-  position: relative;
-  margin: 2rem 0;
-  padding: 1.25rem 1.5rem;
-  border-left: 4px solid #000;
-  background: #f8f9fb;
-  border-radius: 12px;
-  font-style: italic;
-  color: #333;
-}
+    position: relative;
+    margin: 2rem 0;
+    padding: 1.25rem 1.5rem;
+    border-left: 4px solid #000;
+    background: #f8f9fb;
+    border-radius: 12px;
+    font-style: italic;
+    color: #333;
+  }
 
-.chronicle-article blockquote::before {
-  content: "“";
-  position: absolute;
-  top: -16px;
-  left: 10px;
-  font-size: 3rem;
-  color: rgba(0, 0, 0, 0.2);
-  font-style: normal;
-}
+  .chronicle-article blockquote::before {
+    content: "“";
+    position: absolute;
+    top: -16px;
+    left: 10px;
+    font-size: 3rem;
+    color: rgba(0, 0, 0, 0.2);
+    font-style: normal;
+  }
 
-.chronicle-article blockquote::after {
-  content: "”";
-  position: absolute;
-  bottom: -20px;
-  right: 15px;
-  font-size: 3rem;
-  color: rgba(0, 0, 0, 0.2);
-  font-style: normal;
-}
+  .chronicle-article blockquote::after {
+    content: "”";
+    position: absolute;
+    bottom: -20px;
+    right: 15px;
+    font-size: 3rem;
+    color: rgba(0, 0, 0, 0.2);
+    font-style: normal;
+  }
 
-.chronicle-article blockquote p {
-  margin-bottom: 0;
-  font-style: italic;
+  .chronicle-article blockquote p {
+    margin-bottom: 0;
+    font-style: italic;
+  }
+
+  .action-btn {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 
