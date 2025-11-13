@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <% gtm_id = Rails.application.credentials.dig(:gtm, :container_id) || ENV['GTM_CONTAINER_ID'] %>
-    <% if gtm_id.present? && Rails.env.production? %>
-      <!-- Google Tag Manager -->
-      <script nonce="<%= content_security_policy_nonce %>">
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','<%= gtm_id %>');
-      </script>
-      <!-- End Google Tag Manager -->
-    <% end %>
-
-
     <!-- Title -->
     <title><%= content_for?(:title) ? yield(:title) : "Readnest – Chroniques littéraires, auteur.ice.s, maisons d’édition et librairies" %></title>
 
@@ -30,6 +16,22 @@
     <!-- Security -->
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <!-- Google Analytics 4 (gtag.js direct) -->
+    <!-- Remplace G-4WBHGWJFH9 par une ENV si tu veux, mais ça fonctionne tel quel -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WBHGWJFH9"></script>
+    <script nonce="<%= content_security_policy_nonce %>">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+
+      gtag('js', new Date());
+
+      // On désactive l'auto page_view car on la gère manuellement avec Turbo
+      gtag('config', 'G-4WBHGWJFH9', {
+        send_page_view: false,
+        anonymize_ip: true
+      });
+    </script>
 
     <!-- Styles -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -77,15 +79,6 @@
   </head>
 
   <body class="d-flex flex-column min-vh-100 bg-light">
-    <% if gtm_id.present? && Rails.env.production? %>
-      <!-- Google Tag Manager (noscript) -->
-      <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=<%= gtm_id %>"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe>
-      </noscript>
-      <!-- End Google Tag Manager (noscript) -->
-    <% end %>
-
     <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom py-2">
   <div class="container d-flex align-items-center justify-content-between">
@@ -298,26 +291,17 @@
         })
       </script>
 
+      <!-- GA4 page_view sur chaque navigation Turbo -->
       <script nonce="<%= content_security_policy_nonce %>">
-        // Envoi d'un "page_view" dans la dataLayer au chargement et à chaque navigation Turbo
-        function pushGtmPageView(){
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({
-            event: 'page_view',
-            page_location: location.href,
-            page_path: location.pathname + location.search,
-            page_title: document.title
-          });
-        }
-
-        // 1) chargement initial
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', pushGtmPageView, { once: true });
-        } else {
-          pushGtmPageView();
-        }
-        // 2) navigation Turbo
-        document.addEventListener('turbo:load', pushGtmPageView);
+        document.addEventListener("turbo:load", function() {
+          if (typeof gtag === "function") {
+            gtag('event', 'page_view', {
+              page_location: window.location.href,
+              page_path: window.location.pathname + window.location.search,
+              page_title: document.title
+            });
+          }
+        });
       </script>
   </body>
 </html>
