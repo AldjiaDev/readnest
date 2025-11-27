@@ -1,82 +1,92 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <!-- Title -->
-    <title><%= content_for?(:title) ? yield(:title) : "Readnest – Chroniques littéraires, auteur.ice.s, maisons d’édition et librairies" %></title>
+      <!-- Title -->
+      <title><%= content_for?(:title) ? yield(:title) : "Readnest – Chroniques littéraires, auteur.ice.s, maisons d’édition et librairies" %></title>
 
-    <!-- Description -->
-    <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Readnest est une plateforme littéraire où les lecteurs découvrent, partagent et aiment des chroniques, maisons d’édition et librairies autour d’eux.' %>">
+      <!-- Description -->
+      <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Readnest est une plateforme littéraire où les lecteurs découvrent, partagent et aiment des chroniques, maisons d’édition et librairies autour d’eux.' %>">
 
-    <!-- Keywords (SEO support) -->
-    <meta name="keywords" content="Readnest, chroniques littéraires, livres, lecture, maisons d’édition, librairies, auteur.ice.s, littérature" />
+      <!-- Keywords (SEO support) -->
+      <meta name="keywords" content="Readnest, chroniques littéraires, livres, lecture, maisons d’édition, librairies, auteur.ice.s, littérature" />
 
-    <!-- Viewport -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <!-- Viewport -->
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Security -->
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+      <!-- Security -->
+      <%= csrf_meta_tags %>
+      <%= csp_meta_tag %>
 
-    <!-- Google Analytics 4 (gtag.js direct) -->
-    <!-- Remplace G-4WBHGWJFH9 par une ENV si tu veux, mais ça fonctionne tel quel -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WBHGWJFH9"></script>
-    <script nonce="<%= content_security_policy_nonce %>">
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
+      <!-- Google Analytics 4 (gtag.js direct) -->
+      <!-- Remplace G-4WBHGWJFH9 par une ENV si tu veux, mais ça fonctionne tel quel -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WBHGWJFH9"></script>
+      <script nonce="<%= content_security_policy_nonce %>">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
 
-      gtag('js', new Date());
+        gtag('js', new Date());
 
-      // On désactive l'auto page_view car on la gère manuellement avec Turbo
-      gtag('config', 'G-4WBHGWJFH9', {
-        send_page_view: false,
-        anonymize_ip: true
-      });
-    </script>
+        // On désactive l'auto page_view car on la gère manuellement avec Turbo
+        gtag('config', 'G-4WBHGWJFH9', {
+          send_page_view: false,
+          anonymize_ip: true
+        });
+      </script>
 
-    <!-- Styles -->
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <%= favicon_link_tag 'logo.jpg' %>
+      <!-- Styles -->
+      <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+      <%= favicon_link_tag 'logo.jpg' %>
 
-    <!-- Canonical URL -->
-    <%= tag(:link, rel: "canonical", href: request.original_url) if request.present? %>
+      <!-- ✅ PWA manifest & app icons -->
+      <link rel="manifest" href="/manifest.webmanifest">
+      <meta name="theme-color" content="#111827">
 
-    <!-- OpenGraph -->
-    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Readnest – Chroniques littéraires, maisons d’édition et librairies' %>">
-    <meta property="og:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Découvrez et partagez vos lectures sur Readnest.' %>">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="<%= request.original_url %>">
-    <meta property="og:image" content="<%= image_url('logo.jpg') %>">
-    <meta property="og:site_name" content="Readnest">
+      <!-- iOS / iPadOS -->
+      <link rel="apple-touch-icon" href="/icons/icon-192.png">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<%= content_for?(:title) ? yield(:title) : 'Readnest' %>">
-    <meta name="twitter:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Readnest est une plateforme littéraire de chroniques et de découvertes de librairies.' %>">
-    <meta name="twitter:image" content="<%= image_url('logo.jpg') %>">
+      <!-- Canonical URL -->
+      <%= tag(:link, rel: "canonical", href: request.original_url) if request.present? %>
 
-    <!-- Organization JSON-LD (helps Google link your brand to your domain) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Readnest",
-      "url": "https://www.readnest.fr",
-      "logo": "https://www.readnest.fr/logo.jpg",
-      "sameAs": [
-        "https://www.instagram.com/readnest",
-        "https://www.linkedin.com/company/readnest",
-        "https://twitter.com/readnest"
-      ],
-      "description": "Readnest est une plateforme littéraire pour découvrir, partager et aimer des chroniques, maisons d’édition et librairies autour de soi."
-    }
-    </script>
+      <!-- OpenGraph -->
+      <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Readnest – Chroniques littéraires, maisons d’édition et librairies' %>">
+      <meta property="og:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Découvrez et partagez vos lectures sur Readnest.' %>">
+      <meta property="og:type" content="website">
+      <meta property="og:url" content="<%= request.original_url %>">
+      <meta property="og:image" content="<%= image_url('logo.jpg') %>">
+      <meta property="og:site_name" content="Readnest">
 
-    <!-- Meta tags from display_meta_tags gem (if used elsewhere) -->
-    <%= display_meta_tags %>
-  </head>
+      <!-- Twitter Card -->
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="<%= content_for?(:title) ? yield(:title) : 'Readnest' %>">
+      <meta name="twitter:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Readnest est une plateforme littéraire de chroniques et de découvertes de librairies.' %>">
+      <meta name="twitter:image" content="<%= image_url('logo.jpg') %>">
+
+      <!-- Organization JSON-LD (helps Google link your brand to your domain) -->
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Readnest",
+        "url": "https://www.readnest.fr",
+        "logo": "https://www.readnest.fr/logo.jpg",
+        "sameAs": [
+          "https://www.instagram.com/readnest",
+          "https://www.linkedin.com/company/readnest",
+          "https://twitter.com/readnest"
+        ],
+        "description": "Readnest est une plateforme littéraire pour découvrir, partager et aimer des chroniques, maisons d’édition et librairies autour de soi."
+      }
+      </script>
+
+      <!-- Meta tags from display_meta_tags gem (if used elsewhere) -->
+      <%= display_meta_tags %>
+</head>
+
 
   <body class="d-flex flex-column min-vh-100 bg-light">
     <!-- Navbar -->
@@ -281,7 +291,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
      <%= javascript_importmap_tags %>
-     <script type="module" nonce="<%= content_security_policy_nonce %>">
+      <script type="module" nonce="<%= content_security_policy_nonce %>">
         import * as bootstrap from "bootstrap"
 
         // Réactive les dropdowns après chaque navigation Turbo
@@ -289,6 +299,20 @@
           const triggers = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'))
           triggers.forEach(el => new bootstrap.Dropdown(el))
         })
+
+        // Enregistrement du service worker pour la PWA
+        if ("serviceWorker" in navigator) {
+          window.addEventListener("load", () => {
+            navigator.serviceWorker
+              .register("/service-worker.js")
+              .then((registration) => {
+                console.log("ServiceWorker registered:", registration);
+              })
+              .catch((error) => {
+                console.error("ServiceWorker registration failed:", error);
+              });
+          });
+        }
       </script>
 
       <!-- GA4 page_view sur chaque navigation Turbo -->
