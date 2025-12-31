@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   resources :publishing_houses, path: "maisons-dedition"
 
   # Chroniques
-  resources :chronicles, path: "chroniques" do
+  resources :chronicles, path: "chroniques", param: :slug do
     resources :comments, only: [:create, :destroy], path: "commentaires"
     resource :like, only: [:create, :destroy], path: "aimer"
   end

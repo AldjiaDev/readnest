@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_chronicle
+  before_action :set_chronicle, only: [:create, :destroy, :report]
   before_action :set_comment, only: [:destroy, :report]
 
   def create
@@ -48,7 +48,7 @@ class CommentsController < ApplicationController
   private
 
   def set_chronicle
-    @chronicle = Chronicle.find(params[:chronicle_id])
+    @chronicle = Chronicle.friendly.find(params[:chronicle_slug])
   end
 
   def set_comment

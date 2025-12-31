@@ -8,8 +8,6 @@ class ChroniclesController < ApplicationController
   end
 
   def show
-    @chronicle = Chronicle.friendly.find(params[:id])
-
     prepare_meta_tags(
       title: @chronicle.title,
       description: @chronicle.summary.presence || @chronicle.content.truncate(150),
@@ -49,7 +47,7 @@ class ChroniclesController < ApplicationController
   private
 
   def set_chronicle
-    @chronicle = Chronicle.friendly.find(params[:id])
+    @chronicle = Chronicle.friendly.find(params[:slug])
   rescue ActiveRecord::RecordNotFound
     redirect_to chronicles_path, alert: "Chronique introuvable."
   end
