@@ -39,6 +39,26 @@
                 <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control rounded-pill shadow-sm" %>
               </div>
 
+              <!-- Profil -->
+              <div class="mb-3">
+                <p class="mb-2 fw-semibold">Tu es…</p>
+                <div class="p-3 bg-white rounded-4 border">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="profile_type" id="profile_reader" value="reader" checked>
+                    <label class="form-check-label fw-semibold" for="profile_reader">
+                      Lecteur·rice
+                    </label>
+                    <div class="text-muted small">Aucun rôle à cocher : tu peux créer un compte et publier des chroniques.</div>
+                  </div>
+
+                  <hr class="my-3">
+
+                  <div class="text-muted small">
+                    Si tu représentes une structure, tu peux aussi cocher ci-dessous :
+                  </div>
+                </div>
+              </div>
+              
               <!-- Rôles -->
               <div class="form-check mb-3">
                 <%= f.check_box :is_publishing_house, { class: "form-check-input" }, true, false %>
