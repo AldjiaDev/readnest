@@ -1,0 +1,63 @@
+<% content_for :title, "Les bienfaits de la lecture : ce que la science confirme" %>
+<% content_for :meta_description, "La lecture améliore la concentration, réduit le stress, développe l'empathie et protège le cerveau. Découvrez tous les bienfaits prouvés de la lecture." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Lecture & bien-être</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink); line-height: 1.2;">Les bienfaits de la lecture</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem; margin-bottom: 1.5rem;"></div>
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 1.1rem; line-height: 1.9; color: var(--ink-soft);">
+      On a longtemps dit que lire était bon pour l'esprit. Aujourd'hui, la science le confirme. Voici ce que la recherche nous apprend sur les effets de la lecture — et pourquoi vous devriez ouvrir un livre ce soir.
+    </p>
+  </header>
+
+  <% [
+    ["Réduit le stress", "Une étude de l'Université de Sussex (2009) a montré que 6 minutes de lecture suffisent à réduire le niveau de stress de 68 %. Plus efficace que la musique, une promenade ou une tasse de thé."],
+    ["Développe l'empathie", "Lire des romans de fiction active les mêmes zones cérébrales que celles impliquées dans la compréhension sociale. Les lecteurs réguliers développent une plus grande capacité à comprendre les émotions d'autrui."],
+    ["Améliore la concentration", "Dans un monde de notifications et de scrolling infini, lire un livre est un entraînement de l'attention. Même 20 minutes par jour renforcent la capacité à se concentrer sur une seule tâche."],
+    ["Enrichit le vocabulaire et l'expression", "Chaque livre est une immersion linguistique. Les lecteurs réguliers ont un vocabulaire plus étendu, s'expriment plus clairement et écrivent avec plus d'aisance."],
+    ["Protège le cerveau du vieillissement", "Des études sur le vieillissement cognitif montrent que les personnes qui lisent régulièrement développent moins fréquemment des symptômes de démence. La lecture entretient les connexions neuronales."],
+    ["Améliore le sommeil", "Lire un livre papier avant de dormir (contrairement aux écrans) prépare le cerveau au sommeil. C'est un rituel recommandé par de nombreux spécialistes du sommeil."],
+    ["Nourrit l'imagination et la créativité", "La lecture de fiction sollicite l'imagination de façon intensive. En visualisant des mondes, des visages, des atmosphères, on entraîne sa créativité sans même s'en rendre compte."]
+  ].each_with_index do |(titre, texte), i| %>
+    <section class="mb-4" style="display: flex; gap: 1.5rem; align-items: flex-start; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule-color);">
+      <div style="min-width: 48px; text-align: center;">
+        <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.5rem; font-weight: 900; color: var(--gold);">0<%= i + 1 %></span>
+      </div>
+      <div>
+        <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem;"><%= titre %></h2>
+        <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft); margin: 0;"><%= texte %></p>
+      </div>
+    </section>
+  <% end %>
+
+  <blockquote style="border-left: 3px solid var(--gold); padding: 1.5rem 2rem; margin: 2.5rem 0; background-color: var(--parchment);">
+    <p style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-style: italic; color: var(--ink); margin: 0;">
+      « La lecture est pour l'esprit ce que l'exercice est pour le corps. »
+    </p>
+    <footer style="font-family: 'Lora', Georgia, serif; font-size: 0.85rem; color: var(--warm-gray); margin-top: 0.75rem;">— Joseph Addison</footer>
+  </blockquote>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Commencez (ou reprenez) l'habitude de lire</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Pas besoin de lire un roman par semaine. Même quelques pages par jour suffisent à en ressentir les bénéfices. Readnest est là pour vous aider à trouver le livre qui vous donnera envie de ne plus décrocher.
+    </p>
+    <div class="mt-4">
+      <%= link_to "Trouver mon prochain livre", chronicles_path, class: "btn btn-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Les bienfaits de la lecture : ce que la science confirme",
+  "description": "La lecture améliore la concentration, réduit le stress, développe l'empathie et protège le cerveau.",
+  "url": "https://www.readnest.fr/bienfaits-de-la-lecture",
+  "publisher": { "@type": "Organization", "name": "Readnest", "url": "https://www.readnest.fr" }
+}
+</script>

@@ -13,6 +13,20 @@ Rails.application.routes.draw do
   get "politique-des-cookies",     to: "pages#cookies",          as: :cookies
   get "plan-du-site",              to: "pages#plan_du_site",     as: :plan_du_site
 
+  # Pages éditoriales SEO — littérature & lecture
+  get "comment-ecrire-une-chronique-litteraire", to: "pages#ecrire_chronique",      as: :ecrire_chronique
+  get "soutenir-librairies-independantes",        to: "pages#soutenir_librairies",   as: :soutenir_librairies
+  get "comment-choisir-son-prochain-livre",       to: "pages#choisir_livre",         as: :choisir_livre
+  get "quest-ce-qu-une-chronique-litteraire",     to: "pages#definition_chronique",  as: :definition_chronique
+  get "litterature-francaise-contemporaine",      to: "pages#litterature_francaise", as: :litterature_francaise
+  get "maisons-edition-independantes-france",     to: "pages#editions_independantes",as: :editions_independantes
+  get "communaute-de-lecteurs-en-ligne",          to: "pages#communaute_lecteurs",   as: :communaute_lecteurs
+  get "bienfaits-de-la-lecture",                  to: "pages#bienfaits_lecture",     as: :bienfaits_lecture
+  get "glossaire-litteraire",                     to: "pages#glossaire",             as: :glossaire
+  get "librairies-independantes-paris",           to: "pages#librairies_paris",      as: :librairies_paris
+  get "librairies-independantes-lyon",            to: "pages#librairies_lyon",       as: :librairies_lyon
+  get "librairies-independantes-marseille",       to: "pages#librairies_marseille",  as: :librairies_marseille
+
   # Recherche
   get "recherche", to: "search#index", as: :search
 

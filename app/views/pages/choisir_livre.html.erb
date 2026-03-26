@@ -1,0 +1,60 @@
+<% content_for :title, "Comment choisir son prochain livre ? 8 méthodes efficaces" %>
+<% content_for :meta_description, "Vous ne savez pas quoi lire ? Découvrez 8 méthodes pour choisir votre prochain livre : chroniques, recommandations, libraires et plus." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Conseils lecture</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink); line-height: 1.2;">Comment choisir son prochain livre ?</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem; margin-bottom: 1.5rem;"></div>
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 1.1rem; line-height: 1.9; color: var(--ink-soft);">
+      La pile à lire déborde, les nouvelles sorties s'accumulent, et pourtant… impossible de trancher. Voici 8 méthodes éprouvées pour choisir votre prochain livre avec confiance.
+    </p>
+  </header>
+
+  <% [
+    ["Faites confiance à votre libraire", "Le libraire indépendant vous connaît, ou apprend à vous connaître. Décrivez-lui vos derniers coups de cœur et laissez-le vous guider. C'est une recommandation personnalisée qu'aucun algorithme ne peut égaler."],
+    ["Lisez des chroniques littéraires", "Avant d'acheter un livre, lisez ce qu'en disent d'autres lecteurs. Les chroniques donnent une vision incarnée et honnête — bien plus révélatrice que la quatrième de couverture."],
+    ["Suivez vos auteurs préférés", "Si vous avez aimé un auteur, explorez toute son œuvre. Et si cet auteur recommande d'autres livres dans ses interviews ou sur ses réseaux, notez-les."],
+    ["Explorez les palmarès littéraires", "Prix Goncourt, Renaudot, Femina, Médicis... Ces récompenses signalent des livres remarquables. Même si vous ne lisez pas que des primés, ces listes sont d'excellents points de départ."],
+    ["Rejoignez un club de lecture", "Lire avec d'autres, c'est découvrir des livres qu'on n'aurait jamais choisis seul. Et la discussion qui suit enrichit l'expérience de lecture."],
+    ["Flânez en librairie sans objectif", "Laissez-vous surprendre. Prenez un livre dont la couverture vous attire, lisez la première page. Si vous ne pouvez pas la poser, c'est bon signe."],
+    ["Consultez les bibliographies d'auteurs", "Beaucoup d'auteurs partagent leurs lectures. Ces listes sont souvent des trésors cachés, très éloignés des sentiers battus du marketing éditorial."],
+    ["Faites confiance à votre humeur du moment", "Envie de vous évader ? Choisissez un roman d'aventures. Besoin de réconfort ? Optez pour un classique rassurant. La lecture est aussi une réponse à un état intérieur."]
+  ].each_with_index do |(titre, texte), i| %>
+    <section class="mb-4">
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 0.75rem;">
+        <span style="color: var(--gold);"><%= i + 1 %>.</span> <%= titre %>
+      </h2>
+      <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);"><%= texte %></p>
+    </section>
+  <% end %>
+
+  <blockquote style="border-left: 3px solid var(--gold); padding: 1.5rem 2rem; margin: 2rem 0; background-color: var(--parchment);">
+    <p style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-style: italic; color: var(--ink); margin: 0;">
+      « Le bon livre, c'est celui que vous lisez au bon moment. »
+    </p>
+  </blockquote>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Laissez-vous inspirer par la communauté Readnest</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Des centaines de lecteurs partagent chaque jour leurs chroniques sur Readnest. Parcourez-les pour trouver votre prochaine lecture.
+    </p>
+    <div class="mt-4">
+      <%= link_to "Explorer les chroniques", chronicles_path, class: "btn btn-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Comment choisir son prochain livre ? 8 méthodes efficaces",
+  "description": "8 méthodes pour choisir votre prochain livre avec confiance.",
+  "url": "https://www.readnest.fr/comment-choisir-son-prochain-livre",
+  "publisher": { "@type": "Organization", "name": "Readnest", "url": "https://www.readnest.fr" }
+}
+</script>

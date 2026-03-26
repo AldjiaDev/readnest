@@ -1,0 +1,66 @@
+<% content_for :title, "Librairies indépendantes à Lyon : guide des meilleures adresses" %>
+<% content_for :meta_description, "Explorez les librairies indépendantes de Lyon : Presqu'île, Croix-Rousse, Guillotière. Guide pour lecteurs lyonnais et visiteurs." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Guide local — Lyon</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink); line-height: 1.2;">Librairies indépendantes à Lyon</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem; margin-bottom: 1.5rem;"></div>
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 1.1rem; line-height: 1.9; color: var(--ink-soft);">
+      Deuxième ville culturelle de France, Lyon possède un tissu de librairies indépendantes remarquable. Entre Presqu'île animée et collines créatives, les amoureux des livres y trouvent leur bonheur.
+    </p>
+  </header>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1.5rem;">Lyon, ville de lecteurs</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Lyon a une longue histoire avec les livres : c'est ici que l'imprimerie s'est développée en France au XVème siècle, faisant de la ville un centre intellectuel majeur de la Renaissance. Cet héritage se ressent encore aujourd'hui dans la vitalité de son réseau de librairies indépendantes.
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1.5rem;">Les quartiers des livres</h2>
+
+    <% [
+      ["La Presqu'île (1er et 2ème)", "Cœur commerçant et culturel de Lyon, la Presqu'île abrite plusieurs librairies généralistes et spécialisées. Une adresse idéale pour une pause lecture entre deux visites du Vieux Lyon."],
+      ["La Croix-Rousse (4ème)", "Quartier des canuts et des artistes, la Croix-Rousse a une identité forte qui se reflète dans ses librairies : engagées, curieuses, souvent spécialisées en littérature sociale ou jeunesse."],
+      ["La Guillotière et le 7ème", "Quartiers populaires et multiculturels, ils accueillent des librairies qui reflètent la diversité de leurs habitants. Littérature du monde, textes en langues étrangères, livres d'occasion."],
+      ["Vieux Lyon et Fourvière (5ème)", "Dans le décor Renaissance du Vieux Lyon, quelques librairies de caractère résistent, proposant souvent des livres d'art, des beaux livres et des ouvrages sur l'histoire locale."]
+    ].each do |quartier, texte| %>
+      <div style="margin-bottom: 2rem; padding: 1.5rem; background-color: var(--parchment); border-left: 3px solid var(--gold);">
+        <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem;"><%= quartier %></h3>
+        <p style="font-family: 'Lora', Georgia, serif; line-height: 1.8; color: var(--ink-soft); margin: 0;"><%= texte %></p>
+      </div>
+    <% end %>
+  </section>
+
+  <blockquote style="border-left: 3px solid var(--gold); padding: 1.5rem 2rem; margin: 2rem 0; background-color: var(--parchment);">
+    <p style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-style: italic; color: var(--ink); margin: 0;">
+      « À Lyon, les livres ont toujours été chez eux. »
+    </p>
+  </blockquote>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Trouvez une librairie à Lyon sur Readnest</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Utilisez notre carte interactive pour localiser les librairies indépendantes lyonnaises inscrites sur Readnest et découvrir leurs sélections.
+    </p>
+    <div class="mt-4">
+      <%= link_to "Librairies autour de moi", map_bookshops_path, class: "btn btn-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Librairies indépendantes à Lyon : guide des meilleures adresses",
+  "description": "Guide des librairies indépendantes de Lyon par quartier.",
+  "url": "https://www.readnest.fr/librairies-independantes-lyon",
+  "about": { "@type": "City", "name": "Lyon", "containedInPlace": { "@type": "Country", "name": "France" } },
+  "publisher": { "@type": "Organization", "name": "Readnest", "url": "https://www.readnest.fr" }
+}
+</script>

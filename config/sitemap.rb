@@ -34,6 +34,20 @@ SitemapGenerator::Sitemap.create do
   # Page "À propos"
   add about_path, priority: 0.5, changefreq: 'monthly'
 
+  # Pages éditoriales SEO
+  add ecrire_chronique_path,       priority: 0.7, changefreq: 'monthly'
+  add soutenir_librairies_path,    priority: 0.7, changefreq: 'monthly'
+  add choisir_livre_path,          priority: 0.7, changefreq: 'monthly'
+  add definition_chronique_path,   priority: 0.7, changefreq: 'monthly'
+  add litterature_francaise_path,  priority: 0.7, changefreq: 'monthly'
+  add editions_independantes_path, priority: 0.7, changefreq: 'monthly'
+  add communaute_lecteurs_path,    priority: 0.6, changefreq: 'monthly'
+  add bienfaits_lecture_path,      priority: 0.7, changefreq: 'monthly'
+  add glossaire_path,              priority: 0.7, changefreq: 'monthly'
+  add librairies_paris_path,       priority: 0.8, changefreq: 'monthly'
+  add librairies_lyon_path,        priority: 0.8, changefreq: 'monthly'
+  add librairies_marseille_path,   priority: 0.8, changefreq: 'monthly'
+
   # Recherche
   add search_path, priority: 0.3, changefreq: 'weekly'
 end

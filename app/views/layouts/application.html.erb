@@ -220,35 +220,65 @@
       </div>
 
       <!-- Droite : navigation -->
-      <div class="col-md-7 d-flex justify-content-md-end align-items-start gap-5">
+      <div class="col-md-7">
+        <div class="row g-4">
 
-        <div>
-          <p class="mb-3" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.8;">Navigation</p>
-          <nav>
-            <ul class="list-unstyled mb-0" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.875rem; line-height: 2.2;">
-              <li><%= link_to "Accueil", root_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-              <li><%= link_to "Chroniques", chronicles_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-              <li><%= link_to "Auteur·rice·s", authors_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-              <li><%= link_to "Maisons d’édition", publishing_houses_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-              <li><%= link_to "Librairies", map_bookshops_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-              <li><%= link_to "À propos", about_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-            </ul>
-          </nav>
+          <div class="col-6 col-md-3">
+            <p class="mb-3" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.8;">Navigation</p>
+            <nav>
+              <ul class="list-unstyled mb-0" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.8rem; line-height: 2.2;">
+                <li><%= link_to "Accueil", root_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Chroniques", chronicles_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Auteur·rice·s", authors_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Maisons d’édition", publishing_houses_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Librairies", map_bookshops_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "À propos", about_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <p class="mb-3" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.8;">Guides</p>
+            <nav>
+              <ul class="list-unstyled mb-0" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.8rem; line-height: 2.2;">
+                <li><%= link_to "Qu’est-ce qu’une chronique ?", definition_chronique_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Écrire une chronique", ecrire_chronique_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Choisir son prochain livre", choisir_livre_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Bienfaits de la lecture", bienfaits_lecture_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Communauté de lecteurs", communaute_lecteurs_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Littérature française", litterature_francaise_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Éditions indépendantes", editions_independantes_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Soutenir les librairies", soutenir_librairies_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Glossaire littéraire", glossaire_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <p class="mb-3" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.8;">Librairies</p>
+            <nav>
+              <ul class="list-unstyled mb-0" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.8rem; line-height: 2.2;">
+                <li><%= link_to "Librairies à Paris", librairies_paris_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Librairies à Lyon", librairies_lyon_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Librairies à Marseille", librairies_marseille_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <p class="mb-3" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.8;">Légal</p>
+            <nav>
+              <ul class="list-unstyled mb-0" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.8rem; line-height: 2.2;">
+                <li><%= link_to "Mentions légales", mentions_legales_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Confidentialité", confidentialite_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "CGU", cgu_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Cookies", cookies_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+                <li><%= link_to "Plan du site", plan_du_site_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+              </ul>
+            </nav>
+          </div>
+
         </div>
-
-        <div>
-          <p class="mb-3" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.8;">Légal</p>
-          <nav>
-            <ul class="list-unstyled mb-0" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.875rem; line-height: 2.2;">
-              <li><%= link_to "Mentions légales", mentions_legales_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-              <li><%= link_to "Confidentialité", confidentialite_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-              <li><%= link_to "CGU", cgu_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-              <li><%= link_to "Cookies", cookies_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-              <li><%= link_to "Plan du site", plan_du_site_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
-            </ul>
-          </nav>
-        </div>
-
       </div>
 
     </div>

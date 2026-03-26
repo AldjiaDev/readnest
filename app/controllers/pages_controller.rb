@@ -8,6 +8,19 @@ class PagesController < ApplicationController
   def cgu; end
   def cookies; end
 
+  def ecrire_chronique; end
+  def soutenir_librairies; end
+  def choisir_livre; end
+  def definition_chronique; end
+  def litterature_francaise; end
+  def editions_independantes; end
+  def communaute_lecteurs; end
+  def bienfaits_lecture; end
+  def glossaire; end
+  def librairies_paris; end
+  def librairies_lyon; end
+  def librairies_marseille; end
+
   def plan_du_site
     @chronicles       = Chronicle.order(created_at: :desc).limit(20)
     @authors          = User.where(is_author: true).order(created_at: :desc).limit(20)

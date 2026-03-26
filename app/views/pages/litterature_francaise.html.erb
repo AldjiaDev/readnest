@@ -1,0 +1,83 @@
+<% content_for :title, "Littérature française contemporaine : auteurs, tendances et œuvres incontournables" %>
+<% content_for :meta_description, "Panorama de la littérature française contemporaine : auteurs phares, nouvelles voix, tendances éditoriales et œuvres à lire absolument." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Panorama littéraire</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink); line-height: 1.2;">La littérature française contemporaine</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem; margin-bottom: 1.5rem;"></div>
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 1.1rem; line-height: 1.9; color: var(--ink-soft);">
+      Vivante, plurielle, parfois controversée — la littérature française d'aujourd'hui n'a rien à envier aux grandes périodes qui l'ont précédée. Tour d'horizon des voix, des genres et des tendances qui façonnent le paysage littéraire français.
+    </p>
+  </header>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Les grandes tendances actuelles</h2>
+    <div class="row g-4">
+      <% [
+        ["L'autofiction", "Genre phare de ces dernières décennies, l'autofiction brouille la frontière entre vie réelle et fiction. Annie Ernaux, Prix Nobel 2022, en est la figure de proue mondiale."],
+        ["Le roman social", "De plus en plus d'auteurs s'emparent des fractures contemporaines : inégalités, violences de classe, discriminations. Une littérature engagée et ancrée dans le réel."],
+        ["Les nouvelles voix postcoloniales", "Des auteurs issus des diasporas africaines, antillaises et maghrébines enrichissent la littérature française d'une pluralité de regards et d'expériences longtemps invisibilisés."],
+        ["Le roman graphique et l'hybridation", "Les frontières entre genres s'estompent. Roman illustré, essai narratif, récit documentaire : la forme littéraire se réinvente constamment."]
+      ].each do |titre, texte| %>
+        <div class="col-md-6">
+          <div style="background-color: var(--parchment); padding: 1.5rem; border-top: 2px solid var(--gold); height: 100%;">
+            <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.75rem;"><%= titre %></h3>
+            <p style="font-family: 'Lora', Georgia, serif; font-size: 0.9rem; line-height: 1.8; color: var(--ink-soft); margin: 0;"><%= texte %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Auteurs incontournables d'aujourd'hui</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">La scène littéraire française compte des plumes majeures, reconnues bien au-delà de nos frontières :</p>
+    <ul style="font-family: 'Lora', Georgia, serif; line-height: 2.4; color: var(--ink-soft);">
+      <li><strong>Annie Ernaux</strong> — Prix Nobel de littérature 2022, maîtresse de l'autofiction sociale</li>
+      <li><strong>Virginie Despentes</strong> — voix radicale et incontournable de la littérature féminine et féministe</li>
+      <li><strong>Édouard Louis</strong> — récits autofictionnels sur la classe sociale et l'identité</li>
+      <li><strong>Leïla Slimani</strong> — Prix Goncourt 2016, exploratrice des tabous contemporains</li>
+      <li><strong>Mohamed Mbougar Sarr</strong> — Prix Goncourt 2021, figure de la nouvelle génération francophone</li>
+      <li><strong>Kamel Daoud</strong> — Prix Goncourt 2024, héritier d'Albert Camus par sa prose ciselée</li>
+    </ul>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Les grandes maisons d'édition françaises</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      De Gallimard à P.O.L, de Minuit à Actes Sud, le tissu éditorial français est d'une richesse exceptionnelle. Les maisons indépendantes jouent un rôle crucial dans la découverte de nouvelles voix, là où les grands groupes misent davantage sur la rentabilité.
+    </p>
+  </section>
+
+  <blockquote style="border-left: 3px solid var(--gold); padding: 1.5rem 2rem; margin: 2rem 0; background-color: var(--parchment);">
+    <p style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-style: italic; color: var(--ink); margin: 0;">
+      « La littérature française n'est pas une langue figée — c'est une langue en mouvement, nourrie de toutes ses diversités. »
+    </p>
+  </blockquote>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Suivez la littérature française sur Readnest</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Des chroniques sur les dernières sorties, des profils d'auteurs, des recommandations de librairies — Readnest est votre compagnon pour explorer la littérature française d'aujourd'hui.
+    </p>
+    <div class="mt-4">
+      <%= link_to "Découvrir les chroniques", chronicles_path, class: "btn btn-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+      &nbsp;
+      <%= link_to "Voir les auteur·rice·s", authors_path, class: "btn btn-outline-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Littérature française contemporaine : auteurs, tendances et œuvres incontournables",
+  "description": "Panorama de la littérature française contemporaine : auteurs phares, nouvelles voix et tendances éditoriales.",
+  "url": "https://www.readnest.fr/litterature-francaise-contemporaine",
+  "publisher": { "@type": "Organization", "name": "Readnest", "url": "https://www.readnest.fr" }
+}
+</script>

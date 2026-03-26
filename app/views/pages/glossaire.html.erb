@@ -1,0 +1,90 @@
+<% content_for :title, "Glossaire littéraire : définitions des termes de la littérature" %>
+<% content_for :meta_description, "Glossaire complet des termes littéraires : roman, nouvelle, essai, autofiction, incipit, épilogue, et bien d'autres. Définitions claires pour tous les lecteurs." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Référence</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink); line-height: 1.2;">Glossaire littéraire</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem; margin-bottom: 1.5rem;"></div>
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 1.1rem; line-height: 1.9; color: var(--ink-soft);">
+      Tous les termes que vous avez toujours voulu comprendre — des genres littéraires aux techniques narratives — expliqués simplement.
+    </p>
+  </header>
+
+  <%
+    termes = {
+      "A" => [
+        ["Autofiction", "Genre littéraire qui mêle autobiographie et fiction. L'auteur utilise sa propre vie comme matière première tout en y intégrant des éléments inventés. Annie Ernaux et Édouard Louis en sont des figures majeures."],
+        ["Allégorie", "Représentation d'une idée abstraite (la mort, la liberté, la justice) à travers des personnages ou une histoire concrète. La Ferme des animaux d'Orwell est une allégorie politique."],
+        ["Analepse", "Retour en arrière dans le récit, plus communément appelé flashback. Technique narrative fréquente pour révéler le passé d'un personnage."]
+      ],
+      "C" => [
+        ["Chronique littéraire", "Texte court dans lequel un lecteur partage son ressenti et son analyse d'un livre. Elle se distingue de la critique académique par son ton personnel et accessible."],
+        ["Cliffhanger", "Fin de chapitre ou d'épisode qui laisse le lecteur dans le suspense, l'obligeant à continuer pour connaître la suite."]
+      ],
+      "D" => [
+        ["Dénouement", "Résolution de l'intrigue, moment où les tensions narratives se dissolvent. Il peut être heureux, tragique ou ouvert."],
+        ["Dystopie", "Genre de fiction qui décrit une société future oppressive ou totalitaire. 1984 de George Orwell et Le Meilleur des mondes d'Aldous Huxley sont les exemples les plus célèbres."]
+      ],
+      "E" => [
+        ["Épilogue", "Partie finale d'un roman qui intervient après le dénouement, pour prolonger l'histoire ou apporter un éclairage sur le devenir des personnages."],
+        ["Essai", "Texte non fictionnel dans lequel l'auteur développe une réflexion personnelle sur un sujet (philosophique, politique, littéraire). Il assume sa subjectivité."]
+      ],
+      "I" => [
+        ["Incipit", "Les premières lignes d'un roman. L'incipit est crucial : il donne le ton, installe l'univers et accroche (ou non) le lecteur. « Longtemps, je me suis couché de bonne heure » (Proust) est l'un des plus célèbres."],
+        ["Intrigue", "L'ensemble des événements qui constituent la trame narrative d'un roman. L'intrigue principale peut être accompagnée d'intrigues secondaires."]
+      ],
+      "N" => [
+        ["Narrateur", "La voix qui raconte l'histoire. Il peut être interne (personnage de l'histoire, « je »), externe (observateur omniscient, « il »), ou peu fiable (dont le témoignage est partial ou mensonger)."],
+        ["Nouvelle", "Récit de fiction court, généralement centré sur un seul événement ou une situation unique. Plus condensée que le roman, elle exige une grande économie de moyens."]
+      ],
+      "P" => [
+        ["Polyphonie", "Technique narrative qui donne la parole à plusieurs personnages ou narrateurs, chacun apportant son point de vue sur les événements."],
+        ["Prolepse", "Anticipation dans le récit, opposé à l'analepse. L'auteur évoque des événements futurs avant qu'ils ne se produisent dans la chronologie de l'histoire."]
+      ],
+      "R" => [
+        ["Roman", "Genre de fiction en prose, généralement long, qui développe des personnages, une intrigue et un univers sur une durée narrative étendue. Le genre dominant de la littérature moderne."],
+        ["Roman noir", "Genre littéraire caractérisé par une atmosphère sombre, des personnages ambigus et une vision pessimiste de la société. Il recouvre en partie le roman policier."]
+      ],
+      "S" => [
+        ["Spoiler", "Révélation d'un élément crucial de l'intrigue (coup de théâtre, fin) qui gâche la découverte du lecteur. À éviter absolument dans une chronique."],
+        ["Stream of consciousness", "Technique narrative qui reproduit le flux de la pensée d'un personnage, sans ponctuation ni logique linéaire. James Joyce et Virginia Woolf en sont les maîtres."]
+      ]
+    }
+  %>
+
+  <% termes.each do |lettre, definitions| %>
+    <section class="mb-5">
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 900; color: var(--gold); margin-bottom: 1.5rem; border-bottom: 1px solid var(--rule-color); padding-bottom: 0.5rem;"><%= lettre %></h2>
+      <% definitions.each do |terme, definition| %>
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem;"><%= terme %></h3>
+          <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft); margin: 0;"><%= definition %></p>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
+
+  <section class="mb-5" style="background-color: var(--parchment); padding: 2rem; border-top: 2px solid var(--gold);">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Mettez ces termes en pratique</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Maintenant que vous maîtrisez le vocabulaire, lancez-vous dans la rédaction de votre propre chronique sur Readnest.
+    </p>
+    <div class="mt-3">
+      <%= link_to "Écrire une chronique", new_chronicle_path, class: "btn btn-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "name": "Glossaire littéraire Readnest",
+  "description": "Définitions des principaux termes littéraires pour lecteurs et auteurs.",
+  "url": "https://www.readnest.fr/glossaire-litteraire",
+  "publisher": { "@type": "Organization", "name": "Readnest", "url": "https://www.readnest.fr" }
+}
+</script>

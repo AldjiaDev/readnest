@@ -1,0 +1,80 @@
+<% content_for :title, "Librairies indépendantes à Paris : nos adresses coups de cœur" %>
+<% content_for :meta_description, "Découvrez les meilleures librairies indépendantes à Paris : du Marais à Montmartre, de Saint-Germain à Belleville. Sélection et conseils pour lecteurs parisiens." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Guide local — Paris</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink); line-height: 1.2;">Librairies indépendantes à Paris</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem; margin-bottom: 1.5rem;"></div>
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 1.1rem; line-height: 1.9; color: var(--ink-soft);">
+      Paris compte parmi les villes les plus riches en librairies indépendantes au monde. Derrière chaque vitrine se cache un libraire passionné, une sélection unique et une atmosphère à nulle autre pareille.
+    </p>
+  </header>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1.5rem;">Pourquoi choisir une librairie indépendante à Paris ?</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Paris est une ville où l'on peut encore entrer dans une librairie le matin et en ressortir deux heures plus tard, les bras chargés de découvertes inattendues. Les libraires indépendants parisiens sont des passeurs : ils lisent, sélectionnent, conseillent avec une générosité rare.
+    </p>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Face aux géants du commerce en ligne, ils résistent grâce à ce que l'algorithme ne sait pas faire : <strong>vous connaître, vous surprendre, vous faire confiance</strong>.
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1.5rem;">Quartier par quartier</h2>
+
+    <% [
+      ["Saint-Germain-des-Prés (6ème)", "Le quartier historique des lettres parisiennes. Les librairies s'y côtoient depuis des siècles, chacune avec son identité propre. L'occasion d'une flânerie littéraire entre deux cafés."],
+      ["Le Marais (3ème et 4ème)", "Quartier vivant et cosmopolite, le Marais abrite des librairies spécialisées et généralistes, souvent nichées dans des rues pavées. Une atmosphère unique pour les amateurs de belles découvertes."],
+      ["Montmartre et la Butte (18ème)", "Le caractère bohème du quartier imprègne ses librairies : atmosphères chaleureuses, sélections audacieuses, souvent de petites structures animées par une passion communicative."],
+      ["Belleville et l'Est parisien (10ème, 11ème, 20ème)", "La rive gauche créative de notre époque. Les librairies de l'est parisien reflètent la diversité culturelle du quartier : littérature du monde, essais politiques, BD et littérature jeunesse."],
+      ["Rive gauche — 5ème et 13ème", "Le quartier Latin reste un haut lieu de la librairie parisienne, avec des adresses qui traversent les décennies sans perdre leur âme. Le 13ème offre quant à lui de belles surprises pour les amateurs de littérature asiatique."]
+    ].each do |quartier, texte| %>
+      <div style="margin-bottom: 2rem; padding: 1.5rem; background-color: var(--parchment); border-left: 3px solid var(--gold);">
+        <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem;"><%= quartier %></h3>
+        <p style="font-family: 'Lora', Georgia, serif; line-height: 1.8; color: var(--ink-soft); margin: 0;"><%= texte %></p>
+      </div>
+    <% end %>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Conseils pour votre visite</h2>
+    <ul style="font-family: 'Lora', Georgia, serif; line-height: 2.4; color: var(--ink-soft);">
+      <li><strong>Parlez au libraire</strong> — dites-lui ce que vous avez aimé récemment, il vous étonnera</li>
+      <li><strong>Prenez le temps</strong> — une librairie indépendante se visite, pas seulement s'achète</li>
+      <li><strong>Commandez si nécessaire</strong> — le livre que vous cherchez n'est pas en rayon ? Demandez-le</li>
+      <li><strong>Revenez régulièrement</strong> — les sélections changent, les nouveautés arrivent</li>
+    </ul>
+  </section>
+
+  <blockquote style="border-left: 3px solid var(--gold); padding: 1.5rem 2rem; margin: 2rem 0; background-color: var(--parchment);">
+    <p style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-style: italic; color: var(--ink); margin: 0;">
+      « Paris n'est pas une ville — c'est une bibliothèque à ciel ouvert. »
+    </p>
+  </blockquote>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Les librairies parisiennes sur Readnest</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Retrouvez les librairies indépendantes inscrites sur Readnest, lisez leurs chroniques et utilisez notre carte pour trouver celle qui se trouve le plus près de vous à Paris.
+    </p>
+    <div class="mt-4">
+      <%= link_to "Librairies autour de moi", map_bookshops_path, class: "btn btn-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Librairies indépendantes à Paris : nos adresses coups de cœur",
+  "description": "Les meilleures librairies indépendantes à Paris par quartier.",
+  "url": "https://www.readnest.fr/librairies-independantes-paris",
+  "about": { "@type": "City", "name": "Paris", "containedInPlace": { "@type": "Country", "name": "France" } },
+  "publisher": { "@type": "Organization", "name": "Readnest", "url": "https://www.readnest.fr" }
+}
+</script>

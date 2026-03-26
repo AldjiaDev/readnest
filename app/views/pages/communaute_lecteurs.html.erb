@@ -1,0 +1,64 @@
+<% content_for :title, "Rejoindre une communauté de lecteurs en ligne : pourquoi et comment ?" %>
+<% content_for :meta_description, "Découvrez les bienfaits de rejoindre une communauté de lecteurs en ligne : partage, découvertes, motivation et lien social autour des livres." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Communauté & lecture</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink); line-height: 1.2;">Pourquoi rejoindre une communauté de lecteurs en ligne ?</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem; margin-bottom: 1.5rem;"></div>
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 1.1rem; line-height: 1.9; color: var(--ink-soft);">
+      La lecture est souvent solitaire — mais elle n'a pas à l'être. Les communautés de lecteurs en ligne transforment l'expérience de la lecture en aventure partagée.
+    </p>
+  </header>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">5 raisons de rejoindre une communauté littéraire</h2>
+
+    <% [
+      ["Découvrir des livres qu'on n'aurait jamais lus seul", "La recommandation humaine reste la plus puissante. Un lecteur qui partage un coup de cœur avec sincérité est plus convaincant que n'importe quel algorithme ou publicité."],
+      ["Donner du sens à ses lectures", "Partager ses impressions après une lecture — les mettre en mots — approfondit l'expérience. On comprend mieux ce qu'on a ressenti en essayant de l'expliquer aux autres."],
+      ["Se motiver à lire davantage", "L'effet communauté est réel : voir d'autres lecteurs actifs donne envie de l'être soi-même. Les challenges de lecture, les discussions en cours donnent un rythme."],
+      ["Rencontrer des personnes qui vous ressemblent", "Les amoureux des livres forment une communauté naturellement bienveillante. Les échanges littéraires créent des liens forts, souvent bien au-delà des livres eux-mêmes."],
+      ["Soutenir les auteurs et les libraires", "En partageant vos chroniques, vos avis et vos recommandations, vous participez directement à la visibilité des auteurs et à la vitalité du monde du livre."]
+    ].each_with_index do |(titre, texte), i| %>
+      <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;">
+        <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.8rem; font-weight: 900; color: var(--gold); line-height: 1; min-width: 36px; opacity: 0.7;"><%= i + 1 %></span>
+        <div>
+          <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem;"><%= titre %></h3>
+          <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft); margin: 0;"><%= texte %></p>
+        </div>
+      </div>
+    <% end %>
+  </section>
+
+  <blockquote style="border-left: 3px solid var(--gold); padding: 1.5rem 2rem; margin: 2rem 0; background-color: var(--parchment);">
+    <p style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-style: italic; color: var(--ink); margin: 0;">
+      « Partager un livre, c'est l'offrir deux fois. »
+    </p>
+  </blockquote>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Readnest : votre communauté littéraire en ligne</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Readnest a été conçu pour que les lecteurs se retrouvent. Publiez vos chroniques, suivez vos auteurs préférés, échangez avec d'autres passionnés et soutenez les librairies de votre quartier — le tout au même endroit.
+    </p>
+    <div class="mt-4">
+      <%= link_to "Rejoindre Readnest", new_user_registration_path, class: "btn btn-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+      &nbsp;
+      <%= link_to "Découvrir la communauté", authors_path, class: "btn btn-outline-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Rejoindre une communauté de lecteurs en ligne : pourquoi et comment ?",
+  "description": "Les bienfaits de rejoindre une communauté de lecteurs en ligne.",
+  "url": "https://www.readnest.fr/communaute-de-lecteurs-en-ligne",
+  "publisher": { "@type": "Organization", "name": "Readnest", "url": "https://www.readnest.fr" }
+}
+</script>

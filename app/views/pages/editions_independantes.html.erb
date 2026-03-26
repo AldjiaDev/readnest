@@ -1,0 +1,80 @@
+<% content_for :title, "Maisons d'édition indépendantes en France : le guide complet" %>
+<% content_for :meta_description, "Découvrez les meilleures maisons d'édition indépendantes françaises : qui sont-elles, pourquoi les choisir et comment elles façonnent la littérature de demain." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Édition & culture</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink); line-height: 1.2;">Les maisons d'édition indépendantes en France</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem; margin-bottom: 1.5rem;"></div>
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 1.1rem; line-height: 1.9; color: var(--ink-soft);">
+      Dans un paysage dominé par quelques grands groupes, les éditeurs indépendants représentent la diversité, l'audace et l'exigence de la littérature française. Portrait d'un secteur vital.
+    </p>
+  </header>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Qu'est-ce qu'une maison d'édition indépendante ?</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Une maison d'édition indépendante est une structure qui n'appartient pas aux grands groupes éditoriaux (Hachette Livre, Editis, Madrigall). Elle conserve une autonomie totale dans ses choix éditoriaux, ce qui lui permet de prendre des risques, de défendre des voix singulières et d'explorer des territoires littéraires que les grands groupes délaissent.
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Pourquoi elles comptent</h2>
+    <div class="row g-3">
+      <% [
+        ["La diversité des voix", "Les éditeurs indépendants publient des auteurs étrangers méconnus, des premiers romans risqués, des textes inclassables. Sans eux, la littérature s'appauvrissait."],
+        ["L'exigence éditoriale", "Avec de petits catalogues, chaque titre est choisi avec soin. Le travail éditorial est souvent plus approfondi, plus attentif au texte."],
+        ["L'ancrage territorial", "Beaucoup d'éditeurs indépendants sont implantés en régions (Arles, Lyon, Marseille...) et participent à la vitalité culturelle locale."],
+        ["La relation avec les libraires", "Les indépendants travaillent en proximité directe avec les librairies, construisant des relations durables fondées sur la confiance."]
+      ].each do |titre, texte| %>
+        <div class="col-md-6">
+          <div style="background-color: var(--parchment); padding: 1.5rem; border-top: 2px solid var(--gold); height: 100%;">
+            <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem;"><%= titre %></h3>
+            <p style="font-family: 'Lora', Georgia, serif; font-size: 0.9rem; line-height: 1.8; color: var(--ink-soft); margin: 0;"><%= texte %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Quelques maisons indépendantes de référence</h2>
+    <ul style="font-family: 'Lora', Georgia, serif; line-height: 2.4; color: var(--ink-soft);">
+      <li><strong>Actes Sud</strong> (Arles) — pionnier de la littérature étrangère en France</li>
+      <li><strong>P.O.L</strong> (Paris) — exigence littéraire absolue, catalogue d'auteurs cultes</li>
+      <li><strong>Les Éditions de Minuit</strong> (Paris) — héritiers du Nouveau Roman, toujours audacieux</li>
+      <li><strong>Verdier</strong> (Lagrasse) — littératures du monde et essais engagés</li>
+      <li><strong>Zulma</strong> (Paris) — littérature internationale et française de grande qualité</li>
+      <li><strong>La Peuplade</strong> (Saguenay, Québec / diffusion France) — poésie et fiction francophone</li>
+    </ul>
+  </section>
+
+  <blockquote style="border-left: 3px solid var(--gold); padding: 1.5rem 2rem; margin: 2rem 0; background-color: var(--parchment);">
+    <p style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-style: italic; color: var(--ink); margin: 0;">
+      « Un éditeur indépendant publie des livres qu'il aime, pas seulement des livres qui se vendent. »
+    </p>
+  </blockquote>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">Découvrez les maisons d'édition sur Readnest</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Readnest met en lumière les maisons d'édition qui font la richesse de la littérature française. Explorez leurs profils, découvrez leurs auteurs et leurs catalogues.
+    </p>
+    <div class="mt-4">
+      <%= link_to "Voir les maisons d'édition", publishing_houses_path, class: "btn btn-dark px-4 py-2", style: "font-family: 'Lora', Georgia, serif;" %>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Maisons d'édition indépendantes en France : le guide complet",
+  "description": "Découvrez les meilleures maisons d'édition indépendantes françaises et pourquoi elles comptent.",
+  "url": "https://www.readnest.fr/maisons-edition-independantes-france",
+  "publisher": { "@type": "Organization", "name": "Readnest", "url": "https://www.readnest.fr" }
+}
+</script>
