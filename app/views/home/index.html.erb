@@ -292,49 +292,6 @@
 
 
 <!-- ============================================================
-     LIBRAIRIES
-============================================================ -->
-<section class="alt-section py-5">
-  <div class="container">
-    <div class="d-flex align-items-baseline mb-5">
-      <h2 class="section-heading">Toutes les librairies</h2>
-      <div class="section-rule"></div>
-    </div>
-
-    <% if @bookshops.empty? %>
-      <p class="text-muted text-center fst-italic">Aucune librairie pour le moment.</p>
-    <% else %>
-      <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
-        <% @bookshops.each do |bookshop| %>
-          <div class="col">
-            <div class="card-uniform">
-              <% if bookshop.user&.avatar&.attached? %>
-                <%= image_tag bookshop.user.avatar, alt: bookshop.name %>
-              <% elsif bookshop.logo.attached? %>
-                <%= image_tag bookshop.logo, alt: bookshop.name %>
-              <% else %>
-                <%= image_tag "default_avatar.png", alt: bookshop.name %>
-              <% end %>
-              <div class="card-overlay">
-                <h5><%= bookshop.name %></h5>
-                <% if bookshop.description.present? %>
-                  <p><%= truncate(bookshop.description, length: 90) %></p>
-                <% end %>
-              </div>
-              <%= link_to bookshop_path(bookshop), class: "stretched-link", "aria-label": "Voir #{bookshop.name}" do %><% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-      <div class="text-center">
-        <%= link_to "Toutes les librairies", bookshops_path, class: "btn btn-dark px-5 py-2" %>
-      </div>
-    <% end %>
-  </div>
-</section>
-
-
-<!-- ============================================================
      LIBRAIRIES À PROXIMITÉ — bannière éditoriale
 ============================================================ -->
 <section class="container py-5 my-4">
