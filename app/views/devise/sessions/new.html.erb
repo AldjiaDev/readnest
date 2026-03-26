@@ -1,31 +1,45 @@
 <% content_for :title, "Connexion" %>
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-  <div class="col-md-6 p-4 shadow rounded bg-white">
-    <h2 class="text-center mb-4 text-brown fw-bold">Se connecter à Readnest</h2>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: var(--paper); padding-top: 86px;">
+  <div style="width: 100%; max-width: 420px; padding: 1rem;">
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="mb-3">
-        <%= f.label :email, "Adresse email", class: "form-label" %>
-        <%= f.email_field :email, autofocus: true, class: "form-control" %>
-      </div>
-
-      <div class="mb-3">
-        <%= f.label :password, "Mot de passe", class: "form-label" %>
-        <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
-      </div>
-
-      <div class="form-check mb-3">
-        <%= f.check_box :remember_me, class: "form-check-input" %>
-        <%= f.label :remember_me, "Se souvenir de moi", class: "form-check-label" %>
-      </div>
-
-      <%= f.submit "Connexion", class: "btn btn-brown w-100" %>
-    <% end %>
-
-    <div class="text-center mt-3">
-      <%= link_to "Mot de passe oublié ?", new_password_path(resource_name), class: "text-muted small" %><br>
-      <%= link_to "Créer un compte", new_registration_path(resource_name), class: "text-brown small" %>
+    <div class="text-center mb-5">
+      <span style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);">Readnest</span>
+      <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.9rem; font-weight: 700; color: var(--ink); margin-top: 0.5rem; font-style: italic;">
+        Bon retour parmi nous
+      </h1>
+      <div style="width: 40px; height: 1px; background-color: var(--gold); margin: 1rem auto 0;"></div>
     </div>
+
+    <div style="background-color: var(--cream-card); border: 1px solid var(--rule-color); border-radius: 0.25rem; padding: 2.5rem;">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+        <div class="mb-4">
+          <%= f.label :email, "Adresse email", style: "font-family: 'Lora', Georgia, serif; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-gray); display: block; margin-bottom: 0.5rem;" %>
+          <%= f.email_field :email, autofocus: true, class: "form-control", style: "font-family: 'Lora', Georgia, serif; border: 1px solid var(--rule-color); border-radius: 0.25rem; background-color: var(--paper); color: var(--ink); padding: 0.65rem 1rem;" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password, "Mot de passe", style: "font-family: 'Lora', Georgia, serif; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-gray); display: block; margin-bottom: 0.5rem;" %>
+          <%= f.password_field :password, autocomplete: "current-password", class: "form-control", style: "font-family: 'Lora', Georgia, serif; border: 1px solid var(--rule-color); border-radius: 0.25rem; background-color: var(--paper); color: var(--ink); padding: 0.65rem 1rem;" %>
+        </div>
+
+        <div class="form-check mb-4">
+          <%= f.check_box :remember_me, class: "form-check-input", style: "border-color: var(--rule-color);" %>
+          <%= f.label :remember_me, "Se souvenir de moi", class: "form-check-label", style: "font-family: 'Lora', Georgia, serif; font-size: 0.875rem; color: var(--warm-gray);" %>
+        </div>
+
+        <%= f.submit "Se connecter", class: "btn btn-dark w-100 py-2" %>
+      <% end %>
+
+      <div class="text-center mt-4" style="font-family: 'Lora', Georgia, serif; font-size: 0.85rem;">
+        <%= link_to "Mot de passe oublié ?", new_password_path(resource_name), style: "color: var(--warm-gray); text-decoration: none; border-bottom: 1px solid var(--rule-color);" %>
+        <br>
+        <span style="color: var(--warm-gray); display: block; margin-top: 0.75rem;">Pas encore de compte ?
+          <%= link_to "S'inscrire", new_registration_path(resource_name), style: "color: var(--burgundy); text-decoration: none; font-weight: 600;" %>
+        </span>
+      </div>
+    </div>
+
   </div>
 </div>

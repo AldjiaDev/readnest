@@ -1,124 +1,222 @@
 @import "bootstrap";
 @import "application.bootstrap";
 
+// ============================================================
+// READNEST — Thème littéraire
+// ============================================================
+
+// ============================================================
+// VARIABLES CSS — Palette ivoire & encre
+// ============================================================
+:root {
+  --ink:         #1a1208;
+  --ink-soft:    #3d2e1e;
+  --paper:       #faf6ef;
+  --parchment:   #f0e8d8;
+  --cream-card:  #fdf9f3;
+  --gold:        #b8860b;
+  --gold-light:  #d4a843;
+  --burgundy:    #6b1a2a;
+  --warm-gray:   #8b7d6b;
+  --rule-color:  #d4c4a8;
+
+  // Compatibilité avec l'existant
+  --primary:     var(--ink);
+  --secondary:   var(--paper);
+  --accent:      var(--gold);
+  --text-dark:   var(--ink);
+  --text-light:  var(--cream-card);
+}
+
+// ============================================================
+// BASE
+// ============================================================
 body {
-  background-color: var(--secondary);
-  color: var(--text-dark);
-  font-family: 'Georgia', serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.8;
 }
 
-@media (min-width: 1600px) {
-  .homepage-title {
-    font-size: 3.2rem;
-  }
-  .homepage-subtitle {
-    font-size: 1.5rem;
-  }
-}
-
-// TITRES
-h1, h2, h3, h4 {
-  color: var(--primary);
+// ============================================================
+// TYPOGRAPHIE
+// ============================================================
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--ink);
   font-weight: 700;
-  text-transform: capitalize;
+  letter-spacing: -0.01em;
+  text-transform: none;
 }
-a:hover,
 
+a {
+  color: var(--ink);
+}
 
+a:hover {
+  color: var(--burgundy);
+}
+
+// ============================================================
+// NAVBAR
+// ============================================================
+.navbar {
+  background-color: var(--paper) !important;
+  border-bottom: 1px solid var(--rule-color) !important;
+}
+
+.custom-nav-link {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  color: var(--ink) !important;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--burgundy) !important;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    background-color: transparent !important;
+  }
+}
+
+// ============================================================
 // CARDS
+// ============================================================
 .card {
-  background-color: var(--text-light);
-  border: none;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  background-color: var(--cream-card);
+  border: 1px solid var(--rule-color);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(26, 18, 8, 0.05);
 }
 
 .card-title {
-  color: var(--primary);
-  font-weight: 600;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--ink);
+  font-weight: 700;
 }
 
 .card-text {
-  color: var(--text-dark);
+  color: var(--warm-gray);
 }
 
-// FOOTER
-footer {
-  background-color: var(--accent);
-  color: var(--text-dark);
-  font-size: 0.9rem;
+// ============================================================
+// TITRES DE RUBRIQUES — style éditorial
+// ============================================================
+.section-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 0;
+  white-space: nowrap;
 }
 
-// MAP
-#map {
-  border-radius: 0.5rem;
-  border: 2px solid var(--accent);
+.section-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--rule-color), transparent);
+  margin-left: 1.5rem;
+  margin-top: 0.15rem;
 }
 
-.btn-like {
-  border: 1px solid #a27c5c;
-  background-color: white;
-  color: #a27c5c;
-  border-radius: 30px;
-  transition: all 0.3s ease;
+// ============================================================
+// BOUTONS — style éditorial
+// ============================================================
+.btn-dark {
+  background-color: var(--ink) !important;
+  border-color: var(--ink) !important;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 0 !important;
+  padding: 0.6rem 1.75rem;
 
   &:hover {
-    background-color: #a27c5c;
+    background-color: var(--burgundy) !important;
+    border-color: var(--burgundy) !important;
+  }
+}
+
+.btn-outline-dark {
+  border-color: var(--ink) !important;
+  color: var(--ink) !important;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 0 !important;
+  padding: 0.6rem 1.75rem;
+
+  &:hover {
+    background-color: var(--ink) !important;
+    color: var(--paper) !important;
+  }
+}
+
+// Conserver le rounded-pill uniquement pour les boutons de connexion
+.btn.rounded-pill {
+  border-radius: 50rem !important;
+}
+
+// ============================================================
+// LIKE BUTTON
+// ============================================================
+.btn-like {
+  border: 1px solid var(--gold);
+  background-color: transparent;
+  color: var(--gold);
+  border-radius: 2rem;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  font-family: 'Lora', Georgia, serif;
+
+  &:hover {
+    background-color: var(--gold);
     color: white;
   }
 
   &.liked {
-    background-color: #a27c5c;
+    background-color: var(--gold);
     color: white;
-    font-weight: bold;
+    font-weight: 600;
   }
 }
 
+// ============================================================
+// CHRONICLE CARD
+// ============================================================
 .chronicle-card {
   transition: transform 0.2s ease-in-out;
   cursor: pointer;
-}
-.chronicle-card:hover {
-  transform: translateY(-4px);
+
+  &:hover {
+    transform: translateY(-3px);
+  }
 }
 
-.custom-nav-link {
-  color: black !important;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.custom-nav-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
-  color: black !important;
-  background-color: transparent !important;
-}
-
-.autocomplete-suggestions {
-  max-height: 220px;
-  overflow-y: auto;
-}
-
-.autocomplete-suggestions .suggestion-item:hover {
-  background-color: #f8f9fa;
-}
-
-/* === UNIFIED SQUARE CARDS === */
+// ============================================================
+// CARTE UNIFORME CARRÉE
+// ============================================================
 .card-uniform {
   position: relative;
-  z-index: 0; /* base de positionnement */
-  border-radius: 1.25rem;
+  z-index: 0;
+  border-radius: 0.375rem;
   overflow: hidden;
-  aspect-ratio: 1 / 1; /* format carré parfait */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  aspect-ratio: 1 / 1;
+  box-shadow: 0 3px 14px rgba(26, 18, 8, 0.14);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 28px rgba(26, 18, 8, 0.24);
   }
 
   img {
@@ -128,11 +226,13 @@ footer {
     display: block;
     position: relative;
     z-index: 1;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
+    filter: sepia(6%) brightness(0.97);
   }
 
   &:hover img {
-    transform: scale(1.05);
+    transform: scale(1.04);
+    filter: sepia(0%) brightness(1);
   }
 
   .card-overlay {
@@ -140,41 +240,88 @@ footer {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 1rem 1.25rem;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    padding: 1.5rem 1.5rem 1.25rem;
+    background: linear-gradient(
+      to top,
+      rgba(26, 18, 8, 0.9) 0%,
+      rgba(26, 18, 8, 0.4) 55%,
+      transparent 100%
+    );
     color: white;
-    border-radius: 1.25rem;
-    z-index: 1;
+    z-index: 2;
 
     h5 {
+      font-family: 'Playfair Display', Georgia, serif;
       font-weight: 700;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-      margin-bottom: 0.25rem;
-      font-size: 1.1rem;
+      font-style: italic;
+      font-size: 1rem;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      margin-bottom: 0.3rem;
+      line-height: 1.3;
     }
 
     p {
       margin: 0;
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.78rem;
+      font-family: 'Lora', Georgia, serif;
+      color: rgba(255, 255, 255, 0.72);
+      letter-spacing: 0.03em;
     }
   }
 
-  /* === Le lien invisible couvre toute la carte === */
   a.stretched-link {
     position: absolute;
     inset: 0;
-    z-index: 3; /* passe au-dessus de l’image et de l’overlay */
+    z-index: 3;
     background: transparent;
-    text-indent: -9999px; /* cache tout texte éventuel */
+    text-indent: -9999px;
   }
 }
 
-/* === Responsive : garde le format carré === */
+// ============================================================
+// AUTOCOMPLETE
+// ============================================================
+.autocomplete-suggestions {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--rule-color);
+  background-color: var(--cream-card);
+  font-family: 'Lora', Georgia, serif;
+}
+
+.autocomplete-suggestions .suggestion-item:hover {
+  background-color: var(--parchment);
+}
+
+// ============================================================
+// MAP
+// ============================================================
+#map {
+  border-radius: 0.5rem;
+  border: 1px solid var(--rule-color);
+}
+
+// ============================================================
+// FOOTER
+// ============================================================
+footer {
+  background-color: var(--ink) !important;
+  color: rgba(250, 246, 239, 0.65);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.875rem;
+  border-top: 2px solid var(--gold);
+}
+
+.footer-link:hover {
+  color: var(--gold-light) !important;
+  transition: color 0.3s ease-in-out;
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
 @media (max-width: 992px) {
-  .card-uniform {
-    aspect-ratio: 1 / 1;
-  }
+  .card-uniform { aspect-ratio: 1 / 1; }
 }
 
 @media (max-width: 576px) {
@@ -184,11 +331,12 @@ footer {
 
   .card-uniform .card-overlay {
     padding: 0.75rem 1rem;
-    h5 {
-      font-size: 1rem;
-    }
-    p {
-      font-size: 0.8rem;
-    }
+    h5 { font-size: 0.9rem; }
+    p  { font-size: 0.72rem; }
   }
+}
+
+@media (min-width: 1600px) {
+  .homepage-title    { font-size: 4rem; }
+  .homepage-subtitle { font-size: 1.5rem; }
 }

@@ -1,131 +1,114 @@
 <% content_for :title, @bookshop.name %>
 
-<section class="bg-light pt-5 pb-5" style="margin-top: 100px;">
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-10">
+<div style="margin-top: 86px; background-color: var(--paper);">
 
-        <!-- EN-TÊTE DU PROFIL -->
-        <div class="row align-items-center mb-5">
-          <!-- Avatar -->
-          <div class="col-md-3 text-center mb-4 mb-md-0">
-            <% if @bookshop.user&.avatar&.attached? %>
-              <%= image_tag url_for(@bookshop.user.avatar),
-                  class: "rounded-circle shadow border border-2",
-                  style: "width: 160px; height: 160px; object-fit: cover;" %>
-            <% else %>
-              <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
-                   style="width: 160px; height: 160px;">
-                <%= @bookshop.name.first.upcase %>
-              </div>
-            <% end %>
-          </div>
+  <!-- EN-TÊTE -->
+  <div style="background-color: var(--parchment); border-bottom: 1px solid var(--rule-color);">
+    <div class="container py-5">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-10">
+          <div class="row align-items-center">
 
-          <!-- Infos -->
-          <div class="col-md-9">
-            <h2 class="fw-bold text-black mb-2"><%= @bookshop.name %></h2>
-            <span class="badge bg-dark rounded-pill mb-3 px-3 py-2">Librairie</span>
-
-            <% if @bookshop.description.present? %>
-              <p class="small text-black mb-3"><%= simple_format(@bookshop.description) %></p>
-            <% end %>
-
-            <!-- Adresse -->
-            <% if @bookshop.address.present? %>
-              <p class="small text-muted mb-2"><i class="bi bi-geo-alt"></i> <%= @bookshop.address %></p>
-            <% end %>
-
-            <!-- Réseaux / Site -->
-            <% if @bookshop.user&.website.present? || @bookshop.user&.twitter.present? || @bookshop.user&.instagram.present? %>
-              <div class="d-flex gap-3 mt-3">
-                <% if @bookshop.user&.website.present? %>
-                  <% url = @bookshop.user.website.match?(/^http/) ? @bookshop.user.website : "https://#{@bookshop.user.website}" %>
-                  <a href="<%= url %>" target="_blank" class="text-dark fs-4" aria-label="Site web">
-                    <i class="bi bi-globe"></i>
-                  </a>
-                <% end %>
-
-                <% if @bookshop.user&.twitter.present? %>
-                  <% twitter_url = @bookshop.user.twitter.match?(/^http/) ? @bookshop.user.twitter : "https://twitter.com/#{@bookshop.user.twitter.delete_prefix('@')}" %>
-                  <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4" aria-label="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                  </a>
-                <% end %>
-
-                <% if @bookshop.user&.instagram.present? %>
-                  <% insta_url = @bookshop.user.instagram.match?(/^http/) ? @bookshop.user.instagram : "https://instagram.com/#{@bookshop.user.instagram.delete_prefix('@')}" %>
-                  <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4" aria-label="Instagram">
-                    <i class="bi bi-instagram"></i>
-                  </a>
-                <% end %>
-              </div>
-            <% end %>
-
-            <!-- Actions -->
-            <div class="mt-4 d-flex flex-wrap gap-2">
-              <% if user_signed_in? && current_user != @bookshop.user %>
-                <% if current_user.following?(@bookshop) %>
-                  <%= button_to "Ne plus suivre",
-                      follow_path(followable_type: "Bookshop", followable_id: @bookshop.id),
-                      method: :delete,
-                      class: "btn btn-outline-dark btn-sm rounded-pill" %>
-                <% else %>
-                  <%= button_to "Suivre",
-                      follows_path(followable_type: "Bookshop", followable_id: @bookshop.id),
-                      method: :post,
-                      class: "btn btn-secondary btn-sm rounded-pill text-white" %>
-                <% end %>
-              <% elsif user_signed_in? && current_user == @bookshop.user %>
-                <%= link_to "Modifier le profil",
-                    edit_user_path(current_user),
-                    class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-
-        <hr class="my-5">
-
-        <!-- CHRONIQUES PUBLIÉES -->
-        <div>
-          <div class="d-flex align-items-center mb-4">
-            <h4 class="text-black fw-bold text-uppercase mb-0 me-3">Chroniques partagées</h4>
-            <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-          </div>
-
-          <% if @bookshop.user&.chronicles&.any? %>
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-              <% @bookshop.user.chronicles.each do |chronicle| %>
-                <div class="col">
-                  <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
-                    <div class="position-relative overflow-hidden shadow-sm"
-                         style="border-radius: 1.25rem; height: 400px;">
-                      <%= image_tag(chronicle.photo.attached? ? chronicle.photo : "livre.jpeg",
-                          class: "w-100 h-100",
-                          style: "object-fit: cover; border-radius: 1.25rem;") %>
-
-                      <div class="position-absolute bottom-0 start-0 w-100 p-3 text-start"
-                           style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-                                  border-radius: 1.25rem;">
-                        <h5 class="fw-bold text-white mb-2"
-                            style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
-                          <%= truncate(chronicle.title, length: 55) %>
-                        </h5>
-                        <p class="text-white small mb-1">Librairie · <%= @bookshop.name %></p>
-                        <p class="text-white-50 small mb-0">
-                          <%= chronicle.created_at.strftime("%d %b %Y") %>
-                        </p>
-                      </div>
-                    </div>
-                  <% end %>
+            <!-- Logo / Avatar -->
+            <div class="col-md-3 text-center mb-4 mb-md-0">
+              <% if @bookshop.user&.avatar&.attached? %>
+                <%= image_tag url_for(@bookshop.user.avatar),
+                    class: "rounded-circle",
+                    style: "width: 150px; height: 150px; object-fit: cover; border: 2px solid var(--rule-color); box-shadow: 0 4px 16px rgba(26,18,8,0.1);" %>
+              <% else %>
+                <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                     style="width: 150px; height: 150px; background-color: var(--parchment); border: 2px solid var(--rule-color); font-family: 'Playfair Display', Georgia, serif; font-size: 2.5rem; color: var(--ink); margin: 0 auto;">
+                  <%= @bookshop.name.first.upcase %>
                 </div>
               <% end %>
             </div>
-          <% else %>
-            <p class="text-muted text-center">Aucune chronique partagée pour le moment.</p>
-          <% end %>
+
+            <!-- Infos -->
+            <div class="col-md-9">
+              <span style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);">Librairie</span>
+              <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; color: var(--ink); margin-top: 0.4rem; margin-bottom: 0.75rem;">
+                <%= @bookshop.name %>
+              </h1>
+
+              <% if @bookshop.description.present? %>
+                <p style="font-family: 'Lora', Georgia, serif; font-size: 0.95rem; line-height: 1.8; color: var(--ink-soft); max-width: 520px;">
+                  <%= simple_format(@bookshop.description) %>
+                </p>
+              <% end %>
+
+              <% if @bookshop.address.present? %>
+                <p class="small mt-2" style="font-family: 'Lora', Georgia, serif; color: var(--warm-gray);">
+                  <i class="bi bi-geo-alt me-1" style="color: var(--gold);"></i><%= @bookshop.address %>
+                </p>
+              <% end %>
+
+              <!-- Réseaux sociaux -->
+              <% if @bookshop.user&.website.present? || @bookshop.user&.twitter.present? || @bookshop.user&.instagram.present? %>
+                <div class="d-flex gap-3 mt-3">
+                  <% if @bookshop.user&.website.present? %>
+                    <% url = @bookshop.user.website.match?(/^http/) ? @bookshop.user.website : "https://#{@bookshop.user.website}" %>
+                    <a href="<%= url %>" target="_blank" style="color: var(--ink); font-size: 1.2rem;" aria-label="Site web"><i class="bi bi-globe"></i></a>
+                  <% end %>
+                  <% if @bookshop.user&.twitter.present? %>
+                    <% twitter_url = @bookshop.user.twitter.match?(/^http/) ? @bookshop.user.twitter : "https://twitter.com/#{@bookshop.user.twitter.delete_prefix('@')}" %>
+                    <a href="<%= twitter_url %>" target="_blank" style="color: var(--ink); font-size: 1.2rem;" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                  <% end %>
+                  <% if @bookshop.user&.instagram.present? %>
+                    <% insta_url = @bookshop.user.instagram.match?(/^http/) ? @bookshop.user.instagram : "https://instagram.com/#{@bookshop.user.instagram.delete_prefix('@')}" %>
+                    <a href="<%= insta_url %>" target="_blank" style="color: var(--ink); font-size: 1.2rem;" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <!-- Actions -->
+              <div class="mt-4 d-flex flex-wrap gap-2">
+                <% if user_signed_in? && current_user != @bookshop.user %>
+                  <% if current_user.following?(@bookshop) %>
+                    <%= button_to "Ne plus suivre", follow_path(followable_type: "Bookshop", followable_id: @bookshop.id), method: :delete, class: "btn btn-outline-dark btn-sm px-3" %>
+                  <% else %>
+                    <%= button_to "Suivre", follows_path(followable_type: "Bookshop", followable_id: @bookshop.id), method: :post, class: "btn btn-dark btn-sm px-3" %>
+                  <% end %>
+                <% elsif user_signed_in? && current_user == @bookshop.user %>
+                  <%= link_to "Modifier le profil", edit_user_path(current_user), class: "btn btn-outline-dark btn-sm px-4" %>
+                <% end %>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+
+  <!-- CHRONIQUES -->
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="d-flex align-items-baseline mb-5">
+          <h2 class="section-heading">Chroniques partagées</h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <% if @bookshop.user&.chronicles&.any? %>
+          <div class="row row-cols-1 row-cols-md-3 g-4">
+            <% @bookshop.user.chronicles.each do |chronicle| %>
+              <div class="col">
+                <div class="card-uniform">
+                  <%= image_tag(chronicle.photo.attached? ? chronicle.photo : "livre.jpeg", alt: chronicle.title) %>
+                  <div class="card-overlay">
+                    <h5><%= truncate(chronicle.title, length: 55) %></h5>
+                    <p><%= chronicle.created_at.strftime("%d %b %Y") %></p>
+                  </div>
+                  <%= link_to chronicle_path(chronicle), class: "stretched-link", "aria-label": "Voir #{chronicle.title}" do %><% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-center fst-italic" style="color: var(--warm-gray);">Aucune chronique partagée pour le moment.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>

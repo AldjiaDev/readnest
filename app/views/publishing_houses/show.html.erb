@@ -1,137 +1,111 @@
 <% content_for :title, @publishing_house.name %>
 
-<section class="bg-light pt-5 pb-5" style="margin-top: 100px;">
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-10">
+<div style="margin-top: 86px; background-color: var(--paper);">
 
-        <!-- EN-TÊTE DU PROFIL -->
-        <div class="row align-items-center mb-5">
-          <!-- Avatar -->
-          <div class="col-md-3 text-center mb-4 mb-md-0">
-            <% if @publishing_house.user&.avatar&.attached? %>
-              <%= image_tag url_for(@publishing_house.user.avatar),
-                  class: "rounded-circle shadow border border-2",
-                  style: "width: 160px; height: 160px; object-fit: cover;" %>
-            <% else %>
-              <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
-                   style="width: 160px; height: 160px;">
-                <%= @publishing_house.name.first.upcase %>
-              </div>
-            <% end %>
-          </div>
+  <!-- EN-TÊTE -->
+  <div style="background-color: var(--parchment); border-bottom: 1px solid var(--rule-color);">
+    <div class="container py-5">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-10">
+          <div class="row align-items-center">
 
-          <!-- Infos -->
-          <div class="col-md-9">
-            <h2 class="fw-bold text-black mb-2"><%= @publishing_house.name %></h2>
-            <span class="badge bg-dark rounded-pill mb-3 px-3 py-2">Maison d’édition</span>
-
-            <% if @publishing_house.description.present? %>
-              <p class="small text-black mb-3"><%= simple_format(@publishing_house.description) %></p>
-            <% end %>
-
-            <!-- Réseaux / Site -->
-            <% if @publishing_house.user&.website.present? || @publishing_house.user&.twitter.present? || @publishing_house.user&.instagram.present? %>
-              <div class="d-flex gap-3 mt-3">
-                <% if @publishing_house.user&.website.present? %>
-                  <% url = @publishing_house.user.website.match?(/^http/) ? @publishing_house.user.website : "https://#{@publishing_house.user.website}" %>
-                  <a href="<%= url %>" target="_blank" class="text-dark fs-4" aria-label="Site web">
-                    <i class="bi bi-globe"></i>
-                  </a>
-                <% end %>
-
-                <% if @publishing_house.user&.twitter.present? %>
-                  <% twitter_url = @publishing_house.user.twitter.match?(/^http/) ?
-                      @publishing_house.user.twitter :
-                      "https://twitter.com/#{@publishing_house.user.twitter.delete_prefix('@')}" %>
-                  <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4" aria-label="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                  </a>
-                <% end %>
-
-                <% if @publishing_house.user&.instagram.present? %>
-                  <% insta_url = @publishing_house.user.instagram.match?(/^http/) ?
-                      @publishing_house.user.instagram :
-                      "https://instagram.com/#{@publishing_house.user.instagram.delete_prefix('@')}" %>
-                  <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4" aria-label="Instagram">
-                    <i class="bi bi-instagram"></i>
-                  </a>
-                <% end %>
-              </div>
-            <% end %>
-
-            <!-- Actions -->
-            <div class="mt-4 d-flex flex-wrap gap-2">
-              <% if user_signed_in? && current_user != @publishing_house.user %>
-                <% if current_user.following?(@publishing_house) %>
-                  <%= button_to "Ne plus suivre",
-                      follow_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id),
-                      method: :delete,
-                      class: "btn btn-outline-dark btn-sm rounded-pill" %>
-                <% else %>
-                  <%= button_to "Suivre",
-                      follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id),
-                      method: :post,
-                      class: "btn btn-secondary btn-sm rounded-pill text-white" %>
-                <% end %>
-              <% elsif user_signed_in? && current_user == @publishing_house.user %>
-                <%= link_to "Modifier le profil",
-                    edit_user_path(current_user),
-                    class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
-              <% end %>
-
-              <%# --- Contacter la maison d’édition --- %>
-              <% if user_signed_in? && @publishing_house.user.present? && current_user != @publishing_house.user %>
-                <%= button_to "Envoyer un message",
-                    conversations_path(receiver_id: @publishing_house.user.id),
-                      method: :post,
-                     class: "btn btn-dark btn-sm rounded-pill" %>
-                <% end %>
-            </div>
-          </div>
-        </div>
-
-        <hr class="my-5">
-
-        <!-- CHRONIQUES PUBLIÉES PAR LA MAISON D’ÉDITION -->
-        <section class="container py-5" style="margin-top: 100px;">
-          <div class="d-flex align-items-center mb-4">
-            <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">
-              Chroniques publiées par <%= @publishing_house.name %>
-            </h2>
-            <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-          </div>
-
-          <% if @chronicles.present? %>
-            <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-              <% @chronicles.each do |chronicle| %>
-                <div class="col">
-                  <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
-                    <div class="card-uniform">
-                      <%= image_tag(
-                            chronicle.photo.attached? ? chronicle.photo : "default_avatar.png",
-                            alt: chronicle.title
-                          ) %>
-
-                      <div class="card-overlay">
-                        <h5 class="fw-bold text-white mb-2">
-                          <%= truncate(chronicle.title, length: 55) %>
-                        </h5>
-                        <p class="text-white small mb-1">
-                          Publié le <%= chronicle.created_at.strftime("%d %b %Y") %>
-                        </p>
-                        <% if chronicle.user.present? %>
-                          <p class="text-white-50 small mb-0">
-                            Par <%= chronicle.user.username %>
-                          </p>
-                        <% end %>
-                      </div>
-                    </div>
-                  <% end %>
+            <!-- Logo / Avatar -->
+            <div class="col-md-3 text-center mb-4 mb-md-0">
+              <% if @publishing_house.user&.avatar&.attached? %>
+                <%= image_tag url_for(@publishing_house.user.avatar),
+                    class: "rounded-circle",
+                    style: "width: 150px; height: 150px; object-fit: cover; border: 2px solid var(--rule-color); box-shadow: 0 4px 16px rgba(26,18,8,0.1);" %>
+              <% else %>
+                <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                     style="width: 150px; height: 150px; background-color: var(--parchment); border: 2px solid var(--rule-color); font-family: 'Playfair Display', Georgia, serif; font-size: 2.5rem; color: var(--ink); margin: 0 auto;">
+                  <%= @publishing_house.name.first.upcase %>
                 </div>
               <% end %>
             </div>
-          <% else %>
-            <p class="text-muted text-center">Aucune chronique publiée pour le moment.</p>
-          <% end %>
-        </section>
+
+            <!-- Infos -->
+            <div class="col-md-9">
+              <span style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);">Maison d'édition</span>
+              <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; color: var(--ink); margin-top: 0.4rem; margin-bottom: 0.75rem;">
+                <%= @publishing_house.name %>
+              </h1>
+
+              <% if @publishing_house.description.present? %>
+                <p style="font-family: 'Lora', Georgia, serif; font-size: 0.95rem; line-height: 1.8; color: var(--ink-soft); max-width: 520px;">
+                  <%= simple_format(@publishing_house.description) %>
+                </p>
+              <% end %>
+
+              <!-- Réseaux sociaux -->
+              <% if @publishing_house.user&.website.present? || @publishing_house.user&.twitter.present? || @publishing_house.user&.instagram.present? %>
+                <div class="d-flex gap-3 mt-3">
+                  <% if @publishing_house.user&.website.present? %>
+                    <% url = @publishing_house.user.website.match?(/^http/) ? @publishing_house.user.website : "https://#{@publishing_house.user.website}" %>
+                    <a href="<%= url %>" target="_blank" style="color: var(--ink); font-size: 1.2rem;" aria-label="Site web"><i class="bi bi-globe"></i></a>
+                  <% end %>
+                  <% if @publishing_house.user&.twitter.present? %>
+                    <% twitter_url = @publishing_house.user.twitter.match?(/^http/) ? @publishing_house.user.twitter : "https://twitter.com/#{@publishing_house.user.twitter.delete_prefix('@')}" %>
+                    <a href="<%= twitter_url %>" target="_blank" style="color: var(--ink); font-size: 1.2rem;" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                  <% end %>
+                  <% if @publishing_house.user&.instagram.present? %>
+                    <% insta_url = @publishing_house.user.instagram.match?(/^http/) ? @publishing_house.user.instagram : "https://instagram.com/#{@publishing_house.user.instagram.delete_prefix('@')}" %>
+                    <a href="<%= insta_url %>" target="_blank" style="color: var(--ink); font-size: 1.2rem;" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <!-- Actions -->
+              <div class="mt-4 d-flex flex-wrap gap-2">
+                <% if user_signed_in? && current_user != @publishing_house.user %>
+                  <% if current_user.following?(@publishing_house) %>
+                    <%= button_to "Ne plus suivre", follow_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id), method: :delete, class: "btn btn-outline-dark btn-sm px-3" %>
+                  <% else %>
+                    <%= button_to "Suivre", follows_path(followable_type: "PublishingHouse", followable_id: @publishing_house.id), method: :post, class: "btn btn-dark btn-sm px-3" %>
+                  <% end %>
+                  <% if @publishing_house.user.present? %>
+                    <%= button_to "Envoyer un message", conversations_path(receiver_id: @publishing_house.user.id), method: :post, class: "btn btn-outline-dark btn-sm px-3" %>
+                  <% end %>
+                <% elsif user_signed_in? && current_user == @publishing_house.user %>
+                  <%= link_to "Modifier le profil", edit_user_path(current_user), class: "btn btn-outline-dark btn-sm px-4" %>
+                <% end %>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHRONIQUES -->
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="d-flex align-items-baseline mb-5">
+          <h2 class="section-heading">Chroniques publiées</h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <% if @chronicles.present? %>
+          <div class="row row-cols-1 row-cols-md-3 g-4">
+            <% @chronicles.each do |chronicle| %>
+              <div class="col">
+                <div class="card-uniform">
+                  <%= image_tag(chronicle.photo.attached? ? chronicle.photo : "default_avatar.png", alt: chronicle.title) %>
+                  <div class="card-overlay">
+                    <h5><%= truncate(chronicle.title, length: 55) %></h5>
+                    <p><%= chronicle.created_at.strftime("%d %b %Y") %></p>
+                  </div>
+                  <%= link_to chronicle_path(chronicle), class: "stretched-link", "aria-label": "Voir #{chronicle.title}" do %><% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-center fst-italic" style="color: var(--warm-gray);">Aucune chronique publiée pour le moment.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>

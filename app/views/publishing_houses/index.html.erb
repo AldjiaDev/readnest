@@ -1,22 +1,18 @@
-<% content_for :title, "Maisons d’édition" %>
+<% content_for :title, "Maisons d'édition" %>
 
 <section class="container py-5" style="margin-top: 100px;">
-  <!-- Titre + ligne -->
-  <div class="d-flex align-items-center mb-5">
-    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Maisons d’édition</h2>
-    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+  <div class="d-flex align-items-baseline mb-5">
+    <h2 class="section-heading">Maisons d'édition</h2>
+    <div class="section-rule"></div>
   </div>
 
   <% if @publishing_houses.empty? %>
-    <p class="text-muted text-center">Aucune maison d’édition inscrite pour le moment.</p>
+    <p class="text-center fst-italic" style="color: var(--warm-gray);">Aucune maison d'édition inscrite pour le moment.</p>
   <% else %>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-
+    <div class="row row-cols-1 row-cols-md-3 g-4">
       <% @publishing_houses.each do |house| %>
         <div class="col">
           <div class="card-uniform">
-
-            <!-- Image avec fallback (avatar user > logo > image par défaut) -->
             <% if house.user&.avatar&.attached? %>
               <%= image_tag house.user.avatar, alt: house.name %>
             <% elsif house.logo.attached? %>
@@ -24,27 +20,16 @@
             <% else %>
               <%= image_tag "default_avatar.png", alt: house.name %>
             <% end %>
-
-            <!-- Overlay -->
             <div class="card-overlay">
-              <h5 class="fw-bold text-white mb-1"><%= house.name %></h5>
-
+              <h5><%= house.name %></h5>
               <% if house.description.present? %>
-                <p class="text-white-50 small mb-0">
-                  <%= truncate(house.description, length: 90) %>
-                </p>
+                <p><%= truncate(house.description, length: 90) %></p>
               <% end %>
             </div>
-
-            <!-- Lien cliquable sur toute la carte -->
-            <%= link_to publishing_house_path(house),
-                        class: "stretched-link",
-                        "aria-label": "Voir #{house.name}" do %><% end %>
+            <%= link_to publishing_house_path(house), class: "stretched-link", "aria-label": "Voir #{house.name}" do %><% end %>
           </div>
         </div>
       <% end %>
-
     </div>
   <% end %>
 </section>
-

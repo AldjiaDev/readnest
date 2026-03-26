@@ -1,38 +1,31 @@
 <% content_for :title, "Auteur·rice·s" %>
 
 <section class="container py-5" style="margin-top: 100px;">
-  <div class="d-flex align-items-center mb-5">
-    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Auteur·rice·s</h2>
-    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+  <div class="d-flex align-items-baseline mb-5">
+    <h2 class="section-heading">Auteur·rice·s</h2>
+    <div class="section-rule"></div>
   </div>
 
   <% if @authors.empty? %>
-    <p class="text-center text-muted">Aucun·e auteur·rice n’est encore inscrit·e.</p>
+    <p class="text-center fst-italic" style="color: var(--warm-gray);">Aucun·e auteur·rice n'est encore inscrit·e.</p>
   <% else %>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <% @authors.each do |author| %>
         <div class="col">
           <div class="card-uniform">
-
-            <!-- Image avec fallback (avatar user > image par défaut) -->
             <% if author.avatar.attached? %>
               <%= image_tag author.avatar, alt: author.username %>
             <% else %>
               <%= image_tag "default_avatar.png", alt: author.username %>
             <% end %>
-
             <div class="card-overlay">
-              <h5 class="fw-bold text-white mb-1"><%= author.username %></h5>
-              <p class="text-white-50 small mb-0"><%= truncate(author.bio, length: 90) %></p>
+              <h5><%= author.username %></h5>
+              <p><%= truncate(author.bio, length: 90) %></p>
             </div>
-
-            <%= link_to user_path(author),
-                        class: "stretched-link",
-                        "aria-label": "Voir le profil de #{author.username}" do %><% end %>
+            <%= link_to user_path(author), class: "stretched-link", "aria-label": "Voir le profil de #{author.username}" do %><% end %>
           </div>
         </div>
       <% end %>
     </div>
   <% end %>
 </section>
-

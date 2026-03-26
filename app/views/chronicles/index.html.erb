@@ -1,13 +1,13 @@
 <% content_for :title, "Chroniques" %>
 
 <section class="container py-5" style="margin-top: 100px;">
-  <div class="d-flex align-items-center mb-5">
-    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Chroniques</h2>
-    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+  <div class="d-flex align-items-baseline mb-5">
+    <h2 class="section-heading">Chroniques</h2>
+    <div class="section-rule"></div>
   </div>
 
   <% if @chronicles.empty? %>
-    <p class="text-muted text-center">Aucune chronique à afficher pour le moment.</p>
+    <p class="text-center fst-italic" style="color: var(--warm-gray);">Aucune chronique à afficher pour le moment.</p>
   <% else %>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <% @chronicles.each do |chronicle| %>
@@ -15,8 +15,8 @@
           <div class="card-uniform">
             <%= image_tag(chronicle.photo.attached? ? chronicle.photo : "livre.jpeg") %>
             <div class="card-overlay">
-              <h5 class="fw-bold text-white mb-2"><%= truncate(chronicle.title, length: 55) %></h5>
-              <p class="text-white-50 small mb-0"><%= chronicle.user.username %></p>
+              <h5><%= truncate(chronicle.title, length: 55) %></h5>
+              <p><%= chronicle.user.username %></p>
             </div>
             <%= link_to chronicle_path(chronicle), class: "stretched-link", "aria-label": "Voir la chronique #{chronicle.title}" do %><% end %>
           </div>
@@ -25,4 +25,3 @@
     </div>
   <% end %>
 </section>
-

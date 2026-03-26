@@ -1,97 +1,98 @@
 <% content_for :title, "Créer un compte" %>
 
-<section class="bg-light py-5" style="margin-top: 100px;">
+<div style="background-color: var(--paper); padding-top: 86px; padding-bottom: 4rem; min-height: 100vh;">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6">
 
-        <div class="card shadow-sm rounded-4 border-0">
-          <div class="card-body p-5">
-            <h2 class="fw-bold text-center mb-4">Créer un compte</h2>
+        <div class="text-center mb-5">
+          <span style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);">Readnest</span>
+          <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.9rem; font-weight: 700; color: var(--ink); margin-top: 0.5rem; font-style: italic;">
+            Rejoignez la communauté
+          </h1>
+          <div style="width: 40px; height: 1px; background-color: var(--gold); margin: 1rem auto 0;"></div>
+        </div>
 
-            <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-              <%= render "devise/shared/error_messages", resource: resource %>
+        <div style="background-color: var(--cream-card); border: 1px solid var(--rule-color); border-radius: 0.25rem; padding: 2.5rem;">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
 
-              <!-- Nom d’utilisateur -->
-              <div class="mb-3">
-                <%= f.label :username, "Nom d’utilisateur", class: "form-label fw-semibold" %>
-                <%= f.text_field :username, autofocus: true, class: "form-control rounded-pill shadow-sm" %>
-              </div>
+            <%
+              label_style = "font-family: 'Lora', Georgia, serif; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-gray); display: block; margin-bottom: 0.5rem;"
+              input_style = "font-family: 'Lora', Georgia, serif; border: 1px solid var(--rule-color); border-radius: 0.25rem; background-color: var(--paper); color: var(--ink); padding: 0.65rem 1rem;"
+            %>
 
-              <!-- Email -->
-              <div class="mb-3">
-                <%= f.label :email, "Email", class: "form-label fw-semibold" %>
-                <%= f.email_field :email, autocomplete: "email", class: "form-control rounded-pill shadow-sm" %>
-              </div>
+            <div class="mb-4">
+              <%= f.label :username, "Nom d'utilisateur", style: label_style %>
+              <%= f.text_field :username, autofocus: true, class: "form-control", style: input_style %>
+            </div>
 
-              <!-- Mot de passe -->
-              <div class="mb-3">
-                <%= f.label :password, "Mot de passe", class: "form-label fw-semibold" %>
-                <% if @minimum_password_length %>
-                  <small class="text-muted">(au moins <%= @minimum_password_length %> caractères)</small>
-                <% end %>
-                <%= f.password_field :password, autocomplete: "new-password", class: "form-control rounded-pill shadow-sm" %>
-              </div>
+            <div class="mb-4">
+              <%= f.label :email, "Email", style: label_style %>
+              <%= f.email_field :email, autocomplete: "email", class: "form-control", style: input_style %>
+            </div>
 
-              <!-- Confirmation du mot de passe -->
-              <div class="mb-3">
-                <%= f.label :password_confirmation, "Confirmez le mot de passe", class: "form-label fw-semibold" %>
-                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control rounded-pill shadow-sm" %>
-              </div>
+            <div class="mb-4">
+              <%= f.label :password, "Mot de passe", style: label_style %>
+              <% if @minimum_password_length %>
+                <small style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; color: var(--warm-gray);">au moins <%= @minimum_password_length %> caractères</small>
+              <% end %>
+              <%= f.password_field :password, autocomplete: "new-password", class: "form-control", style: input_style %>
+            </div>
 
-              <!-- Profil -->
-              <div class="mb-3">
-                <p class="mb-2 fw-semibold">Tu es…</p>
-                <div class="p-3 bg-white rounded-4 border">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="profile_type" id="profile_reader" value="reader" checked>
-                    <label class="form-check-label fw-semibold" for="profile_reader">
-                      Lecteur·rice
-                    </label>
-                    <div class="text-muted small">Aucun rôle à cocher : tu peux créer un compte et publier des chroniques.</div>
-                  </div>
+            <div class="mb-5">
+              <%= f.label :password_confirmation, "Confirmez le mot de passe", style: label_style %>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", style: input_style %>
+            </div>
 
-                  <hr class="my-3">
+            <!-- Profil -->
+            <div class="mb-4" style="border-top: 1px solid var(--rule-color); padding-top: 1.5rem;">
+              <p style="font-family: 'Lora', Georgia, serif; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-gray); margin-bottom: 1rem;">Tu es…</p>
 
-                  <div class="text-muted small">
-                    Si tu représentes une structure, tu peux aussi cocher ci-dessous :
-                  </div>
+              <div style="background-color: var(--paper); border: 1px solid var(--rule-color); border-radius: 0.25rem; padding: 1.25rem;">
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="radio" name="profile_type" id="profile_reader" value="reader" checked style="border-color: var(--rule-color);">
+                  <label class="form-check-label" for="profile_reader" style="font-family: 'Lora', Georgia, serif; font-size: 0.9rem; color: var(--ink); font-weight: 600;">
+                    Lecteur·rice
+                  </label>
+                  <div style="font-family: 'Lora', Georgia, serif; font-size: 0.8rem; color: var(--warm-gray); margin-top: 0.15rem;">Publiez des chroniques et explorez la plateforme.</div>
+                </div>
+
+                <div style="height: 1px; background-color: var(--rule-color); margin: 1rem 0;"></div>
+
+                <p style="font-family: 'Lora', Georgia, serif; font-size: 0.8rem; color: var(--warm-gray); margin-bottom: 0.75rem;">Si tu représentes une structure :</p>
+
+                <div class="form-check mb-2">
+                  <%= f.check_box :is_publishing_house, { class: "form-check-input", style: "border-color: var(--rule-color);" }, true, false %>
+                  <%= f.label :is_publishing_house, "Je suis une maison d'édition", class: "form-check-label", style: "font-family: 'Lora', Georgia, serif; font-size: 0.875rem; color: var(--ink);" %>
+                </div>
+
+                <div class="form-check mb-2">
+                  <%= f.check_box :is_bookshop, { class: "form-check-input", style: "border-color: var(--rule-color);" }, true, false %>
+                  <%= f.label :is_bookshop, "Je suis une librairie", class: "form-check-label", style: "font-family: 'Lora', Georgia, serif; font-size: 0.875rem; color: var(--ink);" %>
+                </div>
+
+                <div class="form-check">
+                  <%= f.check_box :is_author, { class: "form-check-input", style: "border-color: var(--rule-color);" }, true, false %>
+                  <%= f.label :is_author, "Je suis auteur·rice", class: "form-check-label", style: "font-family: 'Lora', Georgia, serif; font-size: 0.875rem; color: var(--ink);" %>
                 </div>
               </div>
-              
-              <!-- Rôles -->
-              <div class="form-check mb-3">
-                <%= f.check_box :is_publishing_house, { class: "form-check-input" }, true, false %>
-                <%= f.label :is_publishing_house, "Je suis une maison d’édition", class: "form-check-label fw-semibold" %>
-              </div>
+            </div>
 
-              <div class="form-check mb-3">
-                <%= f.check_box :is_bookshop, { class: "form-check-input" }, true, false %>
-                <%= f.label :is_bookshop, "Je suis une librairie", class: "form-check-label fw-semibold" %>
-              </div>
+            <div class="d-grid mt-4">
+              <%= f.submit "Créer mon compte", class: "btn btn-dark py-2" %>
+            </div>
+          <% end %>
 
-              <!-- Auteur·rice -->
-              <div class="form-check mb-4">
-                <%= f.check_box :is_author, { class: "form-check-input" }, true, false %>
-                <%= f.label :is_author, "Je suis auteur·rice", class: "form-check-label fw-semibold" %>
-              </div>
+          <div style="height: 1px; background-color: var(--rule-color); margin: 1.5rem 0;"></div>
 
-              <!-- Bouton -->
-              <div class="d-grid">
-                <%= f.submit "S’inscrire", class: "btn btn-dark rounded-pill py-2 fw-bold shadow-sm" %>
-              </div>
-            <% end %>
-
-            <hr class="my-4">
-
-            <p class="text-center mb-0">
-              Déjà un compte ?
-              <%= link_to "Se connecter", new_session_path(resource_name), class: "fw-semibold text-dark" %>
-            </p>
-          </div>
+          <p class="text-center mb-0" style="font-family: 'Lora', Georgia, serif; font-size: 0.875rem; color: var(--warm-gray);">
+            Déjà un compte ?
+            <%= link_to "Se connecter", new_session_path(resource_name), style: "color: var(--burgundy); text-decoration: none; font-weight: 600;" %>
+          </p>
         </div>
 
       </div>
     </div>
   </div>
-</section>
+</div>

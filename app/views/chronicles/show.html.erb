@@ -1,74 +1,67 @@
 <% content_for :title, @chronicle.title %>
 <% content_for :meta_description, @chronicle.summary.presence || @chronicle.content.to_s.truncate(160) %>
 
-<div class="chronicle-layout py-5">
-  <div class="container" style="margin-top: 100px; max-width: 980px;">
+<div style="background-color: var(--paper); margin-top: 86px;">
+  <div class="container py-5" style="max-width: 980px;">
 
-    <!-- Bandeau meta magazine -->
-    <div class="chronicle-meta-top d-flex flex-wrap justify-content-between align-items-center mb-3">
-      <div class="d-flex flex-wrap align-items-center gap-2 small text-muted">
-        <span class="badge rounded-pill bg-light border text-uppercase fw-semibold text-secondary">
-          Chronique
-        </span>
-        <span class="badge rounded-pill bg-light border text-uppercase fw-semibold text-secondary">
-          Littérature
-        </span>
-        <span class="ms-1">
-          <%= l(@chronicle.created_at.to_date, format: :long) %> · 3 min de lecture
-        </span>
-      </div>
+    <!-- MÉTA -->
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-4" style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--warm-gray); text-transform: uppercase;">
+      <span style="border: 1px solid var(--rule-color); padding: 0.2rem 0.75rem; color: var(--gold);">Chronique</span>
+      <span>&middot;</span>
+      <span><%= l(@chronicle.created_at.to_date, format: :long) %></span>
+      <span>&middot;</span>
+      <span>3 min de lecture</span>
     </div>
 
-    <!-- Bloc "hero" -->
-    <header class="chronicle-hero mb-4">
-      <!-- TITRE -->
-      <h1 class="chronicle-title display-5 mb-3"><%= @chronicle.title %></h1>
+    <!-- TITRE & CHAPÔ -->
+    <header class="mb-5" style="border-bottom: 1px solid var(--rule-color); padding-bottom: 2rem;">
+      <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 1rem;">
+        <%= @chronicle.title %>
+      </h1>
 
-      <!-- SOUS-TITRE / CHAPÔ -->
       <% if @chronicle.summary.present? %>
-        <p class="chronicle-lead mb-4"><%= @chronicle.summary %></p>
+        <p style="font-family: 'Lora', Georgia, serif; font-size: 1.1rem; font-style: italic; line-height: 1.75; color: var(--ink-soft); max-width: 65ch; margin-bottom: 1.5rem;">
+          <%= @chronicle.summary %>
+        </p>
       <% end %>
 
-      <!-- AUTEUR + AVATAR -->
-      <div class="d-flex align-items-center gap-3 mb-4">
+      <!-- Auteur -->
+      <div class="d-flex align-items-center gap-3">
         <% if @chronicle.user.avatar.attached? %>
-          <%= image_tag url_for(@chronicle.user.avatar), class: "rounded-circle border", style: "width: 56px; height: 56px; object-fit: cover;" %>
+          <%= image_tag url_for(@chronicle.user.avatar), class: "rounded-circle", style: "width: 48px; height: 48px; object-fit: cover; border: 1px solid var(--rule-color);" %>
         <% else %>
-          <%= image_tag "default_avatar.png", class: "rounded-circle border", style: "width: 56px; height: 56px; object-fit: cover;" %>
+          <%= image_tag "default_avatar.png", class: "rounded-circle", style: "width: 48px; height: 48px; object-fit: cover; border: 1px solid var(--rule-color);" %>
         <% end %>
-
-        <div class="small">
-          <div class="fw-semibold">
-            <%= link_to @chronicle.user.username, user_path(@chronicle.user), class: "text-decoration-none text-dark" %>
+        <div style="font-family: 'Lora', Georgia, serif;">
+          <div style="font-size: 0.9rem; font-weight: 600; color: var(--ink);">
+            <%= link_to @chronicle.user.username, user_path(@chronicle.user), style: "color: var(--ink); text-decoration: none;" %>
           </div>
-          <div class="text-muted">Auteur · <%= l(@chronicle.created_at.to_date, format: :long) %></div>
+          <div style="font-size: 0.78rem; color: var(--warm-gray);"><%= l(@chronicle.created_at.to_date, format: :long) %></div>
         </div>
       </div>
-
-      <!-- IMAGE PRINCIPALE -->
-      <% if @chronicle.photo.attached? %>
-        <figure class="chronicle-hero-image mb-0">
-          <%= image_tag @chronicle.photo,
-            class: "img-fluid w-100",
-            style: "border-radius: 18px; object-fit: contain;" %>
-          <figcaption class="text-muted small mt-2">
-            <%= @chronicle.caption.presence || "Image fournie par l’auteur" %>
-          </figcaption>
-        </figure>
-      <% end %>
     </header>
 
-    <!-- Corps article + sidebar actions -->
-    <div class="row g-5 mt-4">
+    <!-- IMAGE PRINCIPALE -->
+    <% if @chronicle.photo.attached? %>
+      <figure class="mb-5">
+        <%= image_tag @chronicle.photo, class: "img-fluid w-100", style: "border-radius: 0.375rem; object-fit: contain;" %>
+        <figcaption style="font-family: 'Lora', Georgia, serif; font-size: 0.78rem; color: var(--warm-gray); margin-top: 0.75rem; font-style: italic; text-align: center;">
+          <%= @chronicle.caption.presence || "Image fournie par l'auteur" %>
+        </figcaption>
+      </figure>
+    <% end %>
+
+    <!-- CORPS + SIDEBAR -->
+    <div class="row g-5">
       <div class="col-lg-8">
 
         <!-- TABLE DES MATIÈRES -->
         <% if @chronicle.table_of_contents.present? %>
-          <div class="bg-light border rounded-3 p-3 mb-4 chronicle-toc">
-            <h6 class="fw-bold mb-2 text-uppercase small text-muted">Table des matières</h6>
-            <ul class="list-unstyled small mb-0">
+          <div class="mb-5 p-4" style="background-color: var(--parchment); border: 1px solid var(--rule-color); border-left: 3px solid var(--gold); border-radius: 0.25rem;">
+            <h6 style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem;">Table des matières</h6>
+            <ul class="list-unstyled mb-0" style="font-family: 'Lora', Georgia, serif; font-size: 0.9rem; color: var(--ink-soft);">
               <% @chronicle.table_of_contents.each do |item| %>
-                <li class="mb-1">• <%= item %></li>
+                <li class="mb-1" style="padding-left: 0.5rem;">— <%= item %></li>
               <% end %>
             </ul>
           </div>
@@ -80,50 +73,51 @@
         </article>
 
         <!-- COMMENTAIRES -->
-        <section class="chronicle-comments mt-5">
-          <h4 class="mb-4 fw-bold border-bottom pb-2">Commentaires</h4>
+        <section class="mt-5 pt-4" style="border-top: 1px solid var(--rule-color);">
+          <div class="d-flex align-items-baseline mb-4">
+            <h3 class="section-heading" style="font-size: 1.2rem;">Commentaires</h3>
+            <div class="section-rule"></div>
+          </div>
 
           <% @chronicle.comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
-            <div class="mb-4 p-3 border rounded-3 bg-light">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <strong><%= comment.user.username %></strong>
-                  <small class="text-muted">· il y a <%= time_ago_in_words(comment.created_at) %></small>
+            <div class="mb-4 p-4" style="background-color: var(--cream-card); border: 1px solid var(--rule-color); border-radius: 0.25rem;">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div style="font-family: 'Lora', Georgia, serif;">
+                  <strong style="font-size: 0.9rem; color: var(--ink);"><%= comment.user.username %></strong>
+                  <span style="font-size: 0.78rem; color: var(--warm-gray); margin-left: 0.5rem;">— il y a <%= time_ago_in_words(comment.created_at) %></span>
                 </div>
-
                 <% if user_signed_in? %>
-                  <button class="btn btn-outline-dark btn-sm rounded-pill px-3"
+                  <button class="btn btn-sm"
                           type="button"
                           data-bs-toggle="collapse"
-                          data-bs-target="#reply-form-<%= comment.id %>">
+                          data-bs-target="#reply-form-<%= comment.id %>"
+                          style="font-family: 'Lora', Georgia, serif; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--rule-color); color: var(--ink); background: transparent; padding: 0.25rem 0.75rem;">
                     Répondre
                   </button>
                 <% end %>
               </div>
 
-              <p class="mt-2 mb-2"><%= comment.content %></p>
+              <p style="font-family: 'Lora', Georgia, serif; font-size: 0.95rem; line-height: 1.75; color: var(--ink-soft); margin-bottom: 0.5rem;"><%= comment.content %></p>
 
-              <!-- Formulaire de réponse -->
-              <div class="collapse mt-2" id="reply-form-<%= comment.id %>">
+              <div class="collapse mt-3" id="reply-form-<%= comment.id %>">
                 <%= form_with model: [@chronicle, Comment.new], local: true do |f| %>
                   <%= f.hidden_field :parent_id, value: comment.id %>
                   <div class="mb-2">
-                    <%= f.text_area :content, placeholder: "Votre réponse...", rows: 2, class: "form-control" %>
+                    <%= f.text_area :content, placeholder: "Votre réponse…", rows: 2, class: "form-control", style: "font-family: 'Lora', Georgia, serif; border-color: var(--rule-color); border-radius: 0.25rem;" %>
                   </div>
                   <div class="text-end">
-                    <%= f.submit "Répondre", class: "btn btn-dark btn-sm rounded-pill px-3" %>
+                    <%= f.submit "Répondre", class: "btn btn-dark btn-sm px-3" %>
                   </div>
                 <% end %>
               </div>
 
-              <!-- Réponses -->
               <% if comment.replies.any? %>
-                <div class="mt-3 ms-3 border-start ps-3">
+                <div class="mt-3 ms-3" style="border-left: 2px solid var(--rule-color); padding-left: 1rem;">
                   <% comment.replies.order(created_at: :asc).each do |reply| %>
-                    <div class="mb-2 p-2 border rounded-3 bg-white">
-                      <strong><%= reply.user.username %></strong>
-                      <small class="text-muted">· il y a <%= time_ago_in_words(reply.created_at) %></small>
-                      <p class="mb-1"><%= reply.content %></p>
+                    <div class="mb-2 p-3" style="background-color: var(--paper); border: 1px solid var(--rule-color); border-radius: 0.25rem;">
+                      <strong style="font-family: 'Lora', Georgia, serif; font-size: 0.875rem; color: var(--ink);"><%= reply.user.username %></strong>
+                      <span style="font-size: 0.75rem; color: var(--warm-gray); margin-left: 0.5rem;">— il y a <%= time_ago_in_words(reply.created_at) %></span>
+                      <p style="font-family: 'Lora', Georgia, serif; font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.5rem; margin-bottom: 0;"><%= reply.content %></p>
                     </div>
                   <% end %>
                 </div>
@@ -132,254 +126,188 @@
           <% end %>
 
           <% if user_signed_in? %>
-            <h5 class="mt-4">Ajouter un commentaire</h5>
+            <h5 class="mt-5 mb-3" style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; color: var(--ink); font-style: italic;">Laisser un commentaire</h5>
             <%= form_with model: [@chronicle, Comment.new], local: true do |f| %>
-              <div class="mb-2">
-                <%= f.text_area :content, placeholder: "Votre commentaire...", rows: 3, class: "form-control" %>
+              <div class="mb-3">
+                <%= f.text_area :content, placeholder: "Votre commentaire…", rows: 4, class: "form-control", style: "font-family: 'Lora', Georgia, serif; border-color: var(--rule-color); border-radius: 0.25rem; background-color: var(--cream-card);" %>
               </div>
               <div class="text-end">
-                <%= f.submit "Commenter", class: "btn btn-dark rounded-pill px-3" %>
+                <%= f.submit "Commenter", class: "btn btn-dark px-4" %>
               </div>
             <% end %>
           <% else %>
-            <p class="text-muted">Connectez-vous pour commenter cette chronique.</p>
+            <p style="font-family: 'Lora', Georgia, serif; font-size: 0.9rem; color: var(--warm-gray); font-style: italic;">
+              <%= link_to "Connectez-vous", new_user_session_path, style: "color: var(--burgundy);" %> pour commenter cette chronique.
+            </p>
           <% end %>
         </section>
       </div>
 
-      <!-- COLONNE DROITE : interactions & actions -->
+      <!-- SIDEBAR -->
       <div class="col-lg-4">
-        <aside class="chronicle-sidebar">
+        <aside style="position: sticky; top: 110px;">
 
-          <!-- INTERACTIONS : J'AIME + FAVORI -->
-          <div class="p-3 mb-4 border rounded-3 bg-white shadow-sm-sm">
-            <h6 class="text-uppercase small text-muted mb-3">Votre interaction</h6>
+          <!-- INTERACTIONS -->
+          <div class="mb-4 p-4" style="background-color: var(--cream-card); border: 1px solid var(--rule-color); border-radius: 0.25rem;">
+            <h6 style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;">Interactions</h6>
 
             <div class="d-flex flex-column gap-2">
-              <!-- J'AIME -->
-              <div>
-                <%= render "chronicles/like_button", chronicle: @chronicle %>
-              </div>
+              <div><%= render "chronicles/like_button", chronicle: @chronicle %></div>
 
-              <!-- FAVORI -->
               <% if user_signed_in? %>
                 <div>
                   <% if current_user.favorites.exists?(chronicle: @chronicle) %>
                     <%= button_to favorite_path(current_user.favorites.find_by(chronicle: @chronicle)),
                                   method: :delete,
-                                  class: "btn btn-outline-warning btn-sm rounded-pill px-3 fw-semibold w-100 text-start action-btn d-flex justify-content-between align-items-center" do %>
+                                  class: "btn btn-sm w-100 text-start d-flex justify-content-between align-items-center",
+                                  style: "font-family: 'Lora', Georgia, serif; font-size: 0.82rem; border: 1px solid var(--gold); color: var(--gold); background: transparent; padding: 0.5rem 0.875rem; border-radius: 2rem;" do %>
                       <span>★ Retirer des favoris</span>
                       <i class="bi bi-star-fill"></i>
                     <% end %>
                   <% else %>
                     <%= button_to favorites_path(chronicle_id: @chronicle.id),
                                   method: :post,
-                                  class: "btn btn-outline-dark btn-sm rounded-pill px-3 fw-semibold w-100 text-start action-btn d-flex justify-content-between align-items-center" do %>
+                                  class: "btn btn-sm w-100 text-start d-flex justify-content-between align-items-center",
+                                  style: "font-family: 'Lora', Georgia, serif; font-size: 0.82rem; border: 1px solid var(--rule-color); color: var(--ink); background: transparent; padding: 0.5rem 0.875rem; border-radius: 2rem;" do %>
                       <span>☆ Ajouter aux favoris</span>
                       <i class="bi bi-star"></i>
                     <% end %>
                   <% end %>
                 </div>
               <% end %>
+            </div>
+          </div>
 
-          <!-- PARTAGE SOCIAL -->
-          <div class="p-3 mb-4 border rounded-3 bg-white shadow-sm-sm">
-            <h6 class="text-uppercase small text-muted mb-3">Partager</h6>
+          <!-- PARTAGE -->
+          <div class="mb-4 p-4" style="background-color: var(--cream-card); border: 1px solid var(--rule-color); border-radius: 0.25rem;">
+            <h6 style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;">Partager</h6>
             <div class="d-flex gap-2">
-              <!-- Twitter/X -->
               <a href="https://twitter.com/intent/tweet?url=<%= request.original_url %>&text=<%= @chronicle.title %>"
-                target="_blank" class="btn btn-sm btn-outline-dark rounded-circle d-flex align-items-center justify-content-center"
-                style="width: 38px; height: 38px;">
+                target="_blank"
+                class="d-flex align-items-center justify-content-center"
+                style="width: 36px; height: 36px; border: 1px solid var(--rule-color); border-radius: 50%; color: var(--ink); font-size: 0.85rem; transition: all 0.2s ease;"
+                onmouseover="this.style.borderColor='var(--ink)'; this.style.background='var(--ink)'; this.style.color='var(--paper)';"
+                onmouseout="this.style.borderColor='var(--rule-color)'; this.style.background='transparent'; this.style.color='var(--ink)';">
                 <i class="bi bi-twitter-x"></i>
               </a>
-
-              <!-- LinkedIn -->
               <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= request.original_url %>"
-                target="_blank" class="btn btn-sm btn-outline-dark rounded-circle d-flex align-items-center justify-content-center"
-                style="width: 38px; height: 38px;">
+                target="_blank"
+                class="d-flex align-items-center justify-content-center"
+                style="width: 36px; height: 36px; border: 1px solid var(--rule-color); border-radius: 50%; color: var(--ink); font-size: 0.85rem; transition: all 0.2s ease;"
+                onmouseover="this.style.borderColor='var(--ink)'; this.style.background='var(--ink)'; this.style.color='var(--paper)';"
+                onmouseout="this.style.borderColor='var(--rule-color)'; this.style.background='transparent'; this.style.color='var(--ink)';">
                 <i class="bi bi-linkedin"></i>
               </a>
-
-              <!-- Facebook -->
               <a href="https://www.facebook.com/sharer/sharer.php?u=<%= request.original_url %>"
-                target="_blank" class="btn btn-sm btn-outline-dark rounded-circle d-flex align-items-center justify-content-center"
-                style="width: 38px; height: 38px;">
+                target="_blank"
+                class="d-flex align-items-center justify-content-center"
+                style="width: 36px; height: 36px; border: 1px solid var(--rule-color); border-radius: 50%; color: var(--ink); font-size: 0.85rem; transition: all 0.2s ease;"
+                onmouseover="this.style.borderColor='var(--ink)'; this.style.background='var(--ink)'; this.style.color='var(--paper)';"
+                onmouseout="this.style.borderColor='var(--rule-color)'; this.style.background='transparent'; this.style.color='var(--ink)';">
                 <i class="bi bi-facebook"></i>
               </a>
             </div>
           </div>
 
           <!-- ACTIONS AUTEUR -->
-          <% if current_user == @chronicle.user %>
-            <div class="p-3 mb-4 border rounded-3 bg-white shadow-sm-sm">
-              <h6 class="text-uppercase small text-muted mb-3">Actions</h6>
-
+          <% if user_signed_in? && current_user == @chronicle.user %>
+            <div class="mb-4 p-4" style="background-color: var(--cream-card); border: 1px solid var(--rule-color); border-radius: 0.25rem;">
+              <h6 style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;">Actions</h6>
               <div class="d-flex flex-column gap-2">
-
-                <!-- Modifier -->
                 <%= link_to edit_chronicle_path(@chronicle),
-                    class: "btn btn-dark btn-sm rounded-pill px-4 py-2 fw-semibold d-flex align-items-center justify-content-between w-100 action-btn" do %>
-                  <span>Modifier la chronique</span>
+                    class: "btn btn-dark btn-sm d-flex align-items-center justify-content-between w-100",
+                    style: "padding: 0.6rem 0.875rem;" do %>
+                  <span>Modifier</span>
                   <i class="bi bi-pencil-square"></i>
                 <% end %>
-
-                <!-- Supprimer -->
                 <%= button_to chronicle_path(@chronicle),
                     method: :delete,
                     data: { confirm: "Supprimer définitivement cette chronique ?" },
-                    class: "btn btn-outline-danger btn-sm rounded-pill px-4 py-2 fw-semibold d-flex align-items-center justify-content-between w-100 action-btn" do %>
-                  <span>Supprimer la chronique</span>
+                    class: "btn btn-sm d-flex align-items-center justify-content-between w-100",
+                    style: "font-family: 'Lora', Georgia, serif; font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--burgundy); color: var(--burgundy); background: transparent; padding: 0.6rem 0.875rem;" do %>
+                  <span>Supprimer</span>
                   <i class="bi bi-trash"></i>
                 <% end %>
-
               </div>
             </div>
           <% end %>
 
           <!-- RETOUR -->
-          <div class="text-center mt-3">
-            <%= link_to "← Retour aux chroniques",
-                chronicles_path,
-                class: "btn btn-link text-decoration-none text-muted small" %>
+          <div class="text-center">
+            <%= link_to "← Retour aux chroniques", chronicles_path,
+                style: "font-family: 'Lora', Georgia, serif; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--warm-gray); text-decoration: none; border-bottom: 1px solid var(--rule-color); padding-bottom: 1px;" %>
           </div>
+
         </aside>
       </div>
     </div>
+
   </div>
 </div>
 
 <style>
-  .chronicle-layout {
-    background: #f3f4f6;
-  }
-
-  .chronicle-hero {
-    border-bottom: 1px solid rgba(0,0,0,.04);
-    padding-bottom: 1.5rem;
-  }
-
-  .chronicle-title {
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-
-  .chronicle-lead {
-    font-size: 1.1rem;
-    color: #6c757d;
-    max-width: 70ch;
-    font-style: italic;
-  }
-
   .chronicle-article {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 2rem 2.25rem;
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
-    line-height: 1.9;
-    font-size: 1.08rem;
+    background-color: var(--cream-card);
+    border: 1px solid var(--rule-color);
+    border-radius: 0.25rem;
+    padding: 2.5rem 2.75rem;
+    line-height: 1.95;
+    font-size: 1.05rem;
+    font-family: 'Lora', Georgia, serif;
+    color: var(--ink-soft);
   }
 
-  .chronicle-article p {
-    margin-bottom: 1.1rem;
-  }
+  .chronicle-article p { margin-bottom: 1.25rem; }
 
   .chronicle-article p:first-of-type::first-letter {
     float: left;
-    font-size: 3rem;
-    line-height: 1;
-    padding-right: 0.25rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3.2rem;
+    font-weight: 900;
+    line-height: 0.85;
+    padding-right: 0.2rem;
     padding-top: 0.15rem;
-    font-weight: 700;
+    color: var(--burgundy);
   }
 
   .chronicle-article h2,
   .chronicle-article h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: var(--ink);
     margin-top: 2rem;
     margin-bottom: 0.75rem;
-    font-weight: 700;
   }
 
-  .chronicle-article h2 {
-    font-size: 1.4rem;
-  }
-
-  .chronicle-article h3 {
-    font-size: 1.2rem;
-  }
-
-  .chronicle-article blockquote {
-    border-left: 3px solid #000;
-    padding-left: 1rem;
-    margin: 1.5rem 0;
-    font-style: italic;
-    color: #555;
-  }
-
-  .chronicle-toc {
-    border-style: dashed;
-  }
-
-  .chronicle-sidebar {
-    position: sticky;
-    top: 120px;
-  }
-
-  .shadow-sm-sm {
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
-  }
+  .chronicle-article h2 { font-size: 1.4rem; }
+  .chronicle-article h3 { font-size: 1.15rem; font-style: italic; }
 
   .chronicle-article blockquote {
     position: relative;
     margin: 2rem 0;
-    padding: 1.25rem 1.5rem;
-    border-left: 4px solid #000;
-    background: #f8f9fb;
-    border-radius: 12px;
+    padding: 1.25rem 1.75rem;
+    border-left: 3px solid var(--gold);
+    background-color: var(--parchment);
+    border-radius: 0 0.25rem 0.25rem 0;
     font-style: italic;
-    color: #333;
+    color: var(--ink-soft);
   }
 
   .chronicle-article blockquote::before {
-    content: "“";
+    content: "\201C";
     position: absolute;
-    top: -16px;
-    left: 10px;
-    font-size: 3rem;
-    color: rgba(0, 0, 0, 0.2);
+    top: -8px;
+    left: 12px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.5rem;
+    color: var(--gold);
+    opacity: 0.5;
     font-style: normal;
+    line-height: 1;
   }
 
-  .chronicle-article blockquote::after {
-    content: "”";
-    position: absolute;
-    bottom: -20px;
-    right: 15px;
-    font-size: 3rem;
-    color: rgba(0, 0, 0, 0.2);
-    font-style: normal;
-  }
-
-  .chronicle-article blockquote p {
-    margin-bottom: 0;
-    font-style: italic;
-  }
-
-  .action-btn {
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
+  .chronicle-article blockquote p { margin-bottom: 0; }
 
   @media (max-width: 991.98px) {
-    .chronicle-sidebar {
-      position: static;
-      margin-top: 1rem;
-    }
-    .chronicle-article {
-      padding: 1.5rem 1.4rem;
-      border-radius: 12px;
-    }
+    .chronicle-article { padding: 1.5rem 1.5rem; }
   }
 </style>

@@ -1,133 +1,126 @@
 <% content_for :title, "Profil de #{@user.username}" %>
 
-<section class="bg-light pt-5 pb-5" style="margin-top: 100px;">
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-10">
+<div style="margin-top: 86px; background-color: var(--paper);">
 
-        <!-- EN-TÊTE DU PROFIL -->
-        <div class="row align-items-center mb-5">
-          <!-- Avatar -->
-          <div class="col-md-3 text-center mb-4 mb-md-0">
-            <% if @user.avatar.attached? %>
-              <%= image_tag url_for(@user.avatar),
-                  class: "rounded-circle shadow border border-2",
-                  style: "width: 160px; height: 160px; object-fit: cover;" %>
-            <% else %>
-              <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
-                   style="width: 160px; height: 160px;">
-                <%= @user.username.first.upcase %>
-              </div>
-            <% end %>
-          </div>
+  <!-- EN-TÊTE PROFIL -->
+  <div style="background-color: var(--parchment); border-bottom: 1px solid var(--rule-color);">
+    <div class="container py-5">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-10">
+          <div class="row align-items-center">
 
-          <!-- Infos utilisateur -->
-          <div class="col-md-9">
-            <h2 class="fw-bold text-black mb-2"><%= @user.username %></h2>
-            <span class="badge bg-dark rounded-pill mb-3 px-3 py-2"><%= @user.role_name %></span>
-
-            <% if @user.bio.present? %>
-              <p class="small text-black mb-3"><%= simple_format(@user.bio) %></p>
-            <% end %>
-
-            <!-- Email (optionnel) -->
-            <% if @user.email.present? && current_user == @user %>
-              <p class="small text-black mb-2">
-                <%= mail_to @user.email, nil, class: "text-decoration-none text-black" %>
-              </p>
-            <% end %>
-
-            <!-- Réseaux sociaux -->
-            <% if @user.website.present? || @user.twitter.present? || @user.instagram.present? %>
-              <div class="d-flex gap-3 mt-3">
-                <% if @user.website.present? %>
-                  <% url = @user.website.match?(/^http/) ? @user.website : "https://#{@user.website}" %>
-                  <a href="<%= url %>" target="_blank" class="text-dark fs-4" aria-label="Site web">
-                    <i class="bi bi-globe"></i>
-                  </a>
-                <% end %>
-                <% if @user.twitter.present? %>
-                  <% twitter_url = @user.twitter.match?(/^http/) ?
-                      @user.twitter :
-                      "https://twitter.com/#{@user.twitter.delete_prefix('@')}" %>
-                  <a href="<%= twitter_url %>" target="_blank" class="text-dark fs-4" aria-label="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                  </a>
-                <% end %>
-                <% if @user.instagram.present? %>
-                  <% insta_url = @user.instagram.match?(/^http/) ?
-                      @user.instagram :
-                      "https://instagram.com/#{@user.instagram.delete_prefix('@')}" %>
-                  <a href="<%= insta_url %>" target="_blank" class="text-dark fs-4" aria-label="Instagram">
-                    <i class="bi bi-instagram"></i>
-                  </a>
-                <% end %>
-              </div>
-            <% end %>
-
-            <!-- Actions -->
-            <div class="mt-4 d-flex flex-wrap gap-2">
-              <% if user_signed_in? && current_user != @user %>
-                <% if current_user.following?(@user) %>
-                  <%= button_to "Se désabonner",
-                      follow_path(followable_type: "User", followable_id: @user.id),
-                      method: :delete,
-                      class: "btn btn-outline-dark btn-sm rounded-pill" %>
-                <% else %>
-                  <%= button_to "S’abonner",
-                      follows_path(followable_type: "User", followable_id: @user.id),
-                      method: :post,
-                      class: "btn btn-secondary btn-sm rounded-pill text-white" %>
-                <% end %>
-
-                <%= button_to "Envoyer un message",
-                    conversations_path(receiver_id: @user.id),
-                    method: :post,
-                    class: "btn btn-dark rounded-pill px-3 ms-2" %>
-              <% elsif user_signed_in? && current_user == @user %>
-                <%= link_to "Modifier mon profil",
-                    edit_user_path(@user),
-                    class: "btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold text-black" %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-
-        <hr class="my-5">
-
-        <!-- MES CHRONIQUES -->
-        <div>
-          <div class="d-flex align-items-center mb-4">
-            <h4 class="text-black fw-bold text-uppercase mb-0 me-3">Chroniques publiées</h4>
-            <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-          </div>
-
-          <% if @user.chronicles.any? %>
-            <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-              <% @user.chronicles.each do |chronicle| %>
-                <div class="col">
-                  <%= link_to chronicle_path(chronicle), class: "text-decoration-none" do %>
-                    <div class="card-uniform">
-                      <%= image_tag(
-                            chronicle.photo.attached? ? chronicle.photo : "default_avatar.png",
-                            alt: chronicle.title
-                          ) %>
-
-                      <div class="card-overlay">
-                        <h5 class="fw-bold text-white mb-2"><%= truncate(chronicle.title, length: 55) %></h5>
-                        <p class="text-white small mb-1"><%= @user.role_name %> · <%= @user.username %></p>
-                        <p class="text-white-50 small mb-0"><%= chronicle.created_at.strftime("%d %b %Y") %></p>
-                      </div>
-                    </div>
-                  <% end %>
+            <!-- Avatar -->
+            <div class="col-md-3 text-center mb-4 mb-md-0">
+              <% if @user.avatar.attached? %>
+                <%= image_tag url_for(@user.avatar),
+                    class: "rounded-circle",
+                    style: "width: 150px; height: 150px; object-fit: cover; border: 2px solid var(--rule-color); box-shadow: 0 4px 16px rgba(26,18,8,0.1);" %>
+              <% else %>
+                <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                     style="width: 150px; height: 150px; background-color: var(--parchment); border: 2px solid var(--rule-color); font-family: 'Playfair Display', Georgia, serif; font-size: 2.5rem; color: var(--ink); margin: 0 auto;">
+                  <%= @user.username.first.upcase %>
                 </div>
               <% end %>
             </div>
-          <% else %>
-            <p class="text-muted text-center">Aucune chronique publiée pour le moment.</p>
-          <% end %>
+
+            <!-- Infos -->
+            <div class="col-md-9">
+              <span style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);">
+                <%= @user.role_name %>
+              </span>
+              <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; color: var(--ink); margin-top: 0.4rem; margin-bottom: 0.75rem;">
+                <%= @user.username %>
+              </h1>
+
+              <% if @user.bio.present? %>
+                <p style="font-family: 'Lora', Georgia, serif; font-size: 0.95rem; line-height: 1.8; color: var(--ink-soft); max-width: 520px;">
+                  <%= simple_format(@user.bio) %>
+                </p>
+              <% end %>
+
+              <% if @user.email.present? && current_user == @user %>
+                <p class="small mt-2" style="font-family: 'Lora', Georgia, serif; color: var(--warm-gray);">
+                  <%= mail_to @user.email, @user.email, style: "color: var(--warm-gray); text-decoration: none;" %>
+                </p>
+              <% end %>
+
+              <!-- Réseaux sociaux -->
+              <% if @user.website.present? || @user.twitter.present? || @user.instagram.present? %>
+                <div class="d-flex gap-3 mt-3">
+                  <% if @user.website.present? %>
+                    <% url = @user.website.match?(/^http/) ? @user.website : "https://#{@user.website}" %>
+                    <a href="<%= url %>" target="_blank" style="color: var(--ink); font-size: 1.2rem;" aria-label="Site web"><i class="bi bi-globe"></i></a>
+                  <% end %>
+                  <% if @user.twitter.present? %>
+                    <% twitter_url = @user.twitter.match?(/^http/) ? @user.twitter : "https://twitter.com/#{@user.twitter.delete_prefix('@')}" %>
+                    <a href="<%= twitter_url %>" target="_blank" style="color: var(--ink); font-size: 1.2rem;" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                  <% end %>
+                  <% if @user.instagram.present? %>
+                    <% insta_url = @user.instagram.match?(/^http/) ? @user.instagram : "https://instagram.com/#{@user.instagram.delete_prefix('@')}" %>
+                    <a href="<%= insta_url %>" target="_blank" style="color: var(--ink); font-size: 1.2rem;" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <!-- Actions -->
+              <div class="mt-4 d-flex flex-wrap gap-2">
+                <% if user_signed_in? && current_user != @user %>
+                  <% if current_user.following?(@user) %>
+                    <%= button_to "Se désabonner",
+                        follow_path(followable_type: "User", followable_id: @user.id),
+                        method: :delete,
+                        class: "btn btn-outline-dark btn-sm px-3" %>
+                  <% else %>
+                    <%= button_to "S'abonner",
+                        follows_path(followable_type: "User", followable_id: @user.id),
+                        method: :post,
+                        class: "btn btn-dark btn-sm px-3" %>
+                  <% end %>
+                  <%= button_to "Envoyer un message",
+                      conversations_path(receiver_id: @user.id),
+                      method: :post,
+                      class: "btn btn-outline-dark btn-sm px-3" %>
+                <% elsif user_signed_in? && current_user == @user %>
+                  <%= link_to "Modifier mon profil", edit_user_path(@user), class: "btn btn-outline-dark btn-sm px-4" %>
+                <% end %>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+
+  <!-- CHRONIQUES -->
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="d-flex align-items-baseline mb-5">
+          <h2 class="section-heading">Chroniques publiées</h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <% if @user.chronicles.any? %>
+          <div class="row row-cols-1 row-cols-md-3 g-4">
+            <% @user.chronicles.each do |chronicle| %>
+              <div class="col">
+                <div class="card-uniform">
+                  <%= image_tag(chronicle.photo.attached? ? chronicle.photo : "default_avatar.png", alt: chronicle.title) %>
+                  <div class="card-overlay">
+                    <h5><%= truncate(chronicle.title, length: 55) %></h5>
+                    <p><%= chronicle.created_at.strftime("%d %b %Y") %></p>
+                  </div>
+                  <%= link_to chronicle_path(chronicle), class: "stretched-link", "aria-label": "Voir #{chronicle.title}" do %><% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-center fst-italic" style="color: var(--warm-gray);">Aucune chronique publiée pour le moment.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>

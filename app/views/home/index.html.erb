@@ -1,84 +1,203 @@
 <style>
-.homepage-title {
-  font-size: clamp(2rem, 7vw, 3.5rem);
-  line-height: 1.15;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 1.2rem;
-  color: #111;
-  text-align: center;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-  white-space: normal;
-  hyphens: manual;
-  padding: 0 1rem;
+/* ============================================================
+   HERO — style éditorial littéraire
+============================================================ */
+.hero-section {
+  background-color: var(--parchment);
+  border-bottom: 1px solid var(--rule-color);
+  margin-top: 86px;
 }
-@media (max-width: 600px) {
-  .homepage-title {
-    font-size: clamp(1.2rem, 8vw, 2rem);
-    line-height: 1.1;
-    padding: 0 0.5rem;
-  }
+
+.hero-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.hero-ornament::before,
+.hero-ornament::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 1px;
+  background-color: var(--gold);
+}
+
+.hero-ornament span {
+  color: var(--gold);
+  font-size: 1.2rem;
+}
+
+.hero-label {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--burgundy);
+}
+
+.hero-subtitle {
+  font-family: 'Lora', Georgia, serif;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  line-height: 1.85;
+  color: var(--ink-soft);
+  max-width: 680px;
+  margin: 1.5rem auto 0;
+}
+
+.hero-search .form-control {
+  background-color: var(--cream-card);
+  border: 1px solid var(--rule-color);
+  border-right: none;
+  border-radius: 0;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.9rem;
+  color: var(--ink);
+  padding: 0.75rem 1.25rem;
+  box-shadow: none;
+}
+
+.hero-search .form-control::placeholder {
+  color: var(--warm-gray);
+}
+
+.hero-search .form-control:focus {
+  border-color: var(--gold);
+  box-shadow: none;
+  background-color: white;
+}
+
+.hero-search .btn {
+  background-color: var(--ink);
+  border: 1px solid var(--ink);
+  color: var(--paper);
+  border-radius: 0;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.75rem;
+  transition: all 0.25s ease;
+}
+
+.hero-search .btn:hover {
+  background-color: var(--burgundy);
+  border-color: var(--burgundy);
+}
+
+.hero-cta {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.hero-cta:hover {
+  color: var(--burgundy);
+  border-color: var(--burgundy);
+}
+
+/* ============================================================
+   SECTIONS
+============================================================ */
+.alt-section {
+  background-color: var(--parchment);
 }
 </style>
 
-<!-- HERO SECTION WITH SEARCH -->
-<section class="bg-light py-5 text-center position-relative overflow-hidden" style="margin-top: 100px;">
-  <div class="container py-5">
-    <h1 class="homepage-title">
-      DÉCOUVREZ PARTAGEZ<br>
-      CÉLÉBREZ LA LITTÉRATURE
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero-section py-5 text-center">
+  <div class="container py-4 py-md-5">
+
+    <div class="hero-ornament">
+      <span>❧</span>
+    </div>
+
+    <span class="hero-label">La communauté littéraire</span>
+
+    <h1 class="hero-title">
+      Découvrez, partagez,<br>
+      <em>célébrez les livres</em>
     </h1>
-    <p class="text-muted fw-normal mb-4"
-       style="max-width: 780px; margin: 0 auto; font-size: clamp(1rem, 2.5vw, 1.35rem); line-height: 1.8; color: #4a4a4a;">
-      <strong>Readnest</strong> est le lieu où les <strong>lecteur·ice·s</strong>, les <strong>auteur.ice.s</strong>,
-      les <strong>libraires</strong> et les <strong>maisons d’édition</strong> se retrouvent pour
-      partager leurs découvertes, publier des chroniques et célébrer ensemble la passion du livre.
+
+    <p class="hero-subtitle">
+      <strong>Readnest</strong> réunit lecteur·ice·s, auteur·ice·s, libraires et maisons d'édition
+      autour d'une passion commune — écrire des chroniques, découvrir des voix nouvelles,
+      et célébrer ensemble la littérature.
     </p>
 
-    <div class="d-flex justify-content-center mt-4">
-      <%= form_with url: search_path, method: :get, local: true, class: "d-flex w-100 w-md-75 w-lg-50" do |form| %>
+    <div class="hero-search d-flex justify-content-center mt-5">
+      <%= form_with url: search_path, method: :get, local: true, class: "d-flex", style: "width: min(100%, 620px);" do |form| %>
         <%= form.text_field :query, value: params[:query],
-              placeholder: "Rechercher une chronique, un·e lecteur·ice, une librairie ou une maison d’édition...",
-              class: "form-control form-control-lg rounded-start-pill shadow-sm border-dark",
+              placeholder: "Chronique, auteur·ice, librairie, maison d'édition…",
+              class: "form-control form-control-lg",
               aria: { label: "Rechercher sur Readnest" } %>
-        <%= form.submit "Rechercher", class: "btn btn-outline-dark btn-lg rounded-end-pill px-4 shadow-sm" %>
+        <%= form.submit "Rechercher", class: "btn btn-lg" %>
       <% end %>
     </div>
 
     <div class="mt-4">
-      <%= link_to "Commencer à écrire", new_chronicle_path,
-          class: "btn btn-dark btn-lg rounded-pill px-4 shadow-sm text-uppercase" %>
+      <%= link_to "Commencer à écrire", new_chronicle_path, class: "hero-cta" %>
     </div>
+
   </div>
 </section>
 
-<!-- DERNIÈRES CHRONIQUES -->
-<section class="container py-5">
-  <div class="d-flex align-items-center mb-4">
-    <h2 class="text-black fw-bold text-uppercase mb-0 me-3">Dernières chroniques</h2>
-    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+
+<!-- ============================================================
+     DERNIÈRES CHRONIQUES
+============================================================ -->
+<section class="container py-5 mt-3">
+  <div class="d-flex align-items-baseline mb-5">
+    <h2 class="section-heading">Dernières chroniques</h2>
+    <div class="section-rule"></div>
   </div>
 
   <% if @chronicles.empty? %>
-    <p class="text-muted text-center">Aucune chronique trouvée.</p>
+    <p class="text-muted text-center fst-italic">Aucune chronique pour le moment.</p>
   <% else %>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
       <% @chronicles.each do |chronicle| %>
         <div class="col">
           <div class="card-uniform">
             <%= image_tag(chronicle.photo.attached? ? chronicle.photo : "default_avatar.png") %>
             <div class="card-overlay">
-              <h5 class="fw-bold text-white mb-2"><%= truncate(chronicle.title, length: 55) %></h5>
-              <p class="text-white small mb-0">
+              <h5><%= truncate(chronicle.title, length: 55) %></h5>
+              <p>
                 <% if chronicle.user.is_publishing_house? && chronicle.user.publishing_house.present? %>
                   <%= chronicle.user.publishing_house.name %>
                 <% else %>
                   <%= chronicle.user.username %>
                 <% end %>
               </p>
-              <p class="text-white-50 small mb-0"><%= chronicle.created_at.strftime("%d %b %Y") %></p>
+              <p><%= chronicle.created_at.strftime("%d %b %Y") %></p>
             </div>
             <%= link_to chronicle_path(chronicle), class: "stretched-link", "aria-label": "Voir la chronique #{chronicle.title}" do %><% end %>
           </div>
@@ -86,65 +205,69 @@
       <% end %>
     </div>
     <div class="text-center">
-      <%= link_to "Voir toutes les chroniques", chronicles_path, class: "btn btn-dark rounded-pill px-4" %>
+      <%= link_to "Toutes les chroniques", chronicles_path, class: "btn btn-dark px-5 py-2" %>
     </div>
   <% end %>
 </section>
 
-<!-- AUTEUR·RICE·S À DÉCOUVRIR -->
-<section class="container py-5">
-  <div class="d-flex align-items-center mb-5">
-    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Auteur·rice·s à découvrir</h2>
-    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-  </div>
 
-  <% if @authors &&
-        @authors.any? %>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-      <% @authors.each do |author| %>
-        <div class="col">
-          <div class="card-uniform">
-            <!-- Avatar ou image par défaut -->
-            <% if author.avatar.attached? %>
-              <%= image_tag author.avatar, alt: author.username %>
-            <% else %>
-              <%= image_tag "default_avatar.png", alt: author.username %>
-            <% end %>
+<!-- ============================================================
+     AUTEUR·RICE·S
+============================================================ -->
+<section class="alt-section py-5">
+  <div class="container">
+    <div class="d-flex align-items-baseline mb-5">
+      <h2 class="section-heading">Auteur·rice·s à découvrir</h2>
+      <div class="section-rule"></div>
+    </div>
 
-            <div class="card-overlay">
-              <h5 class="fw-bold text-white mb-1"><%= author.username %></h5>
-              <% if author.bio.present? %>
-                <p class="text-white-50 small mb-0"><%= truncate(author.bio, length: 90) %></p>
+    <% if @authors && @authors.any? %>
+      <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        <% @authors.each do |author| %>
+          <div class="col">
+            <div class="card-uniform">
+              <% if author.avatar.attached? %>
+                <%= image_tag author.avatar, alt: author.username %>
+              <% else %>
+                <%= image_tag "default_avatar.png", alt: author.username %>
               <% end %>
+              <div class="card-overlay">
+                <h5><%= author.username %></h5>
+                <% if author.bio.present? %>
+                  <p><%= truncate(author.bio, length: 90) %></p>
+                <% end %>
+              </div>
+              <%= link_to user_path(author), class: "stretched-link", "aria-label": "Voir le profil de #{author.username}" do %><% end %>
             </div>
-            <%= link_to user_path(author), class: "stretched-link", "aria-label": "Voir le profil de #{author.username}" do %><% end %>
           </div>
-        </div>
-      <% end %>
-    </div>
-    <div class="text-center">
-      <%= link_to "Voir tous les auteur·rice·s", authors_path, class: "btn btn-dark rounded-pill px-4 py-2" %>
-    </div>
-  <% else %>
-    <p class="text-muted text-center">Aucun·e auteur·rice à afficher pour le moment.</p>
-  <% end %>
+        <% end %>
+      </div>
+      <div class="text-center">
+        <%= link_to "Tous les auteur·rice·s", authors_path, class: "btn btn-dark px-5 py-2" %>
+      </div>
+    <% else %>
+      <p class="text-muted text-center fst-italic">Aucun·e auteur·rice à afficher pour le moment.</p>
+    <% end %>
+  </div>
 </section>
 
-<!-- MAISONS D'ÉDITION -->
+
+<!-- ============================================================
+     MAISONS D'ÉDITION
+============================================================ -->
 <section class="container py-5">
-  <div class="d-flex align-items-center mb-5">
-    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Maisons d’édition à découvrir</h2>
-    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
+  <div class="d-flex align-items-baseline mb-5">
+    <h2 class="section-heading">Maisons d'édition</h2>
+    <div class="section-rule"></div>
   </div>
 
   <% if @publishing_houses.empty? %>
-    <p class="text-muted text-center">Aucune maison d’édition à afficher pour le moment.</p>
+    <p class="text-muted text-center fst-italic">Aucune maison d'édition pour le moment.</p>
   <% else %>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
       <% @publishing_houses.each do |house| %>
         <div class="col">
           <div class="card-uniform">
-            <!-- Avatar user > logo > image par défaut -->
             <% if house.user&.avatar&.attached? %>
               <%= image_tag house.user.avatar, alt: house.name %>
             <% elsif house.logo.attached? %>
@@ -152,10 +275,9 @@
             <% else %>
               <%= image_tag "default_avatar.png", alt: house.name %>
             <% end %>
-
             <div class="card-overlay">
-              <h5 class="fw-bold text-white mb-2"><%= house.name %></h5>
-              <p class="text-white-50 small mb-0"><%= truncate(house.description, length: 90) %></p>
+              <h5><%= house.name %></h5>
+              <p><%= truncate(house.description, length: 90) %></p>
             </div>
             <%= link_to publishing_house_path(house), class: "stretched-link", "aria-label": "Voir #{house.name}" do %><% end %>
           </div>
@@ -163,68 +285,74 @@
       <% end %>
     </div>
     <div class="text-center">
-      <%= link_to "Voir toutes les maisons", publishing_houses_path, class: "btn btn-dark rounded-pill px-4 py-2" %>
+      <%= link_to "Toutes les maisons d'édition", publishing_houses_path, class: "btn btn-dark px-5 py-2" %>
     </div>
   <% end %>
 </section>
 
-<!-- LIBRAIRIES -->
-<section class="container py-5">
-  <div class="d-flex align-items-center mb-5">
-    <h2 class="fw-bold text-uppercase mb-0 me-3 text-black">Toutes les librairies</h2>
-    <div class="flex-grow-1" style="height: 1px; background-color: #ccc;"></div>
-  </div>
 
-  <% if @bookshops.empty? %>
-    <p class="text-muted text-center">Aucune librairie à afficher pour le moment.</p>
-  <% else %>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-      <% @bookshops.each do |bookshop| %>
-        <div class="col">
-          <div class="card-uniform">
-            <!-- Avatar user > logo > image par défaut -->
-            <% if bookshop.user&.avatar&.attached? %>
-              <%= image_tag bookshop.user.avatar, alt: bookshop.name %>
-            <% elsif bookshop.logo.attached? %>
-              <%= image_tag bookshop.logo, alt: bookshop.name %>
-            <% else %>
-              <%= image_tag "default_avatar.png", alt: bookshop.name %>
-            <% end %>
+<!-- ============================================================
+     LIBRAIRIES
+============================================================ -->
+<section class="alt-section py-5">
+  <div class="container">
+    <div class="d-flex align-items-baseline mb-5">
+      <h2 class="section-heading">Toutes les librairies</h2>
+      <div class="section-rule"></div>
+    </div>
 
-            <div class="card-overlay">
-              <h5 class="fw-bold text-white mb-2"><%= bookshop.name %></h5>
-              <% if bookshop.description.present? %>
-                <p class="text-white-50 small mb-0"><%= truncate(bookshop.description, length: 90) %></p>
+    <% if @bookshops.empty? %>
+      <p class="text-muted text-center fst-italic">Aucune librairie pour le moment.</p>
+    <% else %>
+      <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        <% @bookshops.each do |bookshop| %>
+          <div class="col">
+            <div class="card-uniform">
+              <% if bookshop.user&.avatar&.attached? %>
+                <%= image_tag bookshop.user.avatar, alt: bookshop.name %>
+              <% elsif bookshop.logo.attached? %>
+                <%= image_tag bookshop.logo, alt: bookshop.name %>
+              <% else %>
+                <%= image_tag "default_avatar.png", alt: bookshop.name %>
               <% end %>
+              <div class="card-overlay">
+                <h5><%= bookshop.name %></h5>
+                <% if bookshop.description.present? %>
+                  <p><%= truncate(bookshop.description, length: 90) %></p>
+                <% end %>
+              </div>
+              <%= link_to bookshop_path(bookshop), class: "stretched-link", "aria-label": "Voir #{bookshop.name}" do %><% end %>
             </div>
-            <%= link_to bookshop_path(bookshop), class: "stretched-link", "aria-label": "Voir #{bookshop.name}" do %><% end %>
           </div>
-        </div>
-      <% end %>
-    </div>
-    <div class="text-center">
-      <%= link_to "Voir toutes les librairies", bookshops_path, class: "btn btn-dark rounded-pill px-4 py-2" %>
-    </div>
-  <% end %>
+        <% end %>
+      </div>
+      <div class="text-center">
+        <%= link_to "Toutes les librairies", bookshops_path, class: "btn btn-dark px-5 py-2" %>
+      </div>
+    <% end %>
+  </div>
 </section>
 
-<!-- LIBRAIRIES À PROXIMITÉ -->
-<section class="container py-5" style="margin-top: 80px;">
-  <div class="d-flex align-items-center mb-4">
-    <h2 class="fw-bold text-uppercase mb-0 me-3 text-dark">Librairies à proximité</h2>
-    <div class="flex-grow-1" style="height: 1px; background-color: #000;"></div>
+
+<!-- ============================================================
+     LIBRAIRIES À PROXIMITÉ — bannière éditoriale
+============================================================ -->
+<section class="container py-5 my-4">
+  <div class="d-flex align-items-baseline mb-4">
+    <h2 class="section-heading">Librairies à proximité</h2>
+    <div class="section-rule"></div>
   </div>
 
-  <div class="row align-items-center mb-4">
+  <div class="row align-items-center">
     <div class="col-md-8">
-      <p class="lead text-muted mb-3">
-        Que vous soyez en quête d’une perle rare ou d’un coup de cœur inattendu, les librairies autour de vous regorgent de trésors à découvrir.
-        Plongez dans l’univers des livres et soutenez les librairies indépendantes près de chez vous.
+      <p style="font-family: 'Lora', Georgia, serif; font-size: 1.05rem; line-height: 1.85; color: var(--ink-soft);">
+        Que vous soyez en quête d'une perle rare ou d'un coup de cœur inattendu, les librairies
+        autour de vous regorgent de trésors à découvrir. Soutenez les librairies indépendantes
+        près de chez vous.
       </p>
     </div>
-    <div class="col-md-4 text-md-end text-center">
-      <%= link_to "Voir les librairies autour de vous", map_bookshops_path, class: "btn btn-dark rounded-pill px-4 py-2 fw-semibold" %>
+    <div class="col-md-4 text-md-end text-center mt-3 mt-md-0">
+      <%= link_to "Librairies autour de moi", map_bookshops_path, class: "btn btn-dark px-4 py-2" %>
     </div>
   </div>
 </section>
-
