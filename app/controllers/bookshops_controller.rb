@@ -17,7 +17,14 @@ class BookshopsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    description = @bookshop.description.presence || "Découvrez la librairie #{@bookshop.name} sur Readnest."
+    prepare_meta_tags(
+      title: @bookshop.name,
+      description: description,
+      image: @bookshop.logo.attached? ? url_for(@bookshop.logo) : nil
+    )
+  end
 
   def new
     @bookshop = Bookshop.new

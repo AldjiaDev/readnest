@@ -1,3 +1,9 @@
+<% content_for :title, params[:query].present? ? "Résultats pour « #{params[:query]} »" : "Recherche" %>
+<% content_for :meta_description, params[:query].present? ? "Résultats de recherche pour « #{params[:query]} » sur Readnest." : "Recherchez des chroniques, auteur·rice·s, maisons d'édition et librairies sur Readnest." %>
+<% content_for :extra_meta do %>
+  <meta name="robots" content="noindex, follow">
+<% end %>
+
 <div class="container py-5" style="margin-top: 100px; max-width: 900px;">
   <!-- Titre -->
   <h2 class="fw-bold mb-4 text-uppercase text-center text-black">

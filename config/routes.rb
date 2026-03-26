@@ -6,7 +6,12 @@ Rails.application.routes.draw do
   get "authors/show"
   # Pages principales
   root "home#index"
-  get "a-propos", to: "pages#about", as: :about
+  get "a-propos",                  to: "pages#about",           as: :about
+  get "mentions-legales",          to: "pages#mentions_legales", as: :mentions_legales
+  get "politique-de-confidentialite", to: "pages#confidentialite", as: :confidentialite
+  get "conditions-generales",      to: "pages#cgu",              as: :cgu
+  get "politique-des-cookies",     to: "pages#cookies",          as: :cookies
+  get "plan-du-site",              to: "pages#plan_du_site",     as: :plan_du_site
 
   # Recherche
   get "recherche", to: "search#index", as: :search

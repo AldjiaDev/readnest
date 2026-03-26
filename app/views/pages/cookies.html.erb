@@ -1,0 +1,88 @@
+<% content_for :title, "Politique des cookies – Readnest" %>
+<% content_for :meta_description, "Politique des cookies de Readnest : quels cookies utilisons-nous et comment les gérer." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Cookies & traceurs</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink);">Politique des cookies</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem;"></div>
+  </header>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">1. Qu'est-ce qu'un cookie ?</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Un cookie est un petit fichier texte déposé sur votre terminal (ordinateur, smartphone, tablette) lors de votre visite sur un site web.
+      Il permet au site de mémoriser des informations sur votre navigation et de vous offrir une expérience personnalisée.
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">2. Cookies utilisés sur Readnest</h2>
+
+    <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 0.75rem;">Cookies strictement nécessaires</h3>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Ces cookies sont indispensables au fonctionnement du site. Ils gèrent notamment votre session de connexion et la sécurité des formulaires (protection CSRF). Ils ne peuvent pas être désactivés.
+    </p>
+    <ul style="font-family: 'Lora', Georgia, serif; line-height: 2; color: var(--ink-soft);">
+      <li><code>_session_id</code> — gestion de votre session utilisateur</li>
+      <li><code>authenticity_token</code> — protection contre les attaques CSRF</li>
+    </ul>
+
+    <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); margin: 1.5rem 0 0.75rem;">Cookies analytiques</h3>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Readnest utilise <strong>Google Analytics 4</strong> pour mesurer l'audience du site. Les données collectées sont anonymisées (IP tronquée) et ne permettent pas de vous identifier personnellement.
+    </p>
+    <ul style="font-family: 'Lora', Georgia, serif; line-height: 2; color: var(--ink-soft);">
+      <li><code>_ga</code>, <code>_ga_*</code> — mesure d'audience Google Analytics (durée : 2 ans)</li>
+    </ul>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">3. Cookies tiers</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Certains services tiers intégrés à Readnest peuvent déposer leurs propres cookies :
+    </p>
+    <ul style="font-family: 'Lora', Georgia, serif; line-height: 2; color: var(--ink-soft);">
+      <li><strong>Cloudinary</strong> — affichage des images hébergées</li>
+      <li><strong>OpenStreetMap / Leaflet</strong> — cartes interactives (page librairies)</li>
+    </ul>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Readnest n'a pas de contrôle direct sur ces cookies. Nous vous invitons à consulter les politiques de confidentialité de ces tiers.
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">4. Gérer vos préférences</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Vous pouvez à tout moment configurer votre navigateur pour refuser ou supprimer les cookies. Attention, la désactivation des cookies nécessaires peut altérer votre expérience sur le site.
+    </p>
+    <ul style="font-family: 'Lora', Georgia, serif; line-height: 2; color: var(--ink-soft);">
+      <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener" style="color: var(--gold);">Google Chrome</a></li>
+      <li><a href="https://support.mozilla.org/fr/kb/activer-desactiver-cookies" target="_blank" rel="noopener" style="color: var(--gold);">Mozilla Firefox</a></li>
+      <li><a href="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac" target="_blank" rel="noopener" style="color: var(--gold);">Apple Safari</a></li>
+    </ul>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Pour toute question : <a href="mailto:contact.readnest@gmail.com" style="color: var(--gold);">contact.readnest@gmail.com</a>
+    </p>
+  </section>
+
+  <p style="font-family: 'Lora', Georgia, serif; font-size: 0.85rem; color: var(--warm-gray); border-top: 1px solid var(--rule-color); padding-top: 1.5rem;">
+    Dernière mise à jour : <%= Date.today.strftime("%d/%m/%Y") %>
+  </p>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Politique des cookies – Readnest",
+  "url": "https://www.readnest.fr/politique-des-cookies",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Readnest",
+    "url": "https://www.readnest.fr"
+  }
+}
+</script>

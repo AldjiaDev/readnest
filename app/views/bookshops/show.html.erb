@@ -1,4 +1,25 @@
 <% content_for :title, @bookshop.name %>
+<% content_for :extra_meta do %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BookStore",
+    "name": "<%= j @bookshop.name %>",
+    "url": "<%= bookshop_url(@bookshop) %>"<% if @bookshop.description.present? %>,
+    "description": "<%= j @bookshop.description %>"<% end %><% if @bookshop.address.present? %>,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "<%= j @bookshop.address %>"
+    }<% end %><% if @bookshop.latitude.present? && @bookshop.longitude.present? %>,
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": <%= @bookshop.latitude %>,
+      "longitude": <%= @bookshop.longitude %>
+    }<% end %><% if @bookshop.logo.attached? %>,
+    "image": "<%= url_for(@bookshop.logo) %>"<% end %>
+  }
+  </script>
+<% end %>
 
 <div style="margin-top: 86px; background-color: var(--paper);">
 

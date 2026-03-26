@@ -55,10 +55,12 @@
       <!-- OpenGraph -->
       <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Readnest – Chroniques littéraires, maisons d’édition et librairies' %>">
       <meta property="og:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Découvrez et partagez vos lectures sur Readnest.' %>">
-      <meta property="og:type" content="website">
+      <meta property="og:type" content="<%= content_for?(:og_type) ? yield(:og_type) : 'website' %>">
       <meta property="og:url" content="<%= request.original_url %>">
       <meta property="og:image" content="<%= image_url('logo.jpg') %>">
       <meta property="og:site_name" content="Readnest">
+      <meta property="og:locale" content="fr_FR">
+      <%= yield :extra_meta if content_for?(:extra_meta) %>
 
       <!-- Twitter Card -->
       <meta name="twitter:card" content="summary_large_image">
@@ -218,7 +220,8 @@
       </div>
 
       <!-- Droite : navigation -->
-      <div class="col-md-7 d-flex justify-content-md-end align-items-start">
+      <div class="col-md-7 d-flex justify-content-md-end align-items-start gap-5">
+
         <div>
           <p class="mb-3" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.8;">Navigation</p>
           <nav>
@@ -232,6 +235,20 @@
             </ul>
           </nav>
         </div>
+
+        <div>
+          <p class="mb-3" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.8;">Légal</p>
+          <nav>
+            <ul class="list-unstyled mb-0" style="font-family: ‘Lora’, Georgia, serif; font-size: 0.875rem; line-height: 2.2;">
+              <li><%= link_to "Mentions légales", mentions_legales_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+              <li><%= link_to "Confidentialité", confidentialite_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+              <li><%= link_to "CGU", cgu_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+              <li><%= link_to "Cookies", cookies_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+              <li><%= link_to "Plan du site", plan_du_site_path, class: "footer-link text-decoration-none", style: "color: rgba(250,246,239,0.6);" %></li>
+            </ul>
+          </nav>
+        </div>
+
       </div>
 
     </div>

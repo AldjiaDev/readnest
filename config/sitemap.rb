@@ -4,6 +4,12 @@ SitemapGenerator::Sitemap.create do
   # Page d’accueil
   add root_path, priority: 1.0, changefreq: 'daily'
 
+  # Auteur·rice·s
+  add authors_path, priority: 0.8, changefreq: 'weekly'
+
+  # Maisons d'édition
+  add publishing_houses_path, priority: 0.7, changefreq: 'weekly'
+
   # Chroniques
   add chronicles_path, priority: 0.8, changefreq: 'daily'
   Chronicle.find_each do |chronicle|

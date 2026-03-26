@@ -1,4 +1,16 @@
 <% content_for :title, "Profil de #{@user.username}" %>
+<% content_for :extra_meta do %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "<%= j @user.username %>",
+    "url": "<%= user_url(@user) %>"<% if @user.bio.present? %>,
+    "description": "<%= j @user.bio %>"<% end %><% if @user.avatar.attached? %>,
+    "image": "<%= url_for(@user.avatar) %>"<% end %>
+  }
+  </script>
+<% end %>
 
 <div style="margin-top: 86px; background-color: var(--paper);">
 

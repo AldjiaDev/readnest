@@ -1,4 +1,16 @@
 <% content_for :title, @publishing_house.name %>
+<% content_for :extra_meta do %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "<%= j @publishing_house.name %>",
+    "url": "<%= publishing_house_url(@publishing_house) %>"<% if @publishing_house.description.present? %>,
+    "description": "<%= j @publishing_house.description %>"<% end %><% if @publishing_house.logo.attached? %>,
+    "logo": "<%= url_for(@publishing_house.logo) %>"<% end %>
+  }
+  </script>
+<% end %>
 
 <div style="margin-top: 86px; background-color: var(--paper);">
 

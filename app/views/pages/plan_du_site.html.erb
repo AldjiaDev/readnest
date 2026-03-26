@@ -1,0 +1,102 @@
+<% content_for :title, "Plan du site – Readnest" %>
+<% content_for :meta_description, "Plan du site Readnest : retrouvez toutes les pages, chroniques, auteur·rice·s, maisons d'édition et librairies en un coup d'œil." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Navigation</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink);">Plan du site</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem;"></div>
+  </header>
+
+  <div class="row g-5">
+
+    <!-- Pages principales -->
+    <div class="col-md-6">
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Pages principales</h2>
+      <ul class="list-unstyled" style="font-family: 'Lora', Georgia, serif; line-height: 2.2;">
+        <li><%= link_to "Accueil", root_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <li><%= link_to "Chroniques", chronicles_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <li><%= link_to "Auteur·rice·s", authors_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <li><%= link_to "Maisons d'édition", publishing_houses_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <li><%= link_to "Librairies autour de moi", map_bookshops_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <li><%= link_to "À propos", about_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <li><%= link_to "Recherche", search_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+      </ul>
+    </div>
+
+    <!-- Informations légales -->
+    <div class="col-md-6">
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Informations légales</h2>
+      <ul class="list-unstyled" style="font-family: 'Lora', Georgia, serif; line-height: 2.2;">
+        <li><%= link_to "Mentions légales", mentions_legales_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <li><%= link_to "Politique de confidentialité", confidentialite_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <li><%= link_to "Conditions Générales d'Utilisation", cgu_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <li><%= link_to "Politique des cookies", cookies_path, style: "color: var(--ink-soft); text-decoration: none;" %></li>
+      </ul>
+    </div>
+
+    <!-- Dernières chroniques -->
+    <% if @chronicles.any? %>
+    <div class="col-12">
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Dernières chroniques</h2>
+      <ul class="list-unstyled" style="font-family: 'Lora', Georgia, serif; line-height: 2.2; column-count: 2; column-gap: 2rem;">
+        <% @chronicles.each do |chronicle| %>
+          <li style="break-inside: avoid;"><%= link_to chronicle.title, chronicle_path(chronicle), style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+
+    <!-- Auteur·rice·s -->
+    <% if @authors.any? %>
+    <div class="col-md-6">
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Auteur·rice·s</h2>
+      <ul class="list-unstyled" style="font-family: 'Lora', Georgia, serif; line-height: 2.2;">
+        <% @authors.each do |author| %>
+          <li><%= link_to author.username, user_path(author), style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+
+    <!-- Maisons d'édition -->
+    <% if @publishing_houses.any? %>
+    <div class="col-md-6">
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Maisons d'édition</h2>
+      <ul class="list-unstyled" style="font-family: 'Lora', Georgia, serif; line-height: 2.2;">
+        <% @publishing_houses.each do |house| %>
+          <li><%= link_to house.name, publishing_house_path(house), style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+
+    <!-- Librairies -->
+    <% if @bookshops.any? %>
+    <div class="col-12">
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Librairies</h2>
+      <ul class="list-unstyled" style="font-family: 'Lora', Georgia, serif; line-height: 2.2; column-count: 2; column-gap: 2rem;">
+        <% @bookshops.each do |bookshop| %>
+          <li style="break-inside: avoid;"><%= link_to bookshop.name, bookshop_path(bookshop), style: "color: var(--ink-soft); text-decoration: none;" %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+
+  </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Plan du site – Readnest",
+  "url": "https://www.readnest.fr/plan-du-site",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Readnest",
+    "url": "https://www.readnest.fr"
+  }
+}
+</script>

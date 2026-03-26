@@ -1,0 +1,79 @@
+<% content_for :title, "Mentions légales – Readnest" %>
+<% content_for :meta_description, "Mentions légales de Readnest : éditeur, hébergeur, propriété intellectuelle et contacts." %>
+
+<div class="container pt-5" style="margin-top: 100px; max-width: 900px;">
+
+  <header class="mb-5">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);">Informations légales</p>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--ink);">Mentions légales</h1>
+    <div style="height: 2px; width: 60px; background-color: var(--gold); margin-top: 1rem;"></div>
+  </header>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">1. Éditeur du site</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Le site <strong>Readnest</strong> (accessible à l'adresse <a href="https://www.readnest.fr" style="color: var(--gold);">www.readnest.fr</a>) est édité par :<br><br>
+      <strong>Aldjia Boughias</strong><br>
+      Auto-entrepreneur<br>
+      SIRET : [SIRET]<br>
+      Site personnel : <a href="https://aldjia.dev/" target="_blank" rel="noopener" style="color: var(--gold);">aldjia.dev</a><br>
+      Contact : <a href="mailto:contact.readnest@gmail.com" style="color: var(--gold);">contact.readnest@gmail.com</a>
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">2. Hébergement</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Le site est hébergé par :<br><br>
+      <strong>Heroku (Salesforce)</strong><br>
+      The Landmark @ One Market, Suite 300<br>
+      San Francisco, CA 94105 — États-Unis<br>
+      <a href="https://www.heroku.com" target="_blank" rel="noopener" style="color: var(--gold);">www.heroku.com</a>
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">3. Propriété intellectuelle</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      L'ensemble du contenu de ce site (textes, graphismes, logo, icônes, images) est la propriété exclusive de <strong>Aldjia Boughias</strong>, sauf mention contraire.
+      Toute reproduction, distribution ou utilisation sans autorisation écrite préalable est interdite.
+    </p>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Les chroniques publiées par les utilisateurs restent la propriété de leurs auteurs respectifs. En publiant sur Readnest, les utilisateurs accordent à la plateforme une licence non exclusive d'affichage.
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">4. Responsabilité</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Readnest s'efforce de fournir des informations exactes et à jour. Cependant, nous ne saurions garantir l'exhaustivité ou l'exactitude des informations présentes sur le site.
+      L'utilisateur est seul responsable de l'usage qu'il fait des informations fournies.
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 1rem;">5. Droit applicable</h2>
+    <p style="font-family: 'Lora', Georgia, serif; line-height: 1.9; color: var(--ink-soft);">
+      Les présentes mentions légales sont régies par le droit français. En cas de litige, les tribunaux français seront seuls compétents.
+    </p>
+  </section>
+
+  <p style="font-family: 'Lora', Georgia, serif; font-size: 0.85rem; color: var(--warm-gray); border-top: 1px solid var(--rule-color); padding-top: 1.5rem;">
+    Dernière mise à jour : <%= Date.today.strftime("%d/%m/%Y") %>
+  </p>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Mentions légales – Readnest",
+  "url": "https://www.readnest.fr/mentions-legales",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Readnest",
+    "url": "https://www.readnest.fr"
+  }
+}
+</script>
