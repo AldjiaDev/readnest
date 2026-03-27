@@ -60,9 +60,9 @@ const PushNotifications = {
   },
 
   updateButton(btn, subscribed) {
-    btn.title = subscribed ? "Désactiver les notifications push" : "Activer les notifications push";
-    btn.querySelector("i").className = subscribed ? "bi bi-bell-fill fs-5" : "bi bi-bell-slash fs-5";
-    btn.style.color = subscribed ? "var(--gold)" : "var(--ink)";
+    btn.querySelector("i").className = subscribed ? "bi bi-bell-fill me-2" : "bi bi-bell-slash me-2";
+    const label = document.getElementById("push-toggle-label");
+    if (label) label.textContent = subscribed ? "Désactiver les notifications" : "Activer les notifications";
   },
 
   urlBase64ToUint8Array(base64String) {
