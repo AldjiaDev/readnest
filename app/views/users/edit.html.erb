@@ -1,94 +1,157 @@
 <% content_for :title, "Modifier mon profil" %>
 
-<div class="container py-5" style="margin-top: 120px; max-width: 720px;">
+<section class="container py-5" style="margin-top: 100px; max-width: 680px;">
 
-  <h1 class="text-center mb-5 fw-bold text-black">Modifier mon profil</h1>
+  <div class="d-flex align-items-baseline mb-5">
+    <h1 class="section-heading">Mon profil</h1>
+    <div class="section-rule"></div>
+  </div>
 
-  <%= form_with model: @user, local: true, html: { multipart: true }, class: "bg-white p-4 rounded-4 shadow-sm" do |f| %>
+  <%= form_with model: @user, local: true, html: { multipart: true } do |f| %>
 
     <% if @user.errors.any? %>
-      <div class="alert alert-danger rounded-3">
-        <h5 class="fw-bold mb-2"><%= pluralize(@user.errors.count, "erreur") %> empêchent la sauvegarde :</h5>
-        <ul class="mb-0">
-          <% @user.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
+      <div style="border-left: 3px solid var(--burgundy); background: rgba(107,26,42,0.04); padding: 1rem 1.25rem; margin-bottom: 2rem; font-family: 'Lora', Georgia, serif; font-size: 0.875rem; color: var(--burgundy);">
+        <strong><%= pluralize(@user.errors.count, "erreur") %> :</strong>
+        <ul style="margin: 0.5rem 0 0 1rem; padding: 0;">
+          <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
           <% end %>
         </ul>
       </div>
     <% end %>
 
-    <!-- Pseudo -->
-    <div class="mb-4">
-      <%= f.label :username, "Pseudo", class: "form-label fw-bold text-black" %>
-      <%= f.text_field :username, class: "form-control rounded-pill px-4 py-2 text-black" %>
+    <%# ── Avatar ── %>
+    <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule-color);">
+      <div style="flex-shrink: 0;">
+        <% if @user.avatar.attached? %>
+          <%= image_tag url_for(@user.avatar), style: "width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 1px solid var(--rule-color);" %>
+        <% else %>
+          <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--parchment); border: 1px solid var(--rule-color); display: flex; align-items: center; justify-content: center;">
+            <i class="bi bi-person" style="font-size: 2rem; color: var(--ink-soft);"></i>
+          </div>
+        <% end %>
+      </div>
+      <div style="flex: 1;">
+        <p style="font-family: 'Lora', Georgia, serif; font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 0.5rem; font-style: italic;">Photo de profil</p>
+        <%= f.file_field :avatar, style: "
+          font-family: 'Lora', Georgia, serif;
+          font-size: 0.82rem;
+          color: var(--ink);
+          background: transparent;
+          border: 1px solid var(--rule-color);
+          padding: 0.4rem 0.75rem;
+          border-radius: 2px;
+          width: 100%;
+          cursor: pointer;
+        " %>
+      </div>
     </div>
 
-    <!-- Bio -->
-    <div class="mb-4">
-      <%= f.label :bio, "Bio", class: "form-label fw-bold text-black" %>
-      <%= f.text_area :bio, rows: 4, placeholder: "Parlez-nous un peu de vous...", class: "form-control rounded-3 px-3 py-2 text-black" %>
+    <%# ── Identité ── %>
+    <div style="margin-bottom: 2rem;">
+      <p style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-color); margin-bottom: 1.25rem;">Identité</p>
+
+      <div style="margin-bottom: 1.25rem;">
+        <%= f.label :username, "Pseudo", style: "display: block; font-family: 'Lora', Georgia, serif; font-size: 0.8rem; color: var(--ink-soft); font-style: italic; margin-bottom: 0.35rem;" %>
+        <%= f.text_field :username, style: "
+          width: 100%; padding: 0.6rem 0.75rem;
+          font-family: 'Lora', Georgia, serif; font-size: 0.9rem; color: var(--ink);
+          background: var(--cream-card);
+          border: 1px solid var(--rule-color); border-radius: 2px;
+          outline: none;
+        ", onfocus: "this.style.borderColor='var(--gold)'", onblur: "this.style.borderColor='var(--rule-color)'" %>
+      </div>
+
+      <div>
+        <%= f.label :bio, "Présentation", style: "display: block; font-family: 'Lora', Georgia, serif; font-size: 0.8rem; color: var(--ink-soft); font-style: italic; margin-bottom: 0.35rem;" %>
+        <%= f.text_area :bio, rows: 4, placeholder: "Parlez-nous un peu de vous…", style: "
+          width: 100%; padding: 0.6rem 0.75rem;
+          font-family: 'Lora', Georgia, serif; font-size: 0.9rem; color: var(--ink);
+          background: var(--cream-card);
+          border: 1px solid var(--rule-color); border-radius: 2px;
+          outline: none; resize: vertical;
+        ", onfocus: "this.style.borderColor='var(--gold)'", onblur: "this.style.borderColor='var(--rule-color)'" %>
+      </div>
     </div>
 
-    <!-- Email -->
-    <div class="mb-4">
-      <%= f.label :email, "Adresse e-mail", class: "form-label fw-bold text-black" %>
-      <%= f.email_field :email, class: "form-control rounded-pill px-4 py-2 text-black" %>
-    </div>
+    <div style="border-top: 1px solid var(--rule-color); margin-bottom: 2rem;"></div>
 
-    <!-- Réseaux sociaux -->
-    <div class="mb-4">
-      <%= f.label :twitter, "Twitter", class: "form-label fw-bold text-black" %>
-      <%= f.text_field :twitter, placeholder: "@monprofil", class: "form-control rounded-pill px-4 py-2 text-black" %>
-    </div>
+    <%# ── Présence en ligne ── %>
+    <div style="margin-bottom: 2rem;">
+      <p style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-color); margin-bottom: 1.25rem;">Présence en ligne</p>
 
-    <div class="mb-4">
-      <%= f.label :instagram, "Instagram", class: "form-label fw-bold text-black" %>
-      <%= f.text_field :instagram, placeholder: "@monprofil", class: "form-control rounded-pill px-4 py-2 text-black" %>
-    </div>
-
-    <div class="mb-4">
-      <%= f.label :website, "Site web", class: "form-label fw-bold text-black" %>
-      <%= f.url_field :website, placeholder: "https://monsite.com", class: "form-control rounded-pill px-4 py-2 text-black" %>
-    </div>
-
-    <!-- Avatar -->
-    <div class="mb-4">
-      <%= f.label :avatar, "Photo de profil", class: "form-label fw-bold text-black" %>
-      <%= f.file_field :avatar, class: "form-control text-black" %>
-
-      <% if @user.avatar.attached? %>
-        <div class="mt-3">
-          <p class="form-text text-black">Image actuelle :</p>
-          <%= image_tag url_for(@user.avatar), class: "rounded-circle shadow border border-2", style: "width: 160px; height: 160px; object-fit: cover;" %>
+      <% [
+        { field: :twitter,   label: "Twitter / X",   icon: "bi-twitter-x",   placeholder: "@monprofil" },
+        { field: :instagram, label: "Instagram",      icon: "bi-instagram",   placeholder: "@monprofil" },
+        { field: :website,   label: "Site personnel", icon: "bi-globe",       placeholder: "https://monsite.com" }
+      ].each do |item| %>
+        <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+          <div style="width: 32px; height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--rule-color); border-radius: 2px; background: var(--parchment);">
+            <i class="bi <%= item[:icon] %>" style="font-size: 0.85rem; color: var(--ink-soft);"></i>
+          </div>
+          <div style="flex: 1;">
+            <%= f.label item[:field], item[:label], style: "display: none;" %>
+            <%= f.text_field item[:field], placeholder: item[:placeholder], style: "
+              width: 100%; padding: 0.6rem 0.75rem;
+              font-family: 'Lora', Georgia, serif; font-size: 0.88rem; color: var(--ink);
+              background: var(--cream-card);
+              border: 1px solid var(--rule-color); border-radius: 2px;
+              outline: none;
+            ", onfocus: "this.style.borderColor='var(--gold)'", onblur: "this.style.borderColor='var(--rule-color)'" %>
+          </div>
         </div>
       <% end %>
     </div>
 
-    <!-- Bouton -->
-    <div class="text-center mt-5">
-      <%= f.submit "Mettre à jour mon profil", class: "btn btn-dark rounded-pill px-4 py-2 text-uppercase fw-bold" %>
+    <%# ── Profil ── %>
+    <% if @user.is_author || @user.is_bookshop || @user.is_publishing_house %>
+      <div style="border-top: 1px solid var(--rule-color); padding-top: 2rem; margin-bottom: 2rem;">
+        <p style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-color); margin-bottom: 1.25rem;">Type de compte</p>
+        <% [
+          { field: :is_author,           label: "Auteur·rice" },
+          { field: :is_bookshop,         label: "Librairie" },
+          { field: :is_publishing_house, label: "Maison d'édition" }
+        ].each do |item| %>
+          <label style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; cursor: pointer; font-family: 'Lora', Georgia, serif; font-size: 0.88rem; color: var(--ink);">
+            <%= f.check_box item[:field], style: "accent-color: var(--gold); width: 15px; height: 15px; cursor: pointer;" %>
+            <%= item[:label] %>
+          </label>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# ── Bouton ── %>
+    <div style="border-top: 1px solid var(--rule-color); padding-top: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <%= link_to "← Retour au profil", user_path(@user), style: "
+        font-family: 'Lora', Georgia, serif; font-size: 0.85rem;
+        color: var(--ink-soft); text-decoration: none;
+      " %>
+      <%= f.submit "Enregistrer les modifications", style: "
+        font-family: 'Lora', Georgia, serif; font-size: 0.85rem; letter-spacing: 0.04em;
+        background: var(--ink); color: var(--cream-card);
+        border: none; padding: 0.6rem 1.75rem; border-radius: 2px;
+        cursor: pointer;
+      ", onmouseover: "this.style.background='var(--gold)'", onmouseout: "this.style.background='var(--ink)'" %>
     </div>
 
   <% end %>
 
-  <!-- Retour -->
-  <div class="text-center mt-4">
-    <%= link_to "← Retour au profil", user_path(@user), class: "btn btn-outline-secondary px-4 py-2 rounded-pill fw-semibold" %>
-  </div>
-
-  <!-- Suppression du compte -->
-  <hr class="my-5">
-  <div class="text-center mt-4">
-    <h5 class="text-danger fw-bold mb-3">Supprimer mon compte</h5>
-    <p class="small text-muted mb-3">
-      Cette action est <strong>définitive</strong> et supprimera toutes vos données associées à votre compte.
+  <%# ── Zone danger ── %>
+  <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--rule-color);">
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--burgundy); margin-bottom: 1rem;">Zone de danger</p>
+    <p style="font-family: 'Lora', Georgia, serif; font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 1.25rem; font-style: italic;">
+      La suppression de votre compte est définitive et effacera toutes vos données.
     </p>
-
     <%= button_to "Supprimer mon compte",
-        registration_path(:user),
-        method: :delete,
-        data: { confirm: "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible." },
-        class: "btn btn-outline-danger rounded-pill px-4 py-2 fw-semibold" %>
+          registration_path(:user),
+          method: :delete,
+          data: { confirm: "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible." },
+          style: "
+            font-family: 'Lora', Georgia, serif; font-size: 0.82rem;
+            background: none; border: 1px solid var(--burgundy);
+            color: var(--burgundy); padding: 0.5rem 1.25rem;
+            border-radius: 2px; cursor: pointer; letter-spacing: 0.03em;
+          " %>
   </div>
-</div>
 
+</section>
