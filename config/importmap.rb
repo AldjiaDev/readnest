@@ -1,4 +1,5 @@
 pin "application"
+pin "push_notifications", to: "push_notifications.js"
 
 # Hotwire
 pin "@hotwired/turbo-rails", to: "turbo.min.js"

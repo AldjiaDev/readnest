@@ -5,7 +5,7 @@ class PushNotificationService
     return if ENV["VAPID_PUBLIC_KEY"].blank? || ENV["VAPID_PRIVATE_KEY"].blank?
 
     user.push_subscriptions.each do |subscription|
-      WebPush.payload_send(
+      Webpush.payload_send(
         message: JSON.generate({ title: title, body: body, path: path }),
         endpoint: subscription.endpoint,
         p256dh: subscription.p256dh_key,
@@ -16,7 +16,7 @@ class PushNotificationService
           private_key: ENV["VAPID_PRIVATE_KEY"]
         }
       )
-    rescue WebPush::ExpiredSubscription, WebPush::InvalidSubscription
+    rescue Webpush::ExpiredSubscription, Webpush::InvalidSubscription
       subscription.destroy
     rescue => e
       Rails.logger.error "[PushNotification] Error for subscription #{subscription.id}: #{e.message}"
