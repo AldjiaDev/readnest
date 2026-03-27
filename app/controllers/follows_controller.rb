@@ -4,6 +4,17 @@ class FollowsController < ApplicationController
   def create
     followable = find_followable
     current_user.follows.create(followable: followable)
+
+    if followable.is_a?(User) && followable != current_user
+      Notification.create(recipient: followable, actor: current_user, action: "followed", notifiable: followable)
+      PushNotificationService.send_to_user(
+        followable,
+        title: "Nouvel abonné",
+        body:  "#{current_user.username} s'est abonné à votre profil",
+        path:  user_path(followable)
+      )
+    end
+
     redirect_back fallback_location: root_path, notice: "Abonnement effectué."
   end
 

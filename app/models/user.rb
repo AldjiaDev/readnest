@@ -12,6 +12,9 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_chronicles, through: :likes, source: :chronicle
 
+  # === Push subscriptions ===
+  has_many :push_subscriptions, dependent: :destroy
+
   # === Notifications ===
   has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
   has_many :received_notifications, class_name: "Notification", foreign_key: :recipient_id, dependent: :destroy

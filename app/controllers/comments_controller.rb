@@ -8,20 +8,24 @@ class CommentsController < ApplicationController
 
     if @comment.save
       # Notification au propriétaire de la chronique
-      Notification.create(
-        recipient: @chronicle.user,
-        actor: current_user,
-        action: "commented",
-        notifiable: @comment
-      )
+      if @chronicle.user != current_user
+        Notification.create(recipient: @chronicle.user, actor: current_user, action: "commented", notifiable: @comment)
+        PushNotificationService.send_to_user(
+          @chronicle.user,
+          title: "Nouveau commentaire sur votre chronique",
+          body:  "#{current_user.username} a commenté « #{@chronicle.title} »",
+          path:  chronicle_path(@chronicle)
+        )
+      end
 
       # Notification au parent si c'est une réponse
       if @comment.parent && @comment.parent.user != current_user
-        Notification.create(
-          recipient: @comment.parent.user,
-          actor: current_user,
-          action: "replied",
-          notifiable: @comment
+        Notification.create(recipient: @comment.parent.user, actor: current_user, action: "replied", notifiable: @comment)
+        PushNotificationService.send_to_user(
+          @comment.parent.user,
+          title: "Nouvelle réponse à votre commentaire",
+          body:  "#{current_user.username} a répondu à votre commentaire",
+          path:  chronicle_path(@chronicle)
         )
       end
 

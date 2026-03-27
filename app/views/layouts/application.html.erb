@@ -87,6 +87,11 @@
 
       <!-- Meta tags from display_meta_tags gem (if used elsewhere) -->
       <%= display_meta_tags %>
+
+      <!-- VAPID public key for Web Push -->
+      <% if user_signed_in? && ENV["VAPID_PUBLIC_KEY"].present? %>
+        <meta name="vapid-public-key" content="<%= ENV["VAPID_PUBLIC_KEY"] %>">
+      <% end %>
 </head>
 
 
@@ -137,6 +142,15 @@
                 <%= unread_count %>
               </span>
             <% end %>
+          <% end %>
+
+          <% if ENV["VAPID_PUBLIC_KEY"].present? %>
+            <button id="push-toggle-btn"
+                    type="button"
+                    title="Activer les notifications push"
+                    style="background: none; border: none; padding: 0; cursor: pointer; color: var(--ink);">
+              <i class="bi bi-bell-slash fs-5"></i>
+            </button>
           <% end %>
 
           <div class="dropdown">
@@ -308,16 +322,7 @@
 
         // Enregistrement du service worker pour la PWA
         if ("serviceWorker" in navigator) {
-          window.addEventListener("load", () => {
-            navigator.serviceWorker
-              .register("/service-worker.js")
-              .then((registration) => {
-                console.log("ServiceWorker registered:", registration);
-              })
-              .catch((error) => {
-                console.error("ServiceWorker registration failed:", error);
-              });
-          });
+          navigator.serviceWorker.register("/service-worker.js").catch(() => {});
         }
       </script>
 

@@ -60,6 +60,9 @@ Rails.application.routes.draw do
     resources :comment_likes, only: [:create, :destroy], path: "likes"
   end
 
+  # Push subscriptions
+  resources :push_subscriptions, only: [:create, :destroy], path: "push_subscriptions"
+
   # Notifications
   resources :notifications, only: [:index], path: "notifications" do
     collection do
