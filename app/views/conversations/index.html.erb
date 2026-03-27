@@ -1,43 +1,77 @@
-<div class="container py-5" style="margin-top: 80px; max-width: 800px;">
-  <h3 class="fw-bold mb-4 text-center">Boîte de réception</h3>
+<% content_for :title, "Messagerie" %>
+
+<section class="container py-5" style="margin-top: 100px; max-width: 760px;">
+
+  <div class="d-flex align-items-baseline mb-5">
+    <h1 class="section-heading">Messagerie</h1>
+    <div class="section-rule"></div>
+  </div>
 
   <% if @conversations.any? %>
-    <div class="list-group shadow-sm rounded-3">
-      <% @conversations.each do |conversation| %>
+    <div style="border: 1px solid var(--rule-color); border-radius: 4px; overflow: hidden; background: var(--cream-card);">
+      <% @conversations.each_with_index do |conversation, i| %>
         <% other_user = conversation.other_user(current_user) %>
         <% last_message = conversation.messages.order(created_at: :desc).first %>
+        <% unread = last_message && !last_message.read && last_message.user != current_user %>
 
-        <%= link_to conversation_path(conversation),
-                    class: "list-group-item list-group-item-action d-flex align-items-center p-3" do %>
+        <%= link_to conversation_path(conversation), style: "text-decoration: none;" do %>
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-bottom: <%= i < @conversations.size - 1 ? '1px solid var(--rule-color)' : 'none' %>;
+            background: <%= unread ? 'rgba(184, 134, 11, 0.04)' : 'transparent' %>;
+            border-left: <%= unread ? '3px solid var(--gold)' : '3px solid transparent' %>;
+            transition: background 0.15s ease;
+          " onmouseover="this.style.background='var(--parchment)'" onmouseout="this.style.background='<%= unread ? 'rgba(184, 134, 11, 0.04)' : 'transparent' %>'">
 
-          <!-- Avatar -->
-          <% if other_user.avatar.attached? %>
-            <%= image_tag other_user.avatar, class: "rounded-circle me-3", style: "width: 50px; height: 50px; object-fit: cover;" %>
-          <% else %>
-            <%= image_tag "default_avatar.png", class: "rounded-circle me-3", style: "width: 50px; height: 50px; object-fit: cover;" %>
-          <% end %>
-
-          <!-- Infos -->
-          <div class="flex-grow-1">
-            <div class="d-flex justify-content-between">
-              <strong class="text-dark"><%= other_user.username %></strong>
-              <% if last_message %>
-                <small class="text-muted"><%= l(last_message.created_at, format: :short) %></small>
+            <!-- Avatar -->
+            <div style="flex-shrink: 0;">
+              <% if other_user.avatar.attached? %>
+                <%= image_tag other_user.avatar, style: "width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 1px solid var(--rule-color);" %>
+              <% else %>
+                <div style="width: 46px; height: 46px; border-radius: 50%; background: var(--parchment); border: 1px solid var(--rule-color); display: flex; align-items: center; justify-content: center;">
+                  <i class="bi bi-person" style="color: var(--ink-soft); font-size: 1.1rem;"></i>
+                </div>
               <% end %>
             </div>
-            <p class="mb-0 text-muted small">
-              <% if last_message %>
-                <%= truncate(last_message.content.to_s.squish, length: 50) %>
-              <% else %>
-                <em>Aucun message pour le moment</em>
-              <% end %>
-            </p>
+
+            <!-- Contenu -->
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+                <span style="font-family: 'Lora', Georgia, serif; font-weight: 600; font-size: 0.9rem; color: var(--ink);"><%= other_user.username %></span>
+                <% if last_message %>
+                  <span style="font-size: 0.72rem; color: var(--rule-color); font-family: 'Lora', Georgia, serif; font-style: italic; flex-shrink: 0; margin-left: 1rem;">
+                    il y a <%= time_ago_in_words(last_message.created_at) %>
+                  </span>
+                <% end %>
+              </div>
+              <p style="margin: 0; font-size: 0.82rem; color: var(--ink-soft); font-family: 'Lora', Georgia, serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <% if last_message %>
+                  <% if last_message.user == current_user %>
+                    <span style="color: var(--rule-color);">Vous : </span>
+                  <% end %>
+                  <%= truncate(last_message.content.to_s.squish, length: 60) %>
+                <% else %>
+                  <em style="color: var(--rule-color);">Aucun message pour le moment</em>
+                <% end %>
+              </p>
+            </div>
+
+            <% if unread %>
+              <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0;"></div>
+            <% end %>
           </div>
         <% end %>
       <% end %>
     </div>
-  <% else %>
-    <p class="text-center text-muted">Aucune conversation pour le moment.</p>
-  <% end %>
-</div>
 
+  <% else %>
+    <div class="text-center py-5" style="color: var(--ink-soft); font-family: 'Lora', Georgia, serif;">
+      <i class="bi bi-chat mb-3 d-block" style="font-size: 2rem; color: var(--rule-color);"></i>
+      <p class="fst-italic mb-0">Aucune conversation pour le moment.</p>
+    </div>
+  <% end %>
+
+</section>

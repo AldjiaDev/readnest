@@ -1,179 +1,163 @@
-<div class="container py-5" style="margin-top: 80px; max-width: 800px;">
-  <h3 class="fw-bold mb-4 text-center">
-    Conversation avec <%= @conversation.other_user(current_user).username %>
-  </h3>
+<% other_user = @conversation.other_user(current_user) %>
+<% content_for :title, "Conversation avec #{other_user.username}" %>
+
+<section class="container py-5" style="margin-top: 100px; max-width: 760px;">
+
+  <!-- En-tête -->
+  <div class="d-flex align-items-center mb-4" style="gap: 1rem;">
+    <%= link_to conversations_path, style: "color: var(--ink-soft); text-decoration: none; flex-shrink: 0;" do %>
+      <i class="bi bi-arrow-left" style="font-size: 1rem;"></i>
+    <% end %>
+
+    <% if other_user.avatar.attached? %>
+      <%= image_tag other_user.avatar, style: "width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--rule-color); flex-shrink: 0;" %>
+    <% else %>
+      <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--parchment); border: 1px solid var(--rule-color); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <i class="bi bi-person" style="color: var(--ink-soft);"></i>
+      </div>
+    <% end %>
+
+    <div>
+      <p style="margin: 0; font-family: 'Lora', Georgia, serif; font-weight: 600; font-size: 0.95rem; color: var(--ink);">
+        <%= link_to other_user.username, user_path(other_user), style: "color: var(--ink); text-decoration: none;" %>
+      </p>
+    </div>
+  </div>
 
   <!-- Zone des messages -->
-  <div id="messages" class="chat-box border-0 rounded-4 p-3 mb-4 shadow-sm">
-    <% @messages.each do |message| %>
-      <div class="d-flex mb-3 <%= message.user == current_user ? 'justify-content-end' : 'justify-content-start' %>">
+  <div id="messages" style="
+    background: var(--cream-card);
+    border: 1px solid var(--rule-color);
+    border-radius: 4px;
+    padding: 1.25rem;
+    max-height: 520px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  ">
+    <% if @messages.empty? %>
+      <p class="text-center fst-italic" style="color: var(--rule-color); font-family: 'Lora', Georgia, serif; font-size: 0.85rem; margin: auto;">
+        Commencez la conversation…
+      </p>
+    <% end %>
 
-        <!-- Avatar si ce n’est pas moi -->
-        <% if message.user != current_user %>
+    <% @messages.each do |message| %>
+      <% is_me = message.user == current_user %>
+      <div style="display: flex; align-items: flex-end; gap: 0.5rem; justify-content: <%= is_me ? 'flex-end' : 'flex-start' %>;">
+
+        <% unless is_me %>
           <% if message.user.avatar.attached? %>
-            <%= image_tag message.user.avatar, class: "rounded-circle me-2 shadow-sm", style: "width: 36px; height: 36px; object-fit: cover;" %>
+            <%= image_tag message.user.avatar, style: "width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid var(--rule-color); flex-shrink: 0;" %>
           <% else %>
-            <%= image_tag "default_avatar.png", class: "rounded-circle me-2 shadow-sm", style: "width: 36px; height: 36px; object-fit: cover;" %>
+            <div style="width: 30px; height: 30px; border-radius: 50%; background: var(--parchment); border: 1px solid var(--rule-color); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="bi bi-person" style="color: var(--ink-soft); font-size: 0.7rem;"></i>
+            </div>
           <% end %>
         <% end %>
 
-        <!-- Bulle -->
-        <div class="message-bubble <%= message.user == current_user ? 'bubble-me' : 'bubble-other' %>">
-          <div class="message-content">
-            <%= auto_link(
-                  simple_format(h(message.content)),
-                  :all,
-                  target: "_blank", rel: "nofollow noopener ugc"
-                ) %>
+        <div style="max-width: 70%;">
+          <div style="
+            padding: 0.6rem 0.9rem;
+            font-family: 'Lora', Georgia, serif;
+            font-size: 0.88rem;
+            line-height: 1.55;
+            <%= is_me ? 'background: var(--ink); color: var(--cream-card); border-radius: 12px 12px 2px 12px;' : 'background: white; color: var(--ink); border: 1px solid var(--rule-color); border-radius: 12px 12px 12px 2px;' %>
+          ">
+            <%= auto_link(simple_format(h(message.content)), :all, target: "_blank", rel: "nofollow noopener ugc") %>
           </div>
-          <div class="message-meta"><%= time_ago_in_words(message.created_at) %> ago</div>
+          <p style="margin: 3px <%= is_me ? '4px 0 0' : '0 0 4px' %>; font-size: 0.7rem; color: var(--rule-color); font-style: italic; text-align: <%= is_me ? 'right' : 'left' %>; font-family: 'Lora', Georgia, serif;">
+            il y a <%= time_ago_in_words(message.created_at) %>
+          </p>
         </div>
 
-        <!-- Avatar si c’est moi -->
-        <% if message.user == current_user %>
-          <% if message.user.avatar.attached? %>
-            <%= image_tag message.user.avatar, class: "rounded-circle ms-2 shadow-sm", style: "width: 36px; height: 36px; object-fit: cover;" %>
+        <% if is_me %>
+          <% if current_user.avatar.attached? %>
+            <%= image_tag current_user.avatar, style: "width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid var(--rule-color); flex-shrink: 0;" %>
           <% else %>
-            <%= image_tag "default_avatar.png", class: "rounded-circle ms-2 shadow-sm", style: "width: 36px; height: 36px; object-fit: cover;" %>
+            <div style="width: 30px; height: 30px; border-radius: 50%; background: var(--parchment); border: 1px solid var(--rule-color); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="bi bi-person" style="color: var(--ink-soft); font-size: 0.7rem;"></i>
+            </div>
           <% end %>
         <% end %>
+
       </div>
     <% end %>
   </div>
 
-  <!-- Formulaire -->
+  <!-- Formulaire d'envoi -->
   <%= form_with(model: [@conversation, @message], local: true, html: { id: "chat-form" }) do |f| %>
-    <div class="chat-input position-relative">
+    <div style="
+      display: flex;
+      align-items: flex-end;
+      gap: 0.75rem;
+      background: var(--cream-card);
+      border: 1px solid var(--rule-color);
+      border-radius: 4px;
+      padding: 0.6rem 0.75rem;
+    " id="chat-input-wrapper">
       <%= f.text_area :content,
-        class: "chat-textarea js-autogrow",
-        placeholder: "Écrire un message…",
-        rows: 2,
-        oninput: "autoGrow(this)",
-        style: "min-height:48px; max-height:200px; height:48px; resize:none; overflow-y:auto; padding-right:56px; padding-bottom:14px;" %>
-
-      <!-- Bouton “Envoyer” circulaire à l’intérieur -->
-      <button class="send-btn" type="submit" aria-label="Envoyer">
-        <!-- Icône avion papier -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            id: "chat-textarea",
+            placeholder: "Écrire un message…",
+            rows: 1,
+            style: "
+              flex: 1;
+              border: none;
+              outline: none;
+              background: transparent;
+              font-family: 'Lora', Georgia, serif;
+              font-size: 0.9rem;
+              color: var(--ink);
+              resize: none;
+              overflow-y: hidden;
+              min-height: 36px;
+              max-height: 160px;
+              padding: 6px 0;
+              line-height: 1.5;
+            " %>
+      <button type="submit" aria-label="Envoyer" style="
+        width: 34px; height: 34px; flex-shrink: 0;
+        border-radius: 50%;
+        border: none;
+        background: var(--ink);
+        color: var(--cream-card);
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        transition: background 0.15s ease;
+        margin-bottom: 1px;
+      " onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='var(--ink)'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
           <path d="M15.854.146a.5.5 0 0 0-.533-.112l-15 6a.5.5 0 0 0 .036.948l6.89 1.84 1.84 6.89a.5.5 0 0 0 .948.036l6-15a.5.5 0 0 0-.181-.602zM6.832 8.854l-4.943-1.32 12.02-4.808-7.077 6.06zM7.146 9.168l6.06-7.077-4.808 12.02-1.252-4.943z"/>
         </svg>
       </button>
     </div>
+    <p style="font-size: 0.7rem; color: var(--rule-color); font-family: 'Lora', Georgia, serif; font-style: italic; margin-top: 0.4rem; margin-left: 2px;">
+      Ctrl + Entrée pour envoyer
+    </p>
   <% end %>
-</div>
 
-<style>
-  /* Zone messages */
-  .chat-box {
-    background: #f8f9fb;
-    max-height: 520px;
-    overflow-y: auto;
-    border: 1px solid #eceff3;
-  }
-
-  /* Bulles */
-  .message-bubble {
-    max-width: 70%;
-    border-radius: 18px;
-    padding: 10px 12px 8px;
-    line-height: 1.5;
-    box-shadow: 0 1px 1px rgba(0,0,0,.04);
-  }
-  .bubble-me {
-    background: #111; color: #fff;
-    border-bottom-right-radius: 6px;
-  }
-  .bubble-other {
-    background: #fff; color: #111; border: 1px solid #eceff3;
-    border-bottom-left-radius: 6px;
-  }
-  .message-content p { margin: 0 0 .4rem 0; }
-  .message-content p:last-child { margin-bottom: 0; }
-
-  /* Liens dans les messages */
-  .message-content a {
-    color: inherit;
-    text-decoration: underline;
-    word-break: break-word;
-  }
-  .message-content a:hover {
-    opacity: .85;
-  }
-
-  .message-meta {
-    font-size: .75rem; opacity: .65; text-align: right; margin-top: 4px;
-  }
-
-  /* Zone d’écriture (sans border-radius) */
-  .chat-input {
-    background: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 0;
-    box-shadow: 0 1px 2px rgba(0,0,0,.05);
-    position: relative;
-    padding: 6px 10px;
-    transition: box-shadow .2s ease, border-color .2s ease;
-  }
-  .chat-input:focus-within {
-    border-color: #000;
-    box-shadow: 0 0 0 3px rgba(0,0,0,.08);
-  }
-
-  .chat-textarea {
-    width: 100%;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    font-size: 0.95rem;
-  }
-  .chat-textarea::placeholder { color: #999; }
-
-  /* Bouton “Envoyer” circulaire, collé en bas */
-  .send-btn {
-    position: absolute;
-    right: 8px;
-    bottom: 8px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: #000;
-    color: #fff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 1px 2px rgba(16,24,40,.08);
-    transition: background .2s ease, transform .1s ease;
-  }
-  .send-btn:hover { background: #333; transform: translateY(-1px); }
-  .send-btn:active { transform: translateY(0); }
-  .send-btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(17,17,17,.15); }
-
-  @media (max-width: 576px) {
-    .message-bubble { max-width: 85%; }
-  }
-</style>
+</section>
 
 <script>
-  // Auto-ajustement du textarea
   function autoGrow(el) {
-    const maxHeight = 200;
-    el.style.height = 'auto';
-    const h = Math.min(el.scrollHeight, maxHeight);
-    el.style.height = h + 'px';
-    el.style.overflowY = (el.scrollHeight > maxHeight) ? 'auto' : 'hidden';
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight, 160) + "px";
+    el.style.overflowY = el.scrollHeight > 160 ? "auto" : "hidden";
   }
 
-  function initChatUI() {
-    const messagesDiv = document.getElementById("messages");
-    if (messagesDiv) messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  function initChat() {
+    const messages = document.getElementById("messages");
+    if (messages) messages.scrollTop = messages.scrollHeight;
 
-    const ta = document.querySelector(".js-autogrow");
-    if (ta) autoGrow(ta);
+    const ta = document.getElementById("chat-textarea");
+    if (!ta) return;
 
-    // Ctrl/Cmd + Enter pour envoyer
+    autoGrow(ta);
+    ta.addEventListener("input", () => autoGrow(ta));
+
     const form = document.getElementById("chat-form");
-    if (form && ta) {
+    if (form) {
       ta.addEventListener("keydown", (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
           e.preventDefault();
@@ -183,7 +167,6 @@
     }
   }
 
-  document.addEventListener("turbo:load", initChatUI);
-  document.addEventListener("DOMContentLoaded", initChatUI);
+  document.addEventListener("turbo:load", initChat);
+  document.addEventListener("DOMContentLoaded", initChat);
 </script>
-
