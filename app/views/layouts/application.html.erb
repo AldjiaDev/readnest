@@ -49,6 +49,11 @@
       <meta name="apple-mobile-web-app-capable" content="yes">
       <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
+      <!-- Google Search Console -->
+      <% if ENV["GOOGLE_SITE_VERIFICATION"].present? %>
+        <meta name="google-site-verification" content="<%= ENV["GOOGLE_SITE_VERIFICATION"] %>" />
+      <% end %>
+
       <!-- Canonical URL -->
       <%= tag(:link, rel: "canonical", href: request.original_url) if request.present? %>
 
